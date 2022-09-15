@@ -5,37 +5,28 @@
 #include <string>
 #include <vector>
 
+#include <sys/socket.h>
+
+#include "request.hpp"
 #include "virtual_core.hpp"
 
-class LA2_Daemon {
+namespace laa {
+
+class Daemon {
 
 public:
-
-    struct request {
-        // pid;
-        // char user[32];
-        // program binary;
-
-        // for timing: 
-        // request arrival time
-        // job start time
-        // request end time
-        // could then write out stats for profiling the application later
-        
-        // todo: probably ought to be its own class
-    };
 
     /**
      * @brief Construct a new la2 daemon object
      * @todo  Should initialize the sockets or queues needed for comms
      */
-    LA2_Daemon();
+    Daemon();
     
     /**
      * @brief Destroy the la2 daemon object
      * @todo Should destroy any open sockets or queues.
      */
-    ~LA2_Daemon();
+    ~Daemon();
 
     /**
      * @todo Calling this should start listening on the socket / queue and 
@@ -53,9 +44,11 @@ private:
      */
     void handle_request();
 
-    std::vector<LA2_Daemon::request> queued_jobs;
+    std::vector<laa::request> queued_jobs;
 
 
 };
+
+}
 
 #endif 
