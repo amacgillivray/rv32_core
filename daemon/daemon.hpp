@@ -2,8 +2,13 @@
 #ifndef LA2_DAEMON
 #define LA2_DAEMON 
 
+#ifndef LA2_DAEMON_LOGFILE
+#define LA2_DAEMON_LOGFILE "daemon_log.txt"
+
+#include <exception>
 #include <string>
 #include <vector>
+#include <memory>
 
 #include <sys/socket.h>
 
@@ -45,8 +50,14 @@ private:
     void handle_request();
 
     std::vector<laa::request> queued_jobs;
+    mqd_t queue;
+    mq_attr * queue_attributes;
 
-
+private: // Private Helpers
+    void initialize_mqueue(); 
+    void initialize_sock();
+    void log_error( std::string msg );
+    
 };
 
 }
