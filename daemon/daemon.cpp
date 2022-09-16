@@ -2,7 +2,6 @@
 
 laa::Daemon::Daemon()
 {
-    
     try {
         initialize_mqueue();
         initialize_sock();
@@ -16,6 +15,11 @@ laa::Daemon::Daemon()
 laa::Daemon::~Daemon(){
     // need to close any open shmem, sockets, queues, etc
     delete queue_attributes;
+}
+
+void laa::Daemon::run()
+{
+    
 }
 
 void laa::Daemon::initialize_mqueue()
