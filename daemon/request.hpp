@@ -2,12 +2,14 @@
 #ifndef LAA_REQUEST
 #define LAA_REQUEST
 
+#include <cstddef>
+#include <sys/types.h>
+
 namespace laa {
 
 class request
 {
-
-
+	
 public:
 	
 	request( const char * json );

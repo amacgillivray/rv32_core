@@ -12,13 +12,11 @@
 /**
  * Daemon Message Queue (MQ) Attributes
  */
-#define LAA_MQ_NAME "laa_d_req"
+#define LAA_MQ_NAME "/laa_d_req"
 #define LAA_MQ_OFLAG O_RDWR | O_CREAT | O_EXCL | O_NONBLOCK
 #define LAA_MQ_MODE 600
 #define LAA_MQ_FLAGS O_NONBLOCK
 #define LAA_MQ_MAXMSG 10
 #define LAA_MQ_MSGSIZE 64
-
- 
 
 #endif

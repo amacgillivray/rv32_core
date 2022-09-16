@@ -1,4 +1,4 @@
-#include "request.h"
+#include "request.hpp"
 
 laa::request::request(const char * json)
 {
@@ -14,7 +14,7 @@ laa::request::request(const char * json)
 laa::request::request(const request& req)
 {
 	pid=req.pid;
-	length=req.required_shmem_length;
+	required_shmem_length=req.required_shmem_length;
 	time=req.time;
 	type=req.type;
 }
@@ -34,7 +34,8 @@ short int laa::request::get_type() const
 	return type;
 }
 
-const char * get_timing_data( const char * outfile )
+const char * laa::request::get_timing_data()
 {
+	return "todo: request::get_timing_data not yet implemented.";
 	// create csv-fmt string with the timing info 
 }

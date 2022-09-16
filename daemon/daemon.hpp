@@ -6,7 +6,8 @@
 #define LA2_DAEMON_LOGFILE "daemon_log.txt"
 #endif
 
-#include <exception>
+#include <iostream>
+#include <stdexcept>
 #include <string>
 #include <vector>
 #include <memory>
@@ -14,6 +15,7 @@
 
 #include <sys/socket.h>
 
+#include "laa_config.hpp"
 #include "request.hpp"
 #include "virtual_core.hpp"
 
