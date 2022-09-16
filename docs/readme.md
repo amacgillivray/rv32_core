@@ -7,8 +7,8 @@ This is a capstone project by 5 senior CS students at the University of Kansas i
 
 ### Contributors:
 
-Alexander Archer (@alexarcher721)
-Aditi Darade (@AditiDarade)
-Daniel Ginsberg 
-Jarrod Grothusen (@Andal01)
-Andrew Macgillivray (@amacgillivray)
+ - Alexander Archer ([@alexarcher721](https://github.com/alexarcher721))
+ - Aditi Darade ([@AditiDarade](https://github.com/AditiDarade))
+ - Daniel Ginsberg 
+ - Jarrod Grothusen ([@Andal01](https://github.com/Andal01)
+ - Andrew Macgillivray ([@amacgillivray](https://github.com/amacgillivray)
