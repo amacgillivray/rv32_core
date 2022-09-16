@@ -19,7 +19,20 @@ laa::Daemon::~Daemon(){
 
 void laa::Daemon::run()
 {
-    
+    // listen to socket for new requests
+    // receive_request()
+    // when no new requests and idle, handle_request
+    // later, add logging and 
+}
+
+void laa::Daemon::receive_request()
+{
+    // receive a request and place it on the queue
+}
+
+void laa::Daemon::handle_request()
+{
+    // handle the oldest request on the queue
 }
 
 void laa::Daemon::initialize_mqueue()

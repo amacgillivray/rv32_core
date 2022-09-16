@@ -4,11 +4,13 @@
 
 #ifndef LA2_DAEMON_LOGFILE
 #define LA2_DAEMON_LOGFILE "daemon_log.txt"
+#endif
 
 #include <exception>
 #include <string>
 #include <vector>
 #include <memory>
+#include <mqueue.h> // using sysv message queues to reply to clients
 
 #include <sys/socket.h>
 
@@ -43,10 +45,15 @@ public:
 private:
 
     /**
-     * @brief Handles a new request
+     * @brief Receives a new request
      * @todo  Should use the message to create a new request at the end of 
      *         the queued_jobs vector.
      */
+    void receive_request();
+    
+    /** 
+     * @brief Handles the request that is next in line for execution
+     */ 
     void handle_request();
 
     std::vector<laa::request> queued_jobs;
