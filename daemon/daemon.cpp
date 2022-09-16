@@ -26,22 +26,17 @@ void laa::Daemon::initialize_mqueue()
 {
     int saved_error; 
     
-    // todo - create constants somewhere in a common / config file
-    // since they will also need to be known by the user library/api
-    
     queue_attributes = new mq_attr(
-        O_NONBLOCK, // mq_flags
-        10,         // mq_maxmsg
-        64,         // mq_msgsize
-        0           // mq_curmsgs
+        LAA_MQ_FLAGS,   // mq_flags
+        LAA_MQ_MAXMSG,  // mq_maxmsg
+        LAA_MQ_MSGSIZE, // mq_msgsize
+        0               // mq_curmsgs
     );
-    
-    // TODO - same as above but for the mqueue name. Could also do for the 
-    //  file permissions and option map
+
     queue = mq_open(
-        "laa_daemon", 
-        O_RDWR | O_CREAT | O_EXCL | O_NONBLOCK,
-        600
+        LAA_MQ_NAME, 
+        LAA_MQ_OFLAG,
+        LAA_MQ_MODE
         queue_attributes
     );
     
