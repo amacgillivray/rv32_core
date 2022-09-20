@@ -34,19 +34,19 @@ int main()
         }
     }
     time_add=clock()-time_add;
-    cout <<  << "Matrix Addition Time:" << time_mult << "\n";
+    cout << "Matrix Addition Time:" << time_add << "\n";
     //multiplication
     clock_t time_mult=clock();
-     for(i = 0; i < ROW; ++i)
+     for(int i = 0; i < ROW; ++i)
      {
-        for(j = 0; j < COLUMN; ++j)
+        for(int j = 0; j < COLUMN; ++j)
         {
-            for(k = 0; k < COLUMN; ++k)
+            for(int k = 0; k < COLUMN; ++k)
             {
                 product[i][j] += multarr[i][k] * multarr2[k][j];
             }
         }
      }
     time_mult=clock()-time_mult;
-    cout <<  << "Matrix Multiplication Time:" << time_mult << "\n";
+    cout << "Matrix Multiplication Time:" << time_mult << "\n";
 }
