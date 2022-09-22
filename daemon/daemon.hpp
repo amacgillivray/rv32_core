@@ -43,6 +43,16 @@ public:
      *        current system is shut down.
      */
     void run();
+    
+    /**
+     * @brief Shows how the daemon would handle the provided request. For testing.
+     *
+     * @details
+     * Allows a custom message to be handled as if it was just read from an 
+     * IPC channel. Forwards the given string to the internal receive_request()
+     * method.
+     */
+    void test_msg( const char * str );
 
 private:
 
@@ -51,7 +61,7 @@ private:
      * @todo  Should use the message to create a new request at the end of 
      *         the queued_jobs vector.
      */
-    void receive_request();
+    void receive_request( const char * str = "" );
     
     /** 
      * @brief Handles the request that is next in line for execution

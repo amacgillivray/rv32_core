@@ -27,8 +27,19 @@ void laa::Daemon::run()
     return;
 }
 
-void laa::Daemon::receive_request()
+void laa::Daemon::test_msg( const char * str )
 {
+    receive_request(str);
+}
+
+void laa::Daemon::receive_request( const char * str )
+{
+    // todo: if str not given, get it from the socket 
+    
+    // initialize the request 
+    // place it in the vector for later handling.
+    
+    queued_jobs.emplace_back(str);
     // receive a request and place it on the queue
 }
 
