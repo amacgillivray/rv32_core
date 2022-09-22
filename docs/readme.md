@@ -12,3 +12,5 @@ This is a capstone project by 5 senior CS students at the University of Kansas i
  - Daniel Ginsberg ([@Daniel-Gins](https://github.com/Daniel-Gins))
  - Jarrod Grothusen ([@Andal01](https://github.com/Andal01))
  - Andrew Macgillivray ([@amacgillivray](https://github.com/amacgillivray))
+
+With many thanks to Derrick Quinn, who conceived and pitched the idea, as well as Dr. Esam El-Araby and Minyoung Joshua Jeng for their advice and support.
