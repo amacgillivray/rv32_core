@@ -2,8 +2,13 @@
 #ifndef LAA_REQUEST
 #define LAA_REQUEST
 
+#include <cstdlib> 
 #include <cstddef>
 #include <sys/types.h>
+
+#include <chrono>
+
+#include "json.hpp"
 
 namespace laa {
 
@@ -31,6 +36,11 @@ public:
 	const char * get_timing_data();
 
 private:
+	
+	/**
+	 * Parses a JSON string passed to the constructor.
+	 */
+	void parse( const char * json );
 	
 	// todo - internal function to write out times to csv file??
 	
