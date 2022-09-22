@@ -45,8 +45,8 @@ private:
 	// todo - internal function to write out times to csv file??
 	
 	struct timing { 
-		time_t sent; 
-		time_t received;
+		std::chrono::_V2::system_clock::time_point sent; 
+		std::chrono::_V2::system_clock::time_point received;
 		// time_t processed bad name need to define stages; 
 	};	
 	
