@@ -2,7 +2,7 @@ SHELL := /bin/sh
 include ../config.mk
 .DEFAULT_GOAL := laa
 EXES := laa
-SRCS := laa.cpp daemon.cpp request.cpp
+SRCS := laa.cpp daemon.cpp request.cpp json.cpp
 OBJS := $(SRCS:.cpp=.o)
 
 # get auto-generated dependencies
