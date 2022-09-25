@@ -15,9 +15,9 @@
 #define LAA_MQ_NAME "/laa_d_req"
 // #define LAA_MQ_OFLAG O_RDWR | O_CREAT | O_EXCL | O_NONBLOCK
 // #define LAA_MQ_FLAGS O_RDWR | O_NONBLOCK
-#define LAA_MQ_OFLAG O_RDWR | O_CREAT | O_EXCL
+#define LAA_MQ_OFLAG O_RDWR | O_CREAT
 #define LAA_MQ_FLAGS O_RDWR
-#define LAA_MQ_MODE 777
+#define LAA_MQ_MODE 0777
 #define LAA_MQ_MAXMSG 10
 #define LAA_MQ_MSGSIZE 64
 
