@@ -14,7 +14,7 @@ laa::Daemon::Daemon()
 
 laa::Daemon::~Daemon(){
     // need to close any open shmem, sockets, queues, etc
-    delete queue_attributes;
+    destroy_mqueue();
 }
 
 void laa::Daemon::run()
@@ -52,12 +52,11 @@ void laa::Daemon::receive_request( const char * str )
 void laa::Daemon::handle_request()
 {
     // handle the oldest request on the queue
+    // todo 
 }
 
 void laa::Daemon::initialize_mqueue()
 {
-    // int saved_error; 
-    
     queue_attributes = new mq_attr{
         LAA_MQ_FLAGS,   // mq_flags
         LAA_MQ_MAXMSG,  // mq_maxmsg
@@ -76,15 +75,23 @@ void laa::Daemon::initialize_mqueue()
     {
         // saved_error = errno;
         delete queue_attributes;
+        queue_attributes = nullptr; // avoid double free when destroy_mqueue is called
         throw std::runtime_error("Unable to open Daemon MQ.");
     }
     
     return;
 }
 
+void laa::Daemon::destroy_mqueue()
+{
+    mq_close(queue);
+    mq_unlink(LAA_MQ_NAME);
+    delete queue_attributes;
+}
+
 void laa::Daemon::initialize_sock() 
 {
-    
+    // todo, if necessary
 }
 
 void laa::Daemon::log_error( std::string msg )

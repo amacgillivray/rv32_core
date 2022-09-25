@@ -81,6 +81,7 @@ private:
 
 private: // Private Helpers
     void initialize_mqueue(); 
+    void destroy_mqueue();
     void initialize_sock();
     void log_error( std::string msg );
     
