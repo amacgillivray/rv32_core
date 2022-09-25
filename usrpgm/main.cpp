@@ -1,31 +1,26 @@
 #include <iostream>
-#include <ctime>
+#include <chrono>
 #include <cmath>
-#define COLUMN 1000
-#define ROW 1000
+#include <iostream>
+#include <random>
+#define COLUMN 100
+#define ROW 100
 using namespace std;
 
-int main()
+void add()
 {
-    srand(time(NULL));
     double addarr[ROW][COLUMN];
     double addarr2[ROW][COLUMN];
-    double multarr[ROW][COLUMN];
-    double multarr2[ROW][COLUMN];
     double sum[ROW][COLUMN];
-    double product[ROW][COLUMN];
     for(int i=0; i < ROW; ++i)
     {
         for(int j=0; j < COLUMN; ++j)
         {
             addarr[i][j]=((double) rand() / RAND_MAX) * (100 - 1);
             addarr2[i][j]=((double) rand() / RAND_MAX) * (100 - 1);
-            multarr[i][j]=((double) rand() / RAND_MAX) * (100 - 1);
-            multarr2[i][j]==((double) rand() / RAND_MAX) * (100 - 1);
         }
     }
     //addition
-    clock_t time_add=clock();
     for(int i=0; i < ROW; ++i)
     {
         for(int j=0; j < COLUMN; ++j)
@@ -33,12 +28,22 @@ int main()
             sum[i][j]=addarr[i][j]+addarr2[i][j];
         }
     }
-    time_add=clock()-time_add;
-    cout << "Matrix Addition Time:" << time_add << "\n";
-    //multiplication
-    clock_t time_mult=clock();
-     for(int i = 0; i < ROW; ++i)
-     {
+}
+void mult()
+{
+    double multarr[ROW][COLUMN];
+    double multarr2[ROW][COLUMN];
+    double product[ROW][COLUMN];
+    for(int i=0; i < ROW; ++i)
+    {
+        for(int j=0; j < COLUMN; ++j)
+        {
+            multarr[i][j]=((double) rand() / RAND_MAX) * (100 - 1);
+            multarr2[i][j]=((double) rand() / RAND_MAX) * (100 - 1);
+        }
+    }
+    for(int i = 0; i < ROW; ++i)
+    {
         for(int j = 0; j < COLUMN; ++j)
         {
             for(int k = 0; k < COLUMN; ++k)
@@ -46,7 +51,119 @@ int main()
                 product[i][j] += multarr[i][k] * multarr2[k][j];
             }
         }
-     }
-    time_mult=clock()-time_mult;
-    cout << "Matrix Multiplication Time:" << time_mult << "\n";
+    }
+}
+int main()
+{
+int repititions;
+char func;
+cout << "Enter function(a/m): \n";
+cin >> func; 
+cout << "Enter repititions: \n";
+cin >> repititions;
+    double results[repititions];
+    if(func == 'a')
+    {
+        cout << "Matrix Addition(" << repititions << " repititions): \n";
+        cout << "___________________________\n";
+        for(int i=0; i < repititions; i++)
+        {
+            auto begin = chrono::steady_clock::now();
+            add();
+            auto end = chrono::steady_clock::now();
+            results[i] =chrono::duration_cast<chrono::microseconds>(end-begin).count();
+            cout << results[i] << "\n";
+        }
+        cout << "\n\n\n";
+        double sumresults =0;
+        double mean=0;
+        double std=0;
+        double median=0;
+        for(int i=0; i < repititions; i++)
+        {
+            sumresults+=results[i];
+        }
+        mean=sumresults/repititions;
+        for(int i=0; i < repititions; i++)
+        {
+            std+=pow(results[i]-mean, 2);
+        }
+	std=std/repititions;
+	std=sqrt(std);
+        for(int i=0; i < repititions-1; i++)
+        {
+                for(int j=0; j < repititions-i-1; j++)
+                {
+                    if(results[j] > results[j+1])
+                    {
+                        swap(results[j], results[j+1]);
+                    }
+                }
+        }
+        if(repititions%2 == 1)
+        {
+            median = results[repititions/2];
+        }
+        else
+        {
+            median = (results[repititions/2]+results[(repititions/2)+1])/2;
+        }
+        cout << "MEAN: " << mean << "\n";
+        cout << "MEDIAN: " << median << "\n";
+        cout << "STANDARD DEVIATION: " << std << "\n";
+    }
+    else if(func == 'm')
+    {
+        cout << "Matrix Multiplication(" << repititions << " repititions): \n";
+        cout << "___________________________\n";
+        for(int i=0; i < repititions; i++)
+        {
+            auto begin = chrono::steady_clock::now();
+            mult();
+            auto end = chrono::steady_clock::now();
+            results[i] =chrono::duration_cast<chrono::microseconds>(end-begin).count();
+            cout << results[i] << "\n";
+        }
+        cout << "\n\n\n";
+        double sumresults =0;
+        double mean=0;
+        double std=0;
+        double median=0;
+        for(int i=0; i < repititions; i++)
+        {
+            sumresults=sumresults+results[i];
+        }
+        mean=sumresults/repititions;
+        for(int i=0; i < repititions; i++)
+        {
+            std+=pow(results[i]-mean, 2);
+        }
+	std=std/repititions;
+        std=sqrt(std);
+        for(int i=0; i < repititions-1; i++)
+        {
+                for(int j=0; j < repititions-i-1; j++)
+                {
+                    if(results[j] > results[j+1])
+                    {
+                        swap(results[j], results[j+1]);
+                    }
+                }
+        }
+        if(repititions%2 == 1)
+        {
+            median = results[repititions/2];
+        }
+        else
+        {
+            median = (results[repititions/2]+results[(repititions/2)+1])/2;
+        }
+        cout << "MEAN: " << mean << "\n";
+        cout << "MEDIAN: " << median << "\n";
+        cout << "STANDARD DEVIATION: " << std << "\n";
+    }
+    else
+    {
+        cout << "Incorrect Function!\n";
+    }
 }
