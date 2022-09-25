@@ -40,11 +40,11 @@ const char * laa::request::get_timing_data()
 
 void laa::request::parse( const char * json )
 {
-	laa::JsonPartial req(json);
-	pid = atol(req["pid"]);
-	type = atoi(req["type"]);
-	required_shmem_length = atoll(req["msg"]);
-	time.sent = std::chrono::system_clock::from_time_t(strtol(req["time"],NULL,10));
+	this->json.set_json_string(json);
+	pid = atol(this->json["pid"]);
+	type = atoi(this->json["type"]);
+	required_shmem_length = atoll(this->json["msg"]);
+	time.sent = std::chrono::system_clock::from_time_t(strtol(this->json["time"],NULL,10));
 	
 	// todo - define a list of valid message types somewhere 
 	// that we can use to determine what the format of "msg" is
@@ -58,4 +58,9 @@ void laa::request::parse( const char * json )
 	// 	"msg", // message, if any
 	// 	"ts" // time sent
 	// ];
+}
+
+const char * laa::request::get_json()
+{
+	return json.get_json_string();
 }
