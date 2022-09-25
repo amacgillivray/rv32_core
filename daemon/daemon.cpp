@@ -32,6 +32,16 @@ void laa::Daemon::test_msg( const char * str )
     receive_request(str);
 }
 
+std::string laa::Daemon::get_debug_info()
+{
+    std::string debug = "Jobs in Daemon Queue: " + std::to_string(queued_jobs.size()) + "\n";
+    for (size_t i = 0; i < queued_jobs.size(); i++)
+    {
+        debug.append("\tJob #" + std::to_string(i) + ": " + std::string(queued_jobs[i].get_json()) + "\n");
+    }
+    return debug.c_str();
+}
+
 void laa::Daemon::receive_request( const char * str )
 {
     // todo: if str not given, get it from the socket 

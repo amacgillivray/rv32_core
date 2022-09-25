@@ -54,6 +54,13 @@ public:
      */
     void test_msg( const char * str );
 
+    /** 
+     * @brief Creates a string containing debugging information of the Daemon object 
+     *        at a given time, and returns it. Used to reduce the need of debugging 
+     *        statements throughout other functions / complex GDB debugging.
+     */
+    std::string get_debug_info();
+
 private:
 
     /**
