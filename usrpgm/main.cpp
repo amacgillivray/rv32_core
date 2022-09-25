@@ -3,8 +3,8 @@
 #include <cmath>
 #include <iostream>
 #include <random>
-#define COLUMN 1000
-#define ROW 1000
+#define COLUMN 500
+#define ROW 500
 using namespace std;
 
 void add()
@@ -53,23 +53,26 @@ void mult()
         }
     }
 }
-int main(int repititions)
+int main()
 {
+int repititions;
 char func;
 cout << "Enter function(a/m): \n";
 cin >> func; 
+cout << "Enter repititions: \n";
+cin >> repititions;
     double results[repititions];
     if(func == 'a')
     {
-        cout << "Matrix Addition(" << repititions << " reptions): \n";
+        cout << "Matrix Addition(" << repititions << " repititions): \n";
         cout << "___________________________\n";
         for(int i=0; i < repititions; i++)
         {
             auto begin = chrono::steady_clock::now();
             add();
             auto end = chrono::steady_clock::now();
-            results[i] =chrono::duration_cast<chrono::seconds>(end-begin).count();
-            cout << "Seconds: " << results[i] << "\n";
+            results[i] =chrono::duration_cast<chrono::microseconds>(end-begin).count();
+            cout << "Microseconds: " << results[i] << "\n";
         }
         cout << "\n\n\n";
         double sumresults =0;
@@ -116,8 +119,8 @@ cin >> func;
             auto begin = chrono::steady_clock::now();
             mult();
             auto end = chrono::steady_clock::now();
-            results[i] =chrono::duration_cast<chrono::seconds>(end-begin).count();
-            cout << "Seconds: " << results[i] << "\n";
+            results[i] =chrono::duration_cast<chrono::microseconds>(end-begin).count();
+            cout << "Microseconds: " << results[i] << "\n";
         }
         cout << "\n\n\n";
         double sumresults =0;
