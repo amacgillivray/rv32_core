@@ -4,7 +4,7 @@ laa::Daemon::Daemon()
 {
     try {
         initialize_mqueue();
-        initialize_sock();
+        // initialize_sock();
     } catch (std::runtime_error &e) {
         log_error( e.what() );
         log_error("Unable to initialize socket or queue. Aborting Daemon process.");
