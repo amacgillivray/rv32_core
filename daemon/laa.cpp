@@ -14,7 +14,12 @@ int main()
     }";
     
     laa::Daemon daemon;
+    std::cout << "Testing Message:\n"
+              << teststr << std::endl;
     daemon.test_msg(teststr);
+    std::cout << "\nDaemon State after receiving message: \n";
+    std::cout << daemon.get_debug_info() << std::endl;
+
     daemon.run();
     return (0);
 }
