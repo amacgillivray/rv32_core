@@ -3,8 +3,8 @@
 #include <cmath>
 #include <iostream>
 #include <random>
-#define COLUMN 500
-#define ROW 500
+#define COLUMN 100
+#define ROW 100
 using namespace std;
 
 void add()
