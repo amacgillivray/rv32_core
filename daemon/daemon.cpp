@@ -3,6 +3,7 @@
 laa::Daemon::Daemon()
 {
     try {
+        mq_unlink(LAA_MQ_NAME);
         initialize_mqueue();
         // initialize_sock();
     } catch (std::runtime_error &e) {
@@ -23,7 +24,25 @@ void laa::Daemon::run()
     // receive_request()
     // when no new requests and idle, handle_request
     // later, add logging and 
-    std::cout << "Ran demon. Exiting." << std::endl;
+    // std::cout << "Ran demon. Exiting." << std::endl;
+
+    char * buff = new char [64]{"\0"};
+    size_t bytes = 0;
+    while(1)
+    {
+        bytes = mq_receive(queue, buff, 64, 0);
+        if (bytes>0)
+        {
+            std::cout << "Received Message:\n"
+                      << buff << "\n";
+            
+            receive_request(buff);
+            std::cout << "Exiting." 
+                      << std::endl;
+            break;
+        }
+    }
+    delete[] buff;
     return;
 }
 
