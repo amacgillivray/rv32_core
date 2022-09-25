@@ -72,7 +72,7 @@ cin >> repititions;
             add();
             auto end = chrono::steady_clock::now();
             results[i] =chrono::duration_cast<chrono::microseconds>(end-begin).count();
-            cout << "Microseconds: " << results[i] << "\n";
+            cout << results[i] << "\n";
         }
         cout << "\n\n\n";
         double sumresults =0;
@@ -88,6 +88,8 @@ cin >> repititions;
         {
             std+=pow(results[i]-mean, 2);
         }
+	std=std/repititions;
+	std=sqrt(std);
         for(int i=0; i < repititions-1; i++)
         {
                 for(int j=0; j < repititions-i-1; j++)
@@ -120,7 +122,7 @@ cin >> repititions;
             mult();
             auto end = chrono::steady_clock::now();
             results[i] =chrono::duration_cast<chrono::microseconds>(end-begin).count();
-            cout << "Microseconds: " << results[i] << "\n";
+            cout << results[i] << "\n";
         }
         cout << "\n\n\n";
         double sumresults =0;
@@ -136,6 +138,8 @@ cin >> repititions;
         {
             std+=pow(results[i]-mean, 2);
         }
+	std=std/repititions;
+        std=sqrt(std);
         for(int i=0; i < repititions-1; i++)
         {
                 for(int j=0; j < repititions-i-1; j++)
