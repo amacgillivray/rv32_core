@@ -45,12 +45,8 @@ std::string laa::Daemon::get_debug_info()
 void laa::Daemon::receive_request( const char * str )
 {
     // todo: if str not given, get it from the socket 
-    
-    // initialize the request 
-    // place it in the vector for later handling.
-    
+    // initialize the request in the vector for later handling.
     queued_jobs.emplace_back(str);
-    // receive a request and place it on the queue
 }
 
 void laa::Daemon::handle_request()
