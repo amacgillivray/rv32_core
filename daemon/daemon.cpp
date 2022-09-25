@@ -73,7 +73,7 @@ void laa::Daemon::initialize_mqueue()
     
     if (queue == (-1))
     {
-        // saved_error = errno;
+        perror(strerror(errno));
         delete queue_attributes;
         queue_attributes = nullptr; // avoid double free when destroy_mqueue is called
         throw std::runtime_error("Unable to open Daemon MQ.");
@@ -92,6 +92,7 @@ void laa::Daemon::destroy_mqueue()
 void laa::Daemon::initialize_sock() 
 {
     // todo, if necessary
+    // may actually use its own class
 }
 
 void laa::Daemon::log_error( std::string msg )

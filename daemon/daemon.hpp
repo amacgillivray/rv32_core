@@ -80,6 +80,10 @@ private:
     mq_attr * queue_attributes;
 
 private: // Private Helpers
+
+    // if mqueue, sock need their own
+    // initializer and destructor, they should 
+    // probably have their own class
     void initialize_mqueue(); 
     void destroy_mqueue();
     void initialize_sock();
