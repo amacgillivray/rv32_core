@@ -96,5 +96,6 @@ void laa::Daemon::initialize_sock()
 
 void laa::Daemon::log_error( std::string msg )
 {
-    // todo
+    std::cerr << msg;
+    perror(strerror(errno));
 }
