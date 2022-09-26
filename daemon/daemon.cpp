@@ -3,7 +3,7 @@
 laa::Daemon::Daemon()
 {
     try {
-        mq_unlink(LAA_MQ_NAME);
+        // mq_unlink(LAA_MQ_NAME);
         initialize_mqueue();
         // initialize_sock();
     } catch (std::runtime_error &e) {
