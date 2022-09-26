@@ -7,6 +7,9 @@
 #include <sys/types.h>
 
 #include <chrono>
+#include <string>
+#include <sstream>
+#include <iomanip>
 
 #include "json.hpp"
 
@@ -27,6 +30,10 @@ public:
 	 *		  size of the shared memory segment the daemon should initialize.
 	 */
 	size_t required_shmem() const;
+
+	std::string time_sent() const;
+
+	std::string time_received() const;
 	
 	pid_t get_pid() const;
 	

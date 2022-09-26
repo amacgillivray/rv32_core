@@ -1,4 +1,5 @@
 #include "request.hpp"
+#include <chrono>
 
 laa::request::request(const char * json)
 {
@@ -30,6 +31,26 @@ pid_t laa::request::get_pid() const
 short int laa::request::get_type() const
 {
 	return type;
+}
+
+std::string laa::request::time_sent() const 
+{
+	std::stringstream ss;
+	// need lvalue for tm, need tm for put time
+	std::time_t ts = std::chrono::_V2::system_clock::to_time_t(time.sent);
+	std::tm tm = *std::gmtime(&ts);
+	ss << std::put_time( &tm, "%Y-%m-%d %H:%M:%S");
+	return ss.str();
+}
+
+std::string laa::request::time_received() const
+{
+	std::stringstream ss;
+	// need lvalue for tm, need tm for put time
+	std::time_t tr = std::chrono::_V2::system_clock::to_time_t(time.received);
+	std::tm tm = *std::gmtime(&tr);
+	ss << std::put_time( &tm, "%Y-%m-%d %H:%M:%S");
+	return ss.str();
 }
 
 const char * laa::request::get_timing_data()
