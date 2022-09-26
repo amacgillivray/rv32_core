@@ -46,7 +46,7 @@ export CXXWARN := -Wall \
 export CXXFLAGS += $(CXXFLST) \
                    $(CXXWARN) \
                    $(CXXDBG) \
-                   -O3 \
+                   -O2 \
                    -DLAA_ROOTDIR=\"$(rootdir)\"
 export CXXEFLAGS = $(CXXFLAGS) -fpie
 export CXXOFLAGS = $(CXXFLAGS) -MD -MP -fpic

@@ -1,91 +1,82 @@
 #include "json.hpp"
 
-laa::JsonPartial::JsonPartial():str("")
+laa::JsonPartial::JsonPartial() : str("")
 {
-    
 }
 
-laa::JsonPartial::JsonPartial( const char * str ):str(str)
+laa::JsonPartial::JsonPartial(const char *str) : str(str)
 {
     map_json();
 }
 
 laa::JsonPartial::~JsonPartial()
 {
-    
 }
 
-void laa::JsonPartial::set_json_string( const char * str )
+void laa::JsonPartial::set_json_string(const char *str)
 {
-    this->str = str;
+    this->str.assign(str);
     json.clear();
     map_json();
 }
 
-const char * laa::JsonPartial::get_json_string() const
+const char *laa::JsonPartial::get_json_string() const
 {
-    return str;
+    return str.c_str();
 }
 
-const char * laa::JsonPartial::operator[](const char * key) const
+const char *laa::JsonPartial::operator[](const std::string &key) const
 {
-    // todo - throw on invalid key? 
-    //      decide
-    
-    // if (json.contains(key))
-    // {
-        return json[key];
-    // } else {
-    //     throw;
-    // }
+    return json.at(key).c_str();
 }
 
-void laa::JsonPartial::map_json() {    
-   size_t i = 0, s = 0, e = 0;
-   size_t num_quot = 0;
-   bool keypart = true; // rename to in_key
-   // bool in_quote = false;;
-   
-   std::vector<std::string> keys;
-   std::vector<std::string> values;
+void laa::JsonPartial::map_json()
+{
+    size_t i = 0, s = 0, e = 0;
+    size_t num_quot = 0;
+    bool in_key = true;
+    std::string key = "";
+    std::string val = "";
+    std::string buf = "";
 
-   std::string json = str;
-   
-   while( i < strlen(str) )
-   {
-       if (str[i] == '"')
-       {
-           if (num_quot == 0) {
-               s = i+1;
-               num_quot++;
-           }
-           else {
-               e = i;
-               num_quot = 0;
-               if (keypart) {
-                   keys.push_back(json.substr(s, e-s));
-               } else {
-                   values.push_back(json.substr(s, e-s));
-               }
-           }
-       }
-       
-       else if (str[i] == ':')
-       {
-           keypart = true;
-       }
-       
-       else if (str[i] == ',' || str[i] == '}')
-       {
-           keypart = false;
-       }
-       
-       i++;
-   }
-   
-   for (size_t f = 0; f < keys.size(); f++) 
-   {
-       json.insert({keys.at(i).c_str(), values.at(i).c_str()}); 
-   }
-   return;
+    // Parse the JSON string looking for keys and values
+    while (i < strlen(str.data()))
+    {
+
+        if (str[i] == '"')
+        {
+            if (num_quot == 0)
+            {
+                s = i + 1;
+                num_quot++;
+            }
+            else
+            {
+                e = i;
+                num_quot = 0;
+                buf = str.substr(s, e - s);
+                if (in_key)
+                    key = buf;
+                else
+                {
+                    val = buf;
+                    // Insert the key-value pair to the map
+                    // since here we have both the key and value
+                    json.insert({key, val});
+                    key.clear();
+                    val.clear();
+                }
+            }
+        }
+        // If we hit the ":" char, we're in the value-side of the line
+        // If we hit an end-line marker (, or }), then we expect the 
+        // string to end or the next quotes to contain a key. 
+        else if (str[i] == ':')
+            in_key = false;
+        else if (str[i] == ',' || str[i] == '}')
+            in_key = true;
+
+        i++;
+    }
+    return;
 }

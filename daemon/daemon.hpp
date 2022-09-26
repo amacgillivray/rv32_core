@@ -54,6 +54,13 @@ public:
      */
     void test_msg( const char * str );
 
+    /** 
+     * @brief Creates a string containing debugging information of the Daemon object 
+     *        at a given time, and returns it. Used to reduce the need of debugging 
+     *        statements throughout other functions / complex GDB debugging.
+     */
+    std::string get_debug_info();
+
 private:
 
     /**
@@ -73,7 +80,12 @@ private:
     mq_attr * queue_attributes;
 
 private: // Private Helpers
+
+    // if mqueue, sock need their own
+    // initializer and destructor, they should 
+    // probably have their own class
     void initialize_mqueue(); 
+    void destroy_mqueue();
     void initialize_sock();
     void log_error( std::string msg );
     

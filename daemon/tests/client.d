@@ -1,4 +1,5 @@
-laa.o: laa.cpp /usr/include/stdc-predef.h /usr/include/c++/11/iostream \
+client.o: client.cpp /usr/include/stdc-predef.h \
+ /usr/include/c++/11/iostream \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -147,8 +148,8 @@ laa.o: laa.cpp /usr/include/stdc-predef.h /usr/include/c++/11/iostream \
  /usr/include/c++/11/bits/locale_facets.tcc \
  /usr/include/c++/11/bits/basic_ios.tcc \
  /usr/include/c++/11/bits/ostream.tcc /usr/include/c++/11/istream \
- /usr/include/c++/11/bits/istream.tcc daemon.hpp \
- /usr/include/c++/11/vector /usr/include/c++/11/bits/stl_uninitialized.h \
+ /usr/include/c++/11/bits/istream.tcc /usr/include/c++/11/vector \
+ /usr/include/c++/11/bits/stl_uninitialized.h \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
  /usr/include/c++/11/bits/vector.tcc /usr/include/c++/11/memory \
@@ -180,45 +181,35 @@ laa.o: laa.cpp /usr/include/stdc-predef.h /usr/include/c++/11/iostream \
  /usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__sigval_t.h \
  /usr/include/x86_64-linux-gnu/bits/mqueue.h \
- /usr/include/x86_64-linux-gnu/bits/mqueue2.h \
- /usr/include/x86_64-linux-gnu/sys/socket.h \
- /usr/include/x86_64-linux-gnu/bits/socket.h \
- /usr/include/x86_64-linux-gnu/bits/socket_type.h \
- /usr/include/x86_64-linux-gnu/bits/sockaddr.h \
- /usr/include/x86_64-linux-gnu/asm/socket.h \
- /usr/include/asm-generic/socket.h /usr/include/linux/posix_types.h \
- /usr/include/linux/stddef.h \
- /usr/include/x86_64-linux-gnu/asm/posix_types.h \
- /usr/include/x86_64-linux-gnu/asm/posix_types_64.h \
- /usr/include/asm-generic/posix_types.h \
- /usr/include/x86_64-linux-gnu/asm/bitsperlong.h \
- /usr/include/asm-generic/bitsperlong.h \
- /usr/include/x86_64-linux-gnu/asm/sockios.h \
- /usr/include/asm-generic/sockios.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h \
- /usr/include/x86_64-linux-gnu/bits/socket2.h laa_config.hpp \
+ /usr/include/x86_64-linux-gnu/bits/mqueue2.h /usr/include/c++/11/cstring \
+ /usr/include/string.h /usr/include/strings.h \
+ /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
+ /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
+ /usr/include/unistd.h /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+ /usr/include/x86_64-linux-gnu/bits/environments.h \
+ /usr/include/x86_64-linux-gnu/bits/confname.h \
+ /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+ /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+ /usr/include/x86_64-linux-gnu/bits/unistd.h \
+ /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
+ /usr/include/linux/close_range.h ../laa_config.hpp \
  /usr/include/x86_64-linux-gnu/sys/stat.h \
  /usr/include/x86_64-linux-gnu/bits/statx.h /usr/include/linux/stat.h \
  /usr/include/linux/types.h /usr/include/x86_64-linux-gnu/asm/types.h \
  /usr/include/asm-generic/types.h /usr/include/asm-generic/int-ll64.h \
+ /usr/include/x86_64-linux-gnu/asm/bitsperlong.h \
+ /usr/include/asm-generic/bitsperlong.h /usr/include/linux/posix_types.h \
+ /usr/include/linux/stddef.h \
+ /usr/include/x86_64-linux-gnu/asm/posix_types.h \
+ /usr/include/x86_64-linux-gnu/asm/posix_types_64.h \
+ /usr/include/asm-generic/posix_types.h \
  /usr/include/x86_64-linux-gnu/bits/statx-generic.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_statx_timestamp.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_statx.h request.hpp \
- /usr/include/c++/11/cstddef /usr/include/c++/11/chrono \
- /usr/include/c++/11/ratio /usr/include/c++/11/limits \
- /usr/include/c++/11/ctime /usr/include/c++/11/bits/parse_numbers.h \
- /usr/include/c++/11/sstream /usr/include/c++/11/bits/sstream.tcc \
- /usr/include/c++/11/iomanip /usr/include/c++/11/locale \
- /usr/include/c++/11/bits/locale_facets_nonio.h \
- /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \
- /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \
- /usr/include/libintl.h /usr/include/c++/11/bits/codecvt.h \
- /usr/include/c++/11/bits/locale_facets_nonio.tcc \
- /usr/include/c++/11/bits/locale_conv.h \
- /usr/include/c++/11/bits/quoted_string.h json.hpp \
- /usr/include/c++/11/cstring /usr/include/string.h /usr/include/strings.h \
- /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
- /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_statx.h ../laa_api.hpp \
+ /usr/include/c++/11/chrono /usr/include/c++/11/ratio \
+ /usr/include/c++/11/limits /usr/include/c++/11/ctime \
+ /usr/include/c++/11/bits/parse_numbers.h /usr/include/c++/11/sstream \
+ /usr/include/c++/11/bits/sstream.tcc ../json.cpp ../json.hpp \
  /usr/include/c++/11/stack /usr/include/c++/11/deque \
  /usr/include/c++/11/bits/stl_deque.h /usr/include/c++/11/bits/deque.tcc \
  /usr/include/c++/11/bits/stl_stack.h /usr/include/c++/11/map \
@@ -226,7 +217,7 @@ laa.o: laa.cpp /usr/include/stdc-predef.h /usr/include/c++/11/iostream \
  /usr/include/c++/11/bits/node_handle.h \
  /usr/include/c++/11/bits/stl_map.h \
  /usr/include/c++/11/bits/stl_multimap.h \
- /usr/include/c++/11/bits/erase_if.h virtual_core.hpp
+ /usr/include/c++/11/bits/erase_if.h
 /usr/include/stdc-predef.h:
 /usr/include/c++/11/iostream:
 /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:
@@ -412,7 +403,6 @@ laa.o: laa.cpp /usr/include/stdc-predef.h /usr/include/c++/11/iostream \
 /usr/include/c++/11/bits/ostream.tcc:
 /usr/include/c++/11/istream:
 /usr/include/c++/11/bits/istream.tcc:
-daemon.hpp:
 /usr/include/c++/11/vector:
 /usr/include/c++/11/bits/stl_uninitialized.h:
 /usr/include/c++/11/bits/stl_vector.h:
@@ -455,24 +445,21 @@ daemon.hpp:
 /usr/include/x86_64-linux-gnu/bits/types/__sigval_t.h:
 /usr/include/x86_64-linux-gnu/bits/mqueue.h:
 /usr/include/x86_64-linux-gnu/bits/mqueue2.h:
-/usr/include/x86_64-linux-gnu/sys/socket.h:
-/usr/include/x86_64-linux-gnu/bits/socket.h:
-/usr/include/x86_64-linux-gnu/bits/socket_type.h:
-/usr/include/x86_64-linux-gnu/bits/sockaddr.h:
-/usr/include/x86_64-linux-gnu/asm/socket.h:
-/usr/include/asm-generic/socket.h:
-/usr/include/linux/posix_types.h:
-/usr/include/linux/stddef.h:
-/usr/include/x86_64-linux-gnu/asm/posix_types.h:
-/usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
-/usr/include/asm-generic/posix_types.h:
-/usr/include/x86_64-linux-gnu/asm/bitsperlong.h:
-/usr/include/asm-generic/bitsperlong.h:
-/usr/include/x86_64-linux-gnu/asm/sockios.h:
-/usr/include/asm-generic/sockios.h:
-/usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h:
-/usr/include/x86_64-linux-gnu/bits/socket2.h:
-laa_config.hpp:
+/usr/include/c++/11/cstring:
+/usr/include/string.h:
+/usr/include/strings.h:
+/usr/include/x86_64-linux-gnu/bits/strings_fortified.h:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:
+/usr/include/unistd.h:
+/usr/include/x86_64-linux-gnu/bits/posix_opt.h:
+/usr/include/x86_64-linux-gnu/bits/environments.h:
+/usr/include/x86_64-linux-gnu/bits/confname.h:
+/usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
+/usr/include/x86_64-linux-gnu/bits/getopt_core.h:
+/usr/include/x86_64-linux-gnu/bits/unistd.h:
+/usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
+/usr/include/linux/close_range.h:
+../laa_config.hpp:
 /usr/include/x86_64-linux-gnu/sys/stat.h:
 /usr/include/x86_64-linux-gnu/bits/statx.h:
 /usr/include/linux/stat.h:
@@ -480,11 +467,17 @@ laa_config.hpp:
 /usr/include/x86_64-linux-gnu/asm/types.h:
 /usr/include/asm-generic/types.h:
 /usr/include/asm-generic/int-ll64.h:
+/usr/include/x86_64-linux-gnu/asm/bitsperlong.h:
+/usr/include/asm-generic/bitsperlong.h:
+/usr/include/linux/posix_types.h:
+/usr/include/linux/stddef.h:
+/usr/include/x86_64-linux-gnu/asm/posix_types.h:
+/usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
+/usr/include/asm-generic/posix_types.h:
 /usr/include/x86_64-linux-gnu/bits/statx-generic.h:
 /usr/include/x86_64-linux-gnu/bits/types/struct_statx_timestamp.h:
 /usr/include/x86_64-linux-gnu/bits/types/struct_statx.h:
-request.hpp:
-/usr/include/c++/11/cstddef:
+../laa_api.hpp:
 /usr/include/c++/11/chrono:
 /usr/include/c++/11/ratio:
 /usr/include/c++/11/limits:
@@ -492,22 +485,8 @@ request.hpp:
 /usr/include/c++/11/bits/parse_numbers.h:
 /usr/include/c++/11/sstream:
 /usr/include/c++/11/bits/sstream.tcc:
-/usr/include/c++/11/iomanip:
-/usr/include/c++/11/locale:
-/usr/include/c++/11/bits/locale_facets_nonio.h:
-/usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h:
-/usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h:
-/usr/include/libintl.h:
-/usr/include/c++/11/bits/codecvt.h:
-/usr/include/c++/11/bits/locale_facets_nonio.tcc:
-/usr/include/c++/11/bits/locale_conv.h:
-/usr/include/c++/11/bits/quoted_string.h:
-json.hpp:
-/usr/include/c++/11/cstring:
-/usr/include/string.h:
-/usr/include/strings.h:
-/usr/include/x86_64-linux-gnu/bits/strings_fortified.h:
-/usr/include/x86_64-linux-gnu/bits/string_fortified.h:
+../json.cpp:
+../json.hpp:
 /usr/include/c++/11/stack:
 /usr/include/c++/11/deque:
 /usr/include/c++/11/bits/stl_deque.h:
@@ -519,4 +498,3 @@ json.hpp:
 /usr/include/c++/11/bits/stl_map.h:
 /usr/include/c++/11/bits/stl_multimap.h:
 /usr/include/c++/11/bits/erase_if.h:
-virtual_core.hpp:
