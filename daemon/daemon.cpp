@@ -26,11 +26,11 @@ void laa::Daemon::run()
     // later, add logging and 
     // std::cout << "Ran demon. Exiting." << std::endl;
 
-    char * buff = new char [64]{"\0"};
+    char * buff = new char [LAA_MQ_MSGSIZE]{"\0"};
     size_t bytes = 0;
     while(1)
     {
-        bytes = mq_receive(queue, buff, 64, 0);
+        bytes = mq_receive(queue, buff, LAA_MQ_MSGSIZE, 0);
         if (bytes>0)
         {
             std::cout << "Received Message:\n"
