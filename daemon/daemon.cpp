@@ -33,10 +33,17 @@ void laa::Daemon::run()
         bytes = mq_receive(queue, buff, LAA_MQ_MSGSIZE, 0);
         if (bytes>0)
         {
+            // TODO - remove couts used for debugging
+
             std::cout << "Received Message:\n"
                       << buff << "\n";
             
             receive_request(buff);
+
+            std::cout << "State after client sent message: \n" 
+                      << get_debug_info()
+                      << std::endl;
+
             std::cout << "Exiting." 
                       << std::endl;
             break;
@@ -56,15 +63,24 @@ std::string laa::Daemon::get_debug_info()
     std::string debug = "Jobs in Daemon Queue: " + std::to_string(queued_jobs.size()) + "\n";
     for (size_t i = 0; i < queued_jobs.size(); i++)
     {
-        debug.append("\tJob #" + std::to_string(i) + ": " + std::string(queued_jobs[i].get_json()) + "\n");
+        debug.append("\tJob #" + std::to_string(i) + ": ");
+        //  + std::string(queued_jobs[i].get_json()) + "\n");
+        // show that we are accessing it as an object, by reading 
+        // values from the request object itself instead of 
+        // just printing the JSON string again
+        debug.append("\n\t\tPID: " + std::to_string(queued_jobs[i].get_pid()));
+        debug.append("\n\t\tType: " + std::to_string(queued_jobs[i].get_type()));
+        debug.append("\n\t\tMessage: " + std::to_string(queued_jobs[i].required_shmem()));
+        debug.append("\n\t\tTime Sent: " + queued_jobs[i].time_sent());
+        debug.append("\n\t\tTime Received: " + queued_jobs[i].time_received());
     }
     return debug.c_str();
 }
 
 void laa::Daemon::receive_request( const char * str )
 {
-    // todo: if str not given, get it from the socket 
-    // initialize the request in the vector for later handling.
+    // todo - if this is a one-liner, just put it in the run loop
+    // instead of having it as its own function. 
     queued_jobs.emplace_back(str);
 }
 
