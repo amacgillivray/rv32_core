@@ -7,11 +7,10 @@ assignees: ''
 
 ---
 
-# Requirement Description
-### Stack
+**Description:**
+**Artifact:**
+**Story Points:** 1
 
-### Artifact
-
---- 
+---
 
 ## Other Details
