@@ -8,8 +8,25 @@
 #include <unistd.h>
 
 #include "../laa_config.hpp"
+#include "../laa_api.hpp"
 
-int main()
+void standalone_test();
+
+// todo later: allow argument for # messages to send in the test
+int main(int argc, char ** argv)
+{
+    size_t exe_sz = 12345;
+
+    if (laa::request_execution(exe_sz))
+        std::cout << "Message sent to daemon successfully." << std::endl;
+    else {
+        std::cout << "Error: Message send failure." << std::endl;
+        perror(strerror(errno));
+    }
+}
+
+
+void standalone_test() 
 {
     const char * msg = "Hello, Daemon! This is a client process\nwith some text.\n";
     // char buffer[LAA_MQ_MSGSIZE] = {'\0'};
@@ -43,6 +60,4 @@ int main()
     mq_send(s, msg, strlen(msg), 0);
     std::cout << "Message sent. Awaiting Acknowledgement.";
     // mq_receive(s, &buffer, LAA_MQ_MSGSIZE, pid);
-
-    return (0);
 }
