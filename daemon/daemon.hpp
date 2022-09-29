@@ -9,12 +9,10 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
-#include <vector>
+#include <queue> 
 #include <memory>
 #include <mqueue.h> // using sysv message queues to reply to clients
-
 #include <sys/socket.h>
-
 #include "laa_config.hpp"
 #include "request.hpp"
 #include "virtual_core.hpp"
@@ -66,7 +64,7 @@ private:
     /**
      * @brief Receives a new request
      * @todo  Should use the message to create a new request at the end of 
-     *         the queued_jobs vector.
+     *         the queued_jobs Queue.
      */
     void receive_request( const char * str = "" );
     
@@ -75,7 +73,7 @@ private:
      */ 
     void handle_request();
 
-    std::vector<laa::request> queued_jobs;
+    std::queue<laa::request> queued_jobs;
     mqd_t queue;
     mq_attr * queue_attributes;
 
