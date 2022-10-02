@@ -21,54 +21,53 @@
 // http://web.mit.edu/6.111/volume2/www/f2018/run_verilog.html
 // http://web.mit.edu/6.111/volume2/www/f2018/
 //////////////////////////////////////////////////////////////////////////////////
-
 module alu(
-    input [7:0] A,
-    input [7:0] B,
+    input [31:0] A,
+    input [31:0] B,
     input [3:0] sel,
-    output [7:0] out,
+    output [31:0] out,
     output carry
 );
-    reg[7:0] result;
-    wire[8:0] tmp;
+    reg[31:0] result;
+    wire[32:0] tmp;
     assign out = result;
     assign tmp = {1'b0,A} + {1'b0,B};
-    assign carry = tmp[8];
+    assign carry = tmp[32];
     always @(*)
     begin
         case(sel)
-            4'b0000:
+            4'b0000: // Add
                 result = A + B;
-            4'b0001: 
+            4'b0001: // Subtract
                 result = A - B;
-            4'b0010:
+            4'b0010: // Multiply
                 result = A * B;
-            4'b0011: 
+            4'b0011: // Divide
                 result = A / B;
-            4'b0100: 
+            4'b0100: // Shift Left
                 result = A << 1;
-            4'b0101:
+            4'b0101: // Shift Right
                 result = A >> 1;
-            4'b0110: 
-                result = {A[6:0],A[7]};
-            4'b0111: 
-                result = {A[0],A[7:1]}; 
-            4'b1000:
+            4'b0110: // Rotate Left
+                result = {A[30:0],A[31]};
+            4'b0111: // Rotate Right
+                result = {A[0],A[31:1]}; 
+            4'b1000: // Logial AND 
                 result = A & B;
-            4'b1001:
+            4'b1001: // Logical OR
                 result = A | B;
-            4'b1010: 
+            4'b1010: // Logical XOR
                 result = A ^ B;
-            4'b1011:
+            4'b1011: // Logical NOR
                 result = ~(A | B);
-            4'b1100:
+            4'b1100: // Logical NAND
                 result = ~(A & B);
-            4'b1101:
+            4'b1101: // Logical XNOR
                 result = ~(A ^ B);
-            4'b1110:
-                result = ~(A>B)?8'd1:8'd0;
-            4'b1111:
-                result = ~(A==B)?'d1:8'd0;
+            4'b1110: // Greater than
+                result = (A>B) ? 32'd1 : 32'd0;
+            4'b1111: // Equal 
+                result = (A==B) ? 32'd1 : 32'd0;
             endcase
         end
 endmodule
