@@ -9,7 +9,6 @@
 #include <unistd.h>
 #include <mqueue.h> 
 
-#include "json.cpp"
 #include "laa_config.hpp"
 
 // Todo - move to a folder other than daemon, 
