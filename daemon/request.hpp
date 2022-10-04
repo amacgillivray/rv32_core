@@ -4,26 +4,99 @@
 
 #include <cstdlib> 
 #include <cstddef>
+#include <cstring>
 #include <sys/types.h>
 
 #include <chrono>
 #include <string>
 #include <sstream>
 #include <iomanip>
-
-#include "json.hpp"
+#include <map>
 
 namespace laa {
 
 class request
 {
-	
+
+private: 
+
+	/**
+	* @class request::JsonParser
+	* @brief Supports reading a string based on a subset of normal JSON syntax.
+	*        Only supports 1 level of KV pairs where everything is a string.
+	* @note  Internal as it only supports a subset of JSON syntax, as needed 
+	* 	     to parse requests.
+	*/
+	class JsonParser {
+
+	public:
+		
+		JsonParser();
+		
+		/**
+		* @brief Calls set_json_string with the given string in the constructor
+		*/
+		JsonParser( const char * str );
+		
+		~JsonParser();
+		
+		/**
+		* @brief Set or change the JSON string contained by this object. 
+		*        Deletes all old contents, then parses the new string.
+		*/
+		void set_json_string( const char * str );
+
+		/**
+		* @brief Returns the string that was parsed by this object.
+		*/
+		const char * get_json_string() const;
+		
+		/**
+		* @brief Allow reading the value of a mapped key-value pair
+		*        by specifying the name of the key as a string.
+		* @throw std::out_of_range if the key does not exist. 
+		*/
+		const char * operator[](const std::string & key) const;
+		
+	private: 
+		
+		/**
+		* @brief Reads the JSON string and writes all key-value pairs to the 
+		*      std::map object. 
+		*/
+		void map_json();
+		
+		/* The JSON string */
+		std::string str;
+
+		/* Map of the JSON key-value pairs, accessible (non-mutable) with [] operator */
+		std::map<std::string, std::string> json;
+	};
+
 public:
 	
+	request();
+
+	// The same as initializing and then calling set(json)
 	request( const char * json );
 	
-	request( const request& req );
-	
+	// Copy Constructor 
+	request( const request& rhs );
+
+	// Move Constructor
+	request( request && rhs );
+
+	// Copy Assignment
+	request& operator=( const request & rhs );
+
+	// Move Assignment
+	request& operator=( request && rhs );
+
+	/**
+	 * @brief Interprets the given JSON string and uses it to set all values.
+	 */
+	void set( const char * json );
+
 	/** 
 	 * @brief once at the top of the queue, daemon will check for shmem needs,
 	 * 		  using this function. Returns 0 if no shmem is needed, or the 
@@ -70,7 +143,7 @@ private:
 	// set based on certain messa
 	size_t required_shmem_length;
 	
-	laa::JsonPartial json;
+	JsonParser json;
 
 }; 
 
