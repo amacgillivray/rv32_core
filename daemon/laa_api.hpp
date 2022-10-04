@@ -8,6 +8,8 @@
 #include <sstream>
 #include <unistd.h>
 #include <mqueue.h> 
+#include <cmath>
+#include <random>
 
 #include "laa_config.hpp"
 
@@ -19,6 +21,7 @@ namespace laa {
     // todo - remove inline, use separate .h / .cpp 
     // after writing makefile rule to compile to an archive or shared object
     inline bool request_execution(size_t executable_size);
+    std::string generate_test_request();
 }
 
 bool laa::request_execution(size_t executable_size)
@@ -67,6 +70,31 @@ bool laa::request_execution(size_t executable_size)
 
     // if not 0, then errno has the error from mq_send
     return (sent == 0);
+}
+
+
+// Keep this up to date with the above for use in tests of the Request class
+// May be worth splitting the request_execution function into several parts,
+// including a part that generates the JSON string, so that we can just 
+// generate random values here and then call the JSON-forming function
+// instead of writing it twice
+std::string laa::generate_test_request()
+{
+    static std::random_device device;
+    static std::mt19937 rng(device());
+    std::uniform_int_distribution<std::mt19937::result_type> dist;
+
+    const auto p1 = std::chrono::system_clock::now();
+    int uni_time = std::chrono::duration_cast<std::chrono::seconds>(p1.time_since_epoch()).count();
+
+    // put information into a JSON string
+    std::ostringstream oss;
+    oss << "{ \"pid\": \"" << (dist(rng) % 32768) << "\"," 
+        << " \n\"type\": \"1\"," 
+        << " \n\"msg\": \"" << (dist(rng) % 250000000) << "\","
+        << " \n\"time\": \"" << uni_time << "\" }";
+    std::string msg = oss.str();
+    return msg;
 }
 
 #endif

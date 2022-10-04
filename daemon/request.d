@@ -1,4 +1,4 @@
-request.o: request.cpp /usr/include/stdc-predef.h request.hpp \
+../request.o: ../request.cpp /usr/include/stdc-predef.h ../request.hpp \
  /usr/include/c++/11/cstdlib \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
@@ -177,7 +177,7 @@ request.o: request.cpp /usr/include/stdc-predef.h request.hpp \
  /usr/include/c++/11/bits/stl_multimap.h \
  /usr/include/c++/11/bits/erase_if.h
 /usr/include/stdc-predef.h:
-request.hpp:
+../request.hpp:
 /usr/include/c++/11/cstdlib:
 /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:
 /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:

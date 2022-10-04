@@ -1,21 +1,64 @@
 #include "request.hpp"
 #include <chrono>
 
+laa::request::request()
+{
+    
+}
+
 laa::request::request(const char * json)
 {
-	parse(json);
-	
+	set(json);
+}
+
+// Copy Constructor
+laa::request::request(const request& rhs)
+{
+	pid=rhs.pid;
+	required_shmem_length=rhs.required_shmem_length;
+	time=rhs.time;
+	type=rhs.type;
+	json.set_json_string(rhs.json.get_json_string());
+}
+
+// Move constructor
+laa::request::request(request&& rhs)
+{
+	pid=rhs.pid;
+	required_shmem_length=rhs.required_shmem_length;
+	time=std::move(rhs.time);
+	type=rhs.type;
+	json = std::move(rhs.json);
+}
+
+// Copy Assignment
+laa::request& laa::request::operator=( const request & rhs )
+{
+    pid = rhs.pid;
+    required_shmem_length=rhs.required_shmem_length;
+    time.received = rhs.time.received;
+    time.sent = rhs.time.sent;
+    json.set_json_string(rhs.json.get_json_string());
+    return (*this);
+}
+
+// Move Assignment
+laa::request& laa::request::operator=( request && rhs )
+{
+    pid=rhs.pid;
+	required_shmem_length=rhs.required_shmem_length;
+	time=std::move(rhs.time);
+	type=rhs.type;
+	json = std::move(rhs.json);
+    return (*this);
+}
+
+void laa::request::set( const char * json ) 
+{
+    parse(json);
 	// time received isn't sent by the client, but 
 	// determined here after we have parsed their message.
 	time.received = std::chrono::system_clock::now();
-}
-
-laa::request::request(const request& req)
-{
-	pid=req.pid;
-	required_shmem_length=req.required_shmem_length;
-	time=req.time;
-	type=req.type;
 }
 
 size_t laa::request::required_shmem() const 

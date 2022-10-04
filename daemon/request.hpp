@@ -18,7 +18,6 @@ namespace laa {
 class request
 {
 
-
 private: 
 
 	/**
@@ -76,10 +75,28 @@ private:
 
 public:
 	
+	request();
+
+	// The same as initializing and then calling set(json)
 	request( const char * json );
 	
-	request( const request& req );
-	
+	// Copy Constructor 
+	request( const request& rhs );
+
+	// Move Constructor
+	request( request && rhs );
+
+	// Copy Assignment
+	request& operator=( const request & rhs );
+
+	// Move Assignment
+	request& operator=( request && rhs );
+
+	/**
+	 * @brief Interprets the given JSON string and uses it to set all values.
+	 */
+	void set( const char * json );
+
 	/** 
 	 * @brief once at the top of the queue, daemon will check for shmem needs,
 	 * 		  using this function. Returns 0 if no shmem is needed, or the 
