@@ -1,4 +1,6 @@
 #include "daemon.hpp"
+#include "request.hpp"
+#include <vector>
 
 laa::Daemon::Daemon()
 {
@@ -61,6 +63,12 @@ void laa::Daemon::test_msg( const char * str )
 std::string laa::Daemon::get_debug_info()
 {
     std::string debug = "Jobs in Daemon Queue: " + std::to_string(queued_jobs.size()) + "\n";
+    std::vector<laa::request> temp;
+    while(queued_jobs.size()>0)
+    {
+        temp.emplace_back(queued_jobs.front());
+        queued_jobs.pop();
+    }
     for (size_t i = 0; i < queued_jobs.size(); i++)
     {
         debug.append("\tJob #" + std::to_string(i) + ": ");
@@ -68,12 +76,18 @@ std::string laa::Daemon::get_debug_info()
         // show that we are accessing it as an object, by reading 
         // values from the request object itself instead of 
         // just printing the JSON string again
-        debug.append("\n\t\tPID: " + std::to_string(queued_jobs[i].get_pid()));
-        debug.append("\n\t\tType: " + std::to_string(queued_jobs[i].get_type()));
-        debug.append("\n\t\tMessage: " + std::to_string(queued_jobs[i].required_shmem()));
-        debug.append("\n\t\tTime Sent: " + queued_jobs[i].time_sent());
-        debug.append("\n\t\tTime Received: " + queued_jobs[i].time_received());
+        debug.append("\n\t\tPID: " + std::to_string(temp[i].get_pid()));
+        debug.append("\n\t\tType: " + std::to_string(temp[i].get_type()));
+        debug.append("\n\t\tMessage: " + std::to_string(temp[i].required_shmem()));
+        debug.append("\n\t\tTime Sent: " + temp[i].time_sent());
+        debug.append("\n\t\tTime Received: " + temp[i].time_received());
     }
+    while(temp.size()>0)
+    {
+        queued_jobs.emplace(temp.back());
+        temp.pop_back();
+    }
+
     return debug.c_str();
 }
 
@@ -81,7 +95,8 @@ void laa::Daemon::receive_request( const char * str )
 {
     // todo - if this is a one-liner, just put it in the run loop
     // instead of having it as its own function. 
-    queued_jobs.emplace_back(str);
+    queued_jobs.emplace(str);
+    
 }
 
 void laa::Daemon::handle_request()
