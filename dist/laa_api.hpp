@@ -13,13 +13,10 @@
 
 #include "../daemon/laa_config.hpp"
 
-// Todo - move to a folder other than daemon, 
-// compile to a .so or .a file -- then update client to link that during
-// compilation (tests/client.cpp)
+// Todo - then update client to link to .so file during compilation
+// compilation (daemon/tests/client.cpp)
 
 namespace laa {
-    // todo - remove inline, use separate .h / .cpp 
-    // after writing makefile rule to compile to an archive or shared object
     inline bool request_execution(size_t executable_size);
     std::string generate_test_request();
 }
