@@ -14,3 +14,5 @@ This is a capstone project by 5 senior CS students at the University of Kansas i
  - Andrew Macgillivray ([@amacgillivray](https://github.com/amacgillivray))
 
 With many thanks to Derrick Quinn, who conceived and pitched the idea, as well as Dr. Esam El-Araby and Minyoung Joshua Jeng for their advice and support.
+
+![thumbnail_20221012_191858](https://user-images.githubusercontent.com/89867987/195471183-535934a2-633b-449b-9d43-6cd6e002638f.jpg)
