@@ -1,0 +1,18 @@
+{
+   "ActiveEmotionalView":"Default View",
+   "Default View_ScaleFactor":"0.603261",
+   "Default View_TopLeft":"-572,-700",
+   "ExpandedHierarchyInLayout":"",
+   "guistr":"# # String gsaved with Nlview 7.0.21  2019-05-29 bk=1.5064 VDI=41 GEI=36 GUI=JA:9.0 non-TLS
+#  -string -flagsOSRD
+preplace inst pcsrc_0 -pg 1 -lvl 1 -x 110 -y -260 -defaultsOSRD
+preplace inst if_mux_0 -pg 1 -lvl 1 -x 110 -y -90 -defaultsOSRD
+preplace inst control_unit_0 -pg 1 -lvl 2 -x 420 -y -340 -defaultsOSRD
+preplace netloc pcsrc_0_pcsrc 1 0 2 -270 -330 240
+preplace netloc control_unit_0_jump 1 0 3 -280 -340 250J -200 550
+preplace netloc control_unit_0_execption 1 0 3 -260 -190 NJ -190 560
+levelinfo -pg 1 -300 110 420 580
+pagesize -pg 1 -db -bbox -sgen -300 -480 580 150
+"
+}
+
