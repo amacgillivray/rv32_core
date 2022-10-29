@@ -10,7 +10,12 @@
     "design_tree": {
       "pcsrc_0": "",
       "if_mux_0": "",
-      "control_unit_0": ""
+      "control_unit_0": "",
+      "regfile_0": "",
+      "forwarding_unit_bran_0": "",
+      "hazard_detection_unit_0": "",
+      "latch_ifid_0": "",
+      "branch_comparator_0": ""
     },
     "components": {
       "pcsrc_0": {
@@ -126,6 +131,197 @@
             "direction": "I"
           }
         }
+      },
+      "regfile_0": {
+        "vlnv": "xilinx.com:module_ref:regfile:1.0",
+        "xci_name": "test_regfile_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "regfile",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clock": {
+            "type": "clk",
+            "direction": "I"
+          },
+          "reset": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "write": {
+            "direction": "I"
+          },
+          "read_reg_1": {
+            "direction": "I",
+            "left": "5",
+            "right": "0"
+          },
+          "read_reg_2": {
+            "direction": "I",
+            "left": "5",
+            "right": "0"
+          },
+          "write_reg": {
+            "direction": "I",
+            "left": "5",
+            "right": "0"
+          },
+          "write_data": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "read_data_1": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          },
+          "read_data_2": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          }
+        }
+      },
+      "forwarding_unit_bran_0": {
+        "vlnv": "xilinx.com:module_ref:forwarding_unit_branch:1.0",
+        "xci_name": "test_forwarding_unit_bran_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "forwarding_unit_branch",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "ctrl_mux_1_branch": {
+            "direction": "O"
+          },
+          "ctrl_mux_2_branch": {
+            "direction": "O"
+          },
+          "IFID_Reg_RS1": {
+            "direction": "I"
+          },
+          "IFID_Reg_RS2": {
+            "direction": "I"
+          },
+          "EXMEM_Reg_RD": {
+            "direction": "I"
+          },
+          "EXMEM_MemToReg": {
+            "direction": "I"
+          }
+        }
+      },
+      "hazard_detection_unit_0": {
+        "vlnv": "xilinx.com:module_ref:hazard_detection_unit:1.0",
+        "xci_name": "test_hazard_detection_unit_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "hazard_detection_unit",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "StallL": {
+            "direction": "O"
+          },
+          "StallR": {
+            "direction": "O"
+          },
+          "IFID_Reg_RS1": {
+            "direction": "I"
+          },
+          "IFID_Reg_RS2": {
+            "direction": "I"
+          },
+          "IDEX_Reg_RD": {
+            "direction": "I"
+          },
+          "EXMEM_Reg_RD": {
+            "direction": "I"
+          },
+          "IDEX_MemRead": {
+            "direction": "O"
+          },
+          "EXMEM_MemRead": {
+            "direction": "O"
+          }
+        }
+      },
+      "latch_ifid_0": {
+        "vlnv": "xilinx.com:module_ref:latch_ifid:1.0",
+        "xci_name": "test_latch_ifid_0_5",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "latch_ifid",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clock": {
+            "type": "clk",
+            "direction": "I"
+          },
+          "ReadInstruction": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "PC": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "Latched_ReadInstruction": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          },
+          "Latched_PC": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          }
+        }
+      },
+      "branch_comparator_0": {
+        "vlnv": "xilinx.com:module_ref:branch_comparator:1.0",
+        "xci_name": "test_branch_comparator_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "branch_comparator",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "BranchCmp": {
+            "direction": "O"
+          },
+          "IsBranch": {
+            "direction": "I"
+          },
+          "IFID_Funct3": {
+            "direction": "I",
+            "left": "14",
+            "right": "12"
+          },
+          "Ctrl_Mux_1_Branch": {
+            "direction": "I"
+          },
+          "Ctrl_Mux_2_Branch": {
+            "direction": "I"
+          },
+          "Read_Data_1": {
+            "direction": "I"
+          },
+          "Read_Data_2": {
+            "direction": "I"
+          },
+          "EXMEM_Alu_Data": {
+            "direction": "I"
+          },
+          "MEMWB_Mem_Data": {
+            "direction": "I"
+          }
+        }
       }
     },
     "nets": {
@@ -145,6 +341,48 @@
         "ports": [
           "control_unit_0/execption",
           "if_mux_0/exception"
+        ]
+      },
+      "regfile_0_read_data_1": {
+        "ports": [
+          "regfile_0/read_data_1",
+          "branch_comparator_0/Read_Data_1"
+        ]
+      },
+      "regfile_0_read_data_2": {
+        "ports": [
+          "regfile_0/read_data_2",
+          "branch_comparator_0/Read_Data_2"
+        ]
+      },
+      "forwarding_unit_bran_0_ctrl_mux_1_branch": {
+        "ports": [
+          "forwarding_unit_bran_0/ctrl_mux_1_branch",
+          "branch_comparator_0/Ctrl_Mux_1_Branch"
+        ]
+      },
+      "forwarding_unit_bran_0_ctrl_mux_2_branch": {
+        "ports": [
+          "forwarding_unit_bran_0/ctrl_mux_2_branch",
+          "branch_comparator_0/Ctrl_Mux_2_Branch"
+        ]
+      },
+      "branch_comparator_0_BranchCmp": {
+        "ports": [
+          "branch_comparator_0/BranchCmp",
+          "pcsrc_0/bcmp"
+        ]
+      },
+      "control_unit_0_is_branch": {
+        "ports": [
+          "control_unit_0/is_branch",
+          "branch_comparator_0/IsBranch"
+        ]
+      },
+      "latch_ifid_0_Latched_ReadInstruction": {
+        "ports": [
+          "latch_ifid_0/Latched_ReadInstruction",
+          "branch_comparator_0/IFID_Funct3"
         ]
       }
     }

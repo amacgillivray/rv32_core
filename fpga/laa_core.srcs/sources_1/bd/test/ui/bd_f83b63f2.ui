@@ -1,18 +1,30 @@
 {
    "ActiveEmotionalView":"Default View",
-   "Default View_ScaleFactor":"0.603261",
-   "Default View_TopLeft":"-572,-700",
+   "Default View_ScaleFactor":"0.717936",
+   "Default View_TopLeft":"-116,-866",
    "ExpandedHierarchyInLayout":"",
    "guistr":"# # String gsaved with Nlview 7.0.21  2019-05-29 bk=1.5064 VDI=41 GEI=36 GUI=JA:9.0 non-TLS
 #  -string -flagsOSRD
-preplace inst pcsrc_0 -pg 1 -lvl 1 -x 110 -y -260 -defaultsOSRD
-preplace inst if_mux_0 -pg 1 -lvl 1 -x 110 -y -90 -defaultsOSRD
-preplace inst control_unit_0 -pg 1 -lvl 2 -x 420 -y -340 -defaultsOSRD
-preplace netloc pcsrc_0_pcsrc 1 0 2 -270 -330 240
-preplace netloc control_unit_0_jump 1 0 3 -280 -340 250J -200 550
-preplace netloc control_unit_0_execption 1 0 3 -260 -190 NJ -190 560
-levelinfo -pg 1 -300 110 420 580
-pagesize -pg 1 -db -bbox -sgen -300 -480 580 150
+preplace inst pcsrc_0 -pg 1 -lvl 2 -x 250 -y -260 -defaultsOSRD
+preplace inst if_mux_0 -pg 1 -lvl 2 -x 250 -y 50 -defaultsOSRD
+preplace inst control_unit_0 -pg 1 -lvl 4 -x 1020 -y 100 -defaultsOSRD
+preplace inst regfile_0 -pg 1 -lvl 4 -x 1020 -y -330 -defaultsOSRD
+preplace inst forwarding_unit_bran_0 -pg 1 -lvl 4 -x 1020 -y -520 -defaultsOSRD
+preplace inst hazard_detection_unit_0 -pg 1 -lvl 4 -x 1020 -y -110 -defaultsOSRD
+preplace inst latch_ifid_0 -pg 1 -lvl 3 -x 590 -y -260 -defaultsOSRD
+preplace inst branch_comparator_0 -pg 1 -lvl 4 -x 1020 -y -770 -defaultsOSRD
+preplace netloc pcsrc_0_pcsrc 1 1 2 -70 -50 380
+preplace netloc control_unit_0_jump 1 1 4 -70 -180 NJ -180 820 -200 1190
+preplace netloc control_unit_0_execption 1 1 4 -70 240 NJ 240 N 240 1200
+preplace netloc regfile_0_read_data_1 1 3 2 820 -910 1220
+preplace netloc regfile_0_read_data_2 1 3 2 840 -610 1210
+preplace netloc forwarding_unit_bran_0_ctrl_mux_1_branch 1 3 2 840 -900 1200
+preplace netloc forwarding_unit_bran_0_ctrl_mux_2_branch 1 3 2 810 -920 1230
+preplace netloc branch_comparator_0_BranchCmp 1 1 4 -70 -620 NJ -620 N -620 1190
+preplace netloc control_unit_0_is_branch 1 3 2 830 -930 1240
+preplace netloc latch_ifid_0_Latched_ReadInstruction 1 3 1 800 -820n
+levelinfo -pg 1 -300 -90 250 590 1020 1460
+pagesize -pg 1 -db -bbox -sgen -300 -1190 1460 860
 "
 }
-
+0
