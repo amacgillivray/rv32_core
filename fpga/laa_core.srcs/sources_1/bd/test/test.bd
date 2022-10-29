@@ -15,7 +15,8 @@
       "forwarding_unit_bran_0": "",
       "hazard_detection_unit_0": "",
       "latch_ifid_0": "",
-      "branch_comparator_0": ""
+      "branch_comparator_0": "",
+      "latch_idex_0": ""
     },
     "components": {
       "pcsrc_0": {
@@ -322,6 +323,81 @@
             "direction": "I"
           }
         }
+      },
+      "latch_idex_0": {
+        "vlnv": "xilinx.com:module_ref:latch_idex:1.0",
+        "xci_name": "test_latch_idex_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "latch_idex",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clock": {
+            "type": "clk",
+            "direction": "I"
+          },
+          "WB": {
+            "direction": "I",
+            "left": "1",
+            "right": "0"
+          },
+          "M": {
+            "direction": "I",
+            "left": "4",
+            "right": "0"
+          },
+          "EX": {
+            "direction": "I",
+            "left": "6",
+            "right": "0"
+          },
+          "PC": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "Rd1": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "Rd2": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "Immediate": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "Instruction": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "InstrSeg_1": {
+            "direction": "O",
+            "left": "5",
+            "right": "0"
+          },
+          "InstrSeg_2": {
+            "direction": "O",
+            "left": "19",
+            "right": "15"
+          },
+          "InstrSeg_3": {
+            "direction": "O",
+            "left": "24",
+            "right": "20"
+          },
+          "InstrSeg_4": {
+            "direction": "O",
+            "left": "11",
+            "right": "7"
+          }
+        }
       }
     },
     "nets": {
@@ -346,13 +422,15 @@
       "regfile_0_read_data_1": {
         "ports": [
           "regfile_0/read_data_1",
-          "branch_comparator_0/Read_Data_1"
+          "branch_comparator_0/Read_Data_1",
+          "latch_idex_0/Rd1"
         ]
       },
       "regfile_0_read_data_2": {
         "ports": [
           "regfile_0/read_data_2",
-          "branch_comparator_0/Read_Data_2"
+          "branch_comparator_0/Read_Data_2",
+          "latch_idex_0/Rd2"
         ]
       },
       "forwarding_unit_bran_0_ctrl_mux_1_branch": {
@@ -382,7 +460,16 @@
       "latch_ifid_0_Latched_ReadInstruction": {
         "ports": [
           "latch_ifid_0/Latched_ReadInstruction",
-          "branch_comparator_0/IFID_Funct3"
+          "branch_comparator_0/IFID_Funct3",
+          "regfile_0/read_reg_1",
+          "regfile_0/read_reg_2",
+          "latch_idex_0/Instruction"
+        ]
+      },
+      "latch_idex_0_InstrSeg_4": {
+        "ports": [
+          "latch_idex_0/InstrSeg_4",
+          "hazard_detection_unit_0/IDEX_Reg_RD"
         ]
       }
     }
