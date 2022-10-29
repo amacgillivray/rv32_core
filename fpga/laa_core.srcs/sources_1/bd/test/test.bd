@@ -3,9 +3,11 @@
     "design_info": {
       "boundary_crc": "0x0",
       "device": "xc7z020clg484-1",
+      "gen_directory": "../../../../laa_core.gen/sources_1/bd/test",
       "name": "test",
+      "rev_ctrl_bd_flag": "RevCtrlBdOff",
       "synth_flow_mode": "Hierarchical",
-      "tool_version": "2019.2.1"
+      "tool_version": "2022.2"
     },
     "design_tree": {
       "pcsrc_0": "",
@@ -16,6 +18,8 @@
       "pcsrc_0": {
         "vlnv": "xilinx.com:module_ref:pcsrc:1.0",
         "xci_name": "test_pcsrc_0_0",
+        "xci_path": "ip\\test_pcsrc_0_0\\test_pcsrc_0_0.xci",
+        "inst_hier_path": "pcsrc_0",
         "reference_info": {
           "ref_type": "hdl",
           "ref_name": "pcsrc",
@@ -36,6 +40,8 @@
       "if_mux_0": {
         "vlnv": "xilinx.com:module_ref:if_mux:1.0",
         "xci_name": "test_if_mux_0_0",
+        "xci_path": "ip\\test_if_mux_0_0\\test_if_mux_0_0.xci",
+        "inst_hier_path": "if_mux_0",
         "reference_info": {
           "ref_type": "hdl",
           "ref_name": "if_mux",
@@ -73,6 +79,8 @@
       "control_unit_0": {
         "vlnv": "xilinx.com:module_ref:control_unit:1.0",
         "xci_name": "test_control_unit_0_0",
+        "xci_path": "ip\\test_control_unit_0_0\\test_control_unit_0_0.xci",
+        "inst_hier_path": "control_unit_0",
         "reference_info": {
           "ref_type": "hdl",
           "ref_name": "control_unit",
@@ -129,10 +137,10 @@
       }
     },
     "nets": {
-      "pcsrc_0_pcsrc": {
+      "control_unit_0_execption": {
         "ports": [
-          "pcsrc_0/pcsrc",
-          "if_mux_0/pcsrc"
+          "control_unit_0/execption",
+          "if_mux_0/exception"
         ]
       },
       "control_unit_0_jump": {
@@ -141,10 +149,10 @@
           "pcsrc_0/jump"
         ]
       },
-      "control_unit_0_execption": {
+      "pcsrc_0_pcsrc": {
         "ports": [
-          "control_unit_0/execption",
-          "if_mux_0/exception"
+          "pcsrc_0/pcsrc",
+          "if_mux_0/pcsrc"
         ]
       }
     }
