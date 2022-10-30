@@ -1,11 +1,11 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
-// Engineer: Jarrod Grothusen
+// Engineer: Andrew MacGillivray
 // 
-// Create Date: 10/28/2022 06:20:18 PM
+// Create Date: 10/29/2022 01:28:37 PM
 // Design Name: 
-// Module Name: id_mux
+// Module Name: branch_comparator
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,9 +20,15 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module id_mux(
-    input branch_address,
-    input jalr_address,
-    output jump_target
+module branch_comparator(
+    output BranchCmp,
+    input IsBranch,
+    input [14:12] IFID_Funct3,
+    input Ctrl_Mux_1_Branch,
+    input Ctrl_Mux_2_Branch,
+    input Read_Data_1,
+    input Read_Data_2,
+    input EXMEM_Alu_Data,
+    input MEMWB_Mem_Data
     );
 endmodule

@@ -3,7 +3,7 @@
 // test the alu at https://www.jdoodle.com/execute-Verilog-online
 // copy and paste the contents of alu.v below the jdoodle module
 
-module jdoodle;
+module alutest;
  reg[31:0] A;
  reg[31:0] B;
  reg[3:0] sel;
