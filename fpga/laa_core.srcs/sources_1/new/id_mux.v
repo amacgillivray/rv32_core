@@ -1,11 +1,11 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
-// Engineer: Andrew MacGillivray
+// Engineer: Jarrod Grothusen
 // 
-// Create Date: 10/29/2022 01:13:53 PM
+// Create Date: 10/28/2022 06:20:18 PM
 // Design Name: 
-// Module Name: forwarding_unit_branch
+// Module Name: id_mux
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,12 +20,9 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module forwarding_unit_branch(
-    output ctrl_mux_1_branch,
-    output ctrl_mux_2_branch,
-    input IFID_Reg_RS1,
-    input IFID_Reg_RS2,
-    input EXMEM_Reg_RD,
-    input EXMEM_MemToReg
+module id_mux(
+    input branch_address,
+    input jalr_address,
+    output jump_target
     );
 endmodule

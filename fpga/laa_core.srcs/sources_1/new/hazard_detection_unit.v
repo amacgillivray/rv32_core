@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
-// Engineer: 
+// Engineer: Andrew MacGillivray
 // 
 // Create Date: 10/29/2022 12:33:04 PM
 // Design Name: 
