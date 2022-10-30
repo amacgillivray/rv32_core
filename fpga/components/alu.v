@@ -8,18 +8,13 @@
 // Module Name: alu
 // Project Name: Linear Algebra Accelerator
 // Target Devices: Arty Z7-20 (XC7Z020-1CLG400C)
-// Description: 8-Bit ALU Prototype
-// 
-// Dependencies: 
+// Description: 32-Bit ALU Prototype
 // 
 // Revision:
+// Revision 0.02 - 8 bit updated to 32 bit
 // Revision 0.01 - File Created
 // Additional Comments:
-// Prototype / experiment to familiarize with Verilog. Will be replaced with a 
-// larger version (32- or 64-bit) 
-// Resources: 
-// http://web.mit.edu/6.111/volume2/www/f2018/run_verilog.html
-// http://web.mit.edu/6.111/volume2/www/f2018/
+// Experimental
 //////////////////////////////////////////////////////////////////////////////////
 module alu(
     input [31:0] A,
