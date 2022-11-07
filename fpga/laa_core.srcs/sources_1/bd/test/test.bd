@@ -10,12 +10,12 @@
     "design_tree": {
       "pcsrc_0": "",
       "if_mux_0": "",
-      "control_unit_0": "",
       "regfile_0": "",
-      "forwarding_unit_bran_0": "",
-      "hazard_detection_unit_0": "",
       "latch_ifid_0": "",
+      "control_unit_0": "",
+      "forwarding_unit_bran_0": "",
       "branch_comparator_0": "",
+      "hazard_detection_unit_0": "",
       "latch_idex_0": ""
     },
     "components": {
@@ -70,6 +70,93 @@
             "right": "0"
           },
           "newpc": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          }
+        }
+      },
+      "regfile_0": {
+        "vlnv": "xilinx.com:module_ref:regfile:1.0",
+        "xci_name": "test_regfile_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "regfile",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clock": {
+            "type": "clk",
+            "direction": "I"
+          },
+          "reset": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "write": {
+            "direction": "I"
+          },
+          "read_reg_1": {
+            "direction": "I",
+            "left": "5",
+            "right": "0"
+          },
+          "read_reg_2": {
+            "direction": "I",
+            "left": "5",
+            "right": "0"
+          },
+          "write_reg": {
+            "direction": "I",
+            "left": "5",
+            "right": "0"
+          },
+          "write_data": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "read_data_1": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          },
+          "read_data_2": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          }
+        }
+      },
+      "latch_ifid_0": {
+        "vlnv": "xilinx.com:module_ref:latch_ifid:1.0",
+        "xci_name": "test_latch_ifid_0_5",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "latch_ifid",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clock": {
+            "type": "clk",
+            "direction": "I"
+          },
+          "ReadInstruction": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "PC": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "Latched_ReadInstruction": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          },
+          "Latched_PC": {
             "direction": "O",
             "left": "31",
             "right": "0"
@@ -133,58 +220,6 @@
           }
         }
       },
-      "regfile_0": {
-        "vlnv": "xilinx.com:module_ref:regfile:1.0",
-        "xci_name": "test_regfile_0_0",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "regfile",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "clock": {
-            "type": "clk",
-            "direction": "I"
-          },
-          "reset": {
-            "type": "rst",
-            "direction": "I"
-          },
-          "write": {
-            "direction": "I"
-          },
-          "read_reg_1": {
-            "direction": "I",
-            "left": "5",
-            "right": "0"
-          },
-          "read_reg_2": {
-            "direction": "I",
-            "left": "5",
-            "right": "0"
-          },
-          "write_reg": {
-            "direction": "I",
-            "left": "5",
-            "right": "0"
-          },
-          "write_data": {
-            "direction": "I",
-            "left": "31",
-            "right": "0"
-          },
-          "read_data_1": {
-            "direction": "O",
-            "left": "31",
-            "right": "0"
-          },
-          "read_data_2": {
-            "direction": "O",
-            "left": "31",
-            "right": "0"
-          }
-        }
-      },
       "forwarding_unit_bran_0": {
         "vlnv": "xilinx.com:module_ref:forwarding_unit_branch:1.0",
         "xci_name": "test_forwarding_unit_bran_0_0",
@@ -211,76 +246,6 @@
           },
           "EXMEM_MemToReg": {
             "direction": "I"
-          }
-        }
-      },
-      "hazard_detection_unit_0": {
-        "vlnv": "xilinx.com:module_ref:hazard_detection_unit:1.0",
-        "xci_name": "test_hazard_detection_unit_0_0",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "hazard_detection_unit",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "StallL": {
-            "direction": "O"
-          },
-          "StallR": {
-            "direction": "O"
-          },
-          "IFID_Reg_RS1": {
-            "direction": "I"
-          },
-          "IFID_Reg_RS2": {
-            "direction": "I"
-          },
-          "IDEX_Reg_RD": {
-            "direction": "I"
-          },
-          "EXMEM_Reg_RD": {
-            "direction": "I"
-          },
-          "IDEX_MemRead": {
-            "direction": "O"
-          },
-          "EXMEM_MemRead": {
-            "direction": "O"
-          }
-        }
-      },
-      "latch_ifid_0": {
-        "vlnv": "xilinx.com:module_ref:latch_ifid:1.0",
-        "xci_name": "test_latch_ifid_0_5",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "latch_ifid",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "clock": {
-            "type": "clk",
-            "direction": "I"
-          },
-          "ReadInstruction": {
-            "direction": "I",
-            "left": "31",
-            "right": "0"
-          },
-          "PC": {
-            "direction": "I",
-            "left": "31",
-            "right": "0"
-          },
-          "Latched_ReadInstruction": {
-            "direction": "O",
-            "left": "31",
-            "right": "0"
-          },
-          "Latched_PC": {
-            "direction": "O",
-            "left": "31",
-            "right": "0"
           }
         }
       },
@@ -321,6 +286,41 @@
           },
           "MEMWB_Mem_Data": {
             "direction": "I"
+          }
+        }
+      },
+      "hazard_detection_unit_0": {
+        "vlnv": "xilinx.com:module_ref:hazard_detection_unit:1.0",
+        "xci_name": "test_hazard_detection_unit_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "hazard_detection_unit",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "StallL": {
+            "direction": "O"
+          },
+          "StallR": {
+            "direction": "O"
+          },
+          "IFID_Reg_RS1": {
+            "direction": "I"
+          },
+          "IFID_Reg_RS2": {
+            "direction": "I"
+          },
+          "IDEX_Reg_RD": {
+            "direction": "I"
+          },
+          "EXMEM_Reg_RD": {
+            "direction": "I"
+          },
+          "IDEX_MemRead": {
+            "direction": "O"
+          },
+          "EXMEM_MemRead": {
+            "direction": "O"
           }
         }
       },
@@ -460,9 +460,9 @@
       "latch_ifid_0_Latched_ReadInstruction": {
         "ports": [
           "latch_ifid_0/Latched_ReadInstruction",
-          "branch_comparator_0/IFID_Funct3",
           "regfile_0/read_reg_1",
           "regfile_0/read_reg_2",
+          "branch_comparator_0/IFID_Funct3",
           "latch_idex_0/Instruction"
         ]
       },

@@ -1,0 +1,9 @@
+{
+	"version": "1.0",
+	"modules": {
+		"jump_target_addr": {
+			"proto_instances": {
+			}
+		}
+	}
+}

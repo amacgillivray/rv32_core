@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Sun Oct 30 10:48:17 2022" VIVADOVERSION="2019.2.1">
+
+  <SYSTEMINFO ARCH="zynq" DEVICE="7z020" NAME="jump_target_addr" PACKAGE="clg484" SPEEDGRADE="-1"/>
+
+  <EXTERNALPORTS>
+    <PORT DIR="I" LEFT="31" NAME="PC_0" RIGHT="0" SIGIS="undef" SIGNAME="External_Ports_PC_0">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="branch_addr_0" PORT="PC"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" LEFT="31" NAME="Rd1_0" RIGHT="0" SIGIS="undef" SIGNAME="External_Ports_Rd1_0">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="jalr_0" PORT="Rd1"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" LEFT="31" NAME="jump_target_0" RIGHT="0" SIGIS="undef" SIGNAME="id_mux_0_jump_target">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="id_mux_0" PORT="jump_target"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" NAME="IsJalr_0" SIGIS="undef" SIGNAME="External_Ports_IsJalr_0">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="id_mux_0" PORT="IsJalr"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" LEFT="31" NAME="Immediate_0" RIGHT="0" SIGIS="undef" SIGNAME="External_Ports_Immediate_0">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="jalr_0" PORT="Immediate"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" LEFT="31" NAME="Immediate_1" RIGHT="0" SIGIS="undef" SIGNAME="External_Ports_Immediate_1">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="branch_addr_0" PORT="Immediate"/>
+      </CONNECTIONS>
+    </PORT>
+  </EXTERNALPORTS>
+
+  <EXTERNALINTERFACES/>
+
+  <MODULES>
+    <MODULE COREREVISION="1" FULLNAME="/branch_addr_0" HWVERSION="1.0" INSTANCE="branch_addr_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="branch_addr" VLNV="xilinx.com:module_ref:branch_addr:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="jump_target_addr_branch_addr_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" LEFT="31" NAME="PC" RIGHT="0" SIGIS="undef" SIGNAME="External_Ports_PC_0">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="PC_0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="Immediate" RIGHT="0" SIGIS="undef" SIGNAME="External_Ports_Immediate_1">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="Immediate_1"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="branch_address" RIGHT="0" SIGIS="undef" SIGNAME="branch_addr_0_branch_address">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="id_mux_0" PORT="branch_address"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/id_mux_0" HWVERSION="1.0" INSTANCE="id_mux_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="id_mux" VLNV="xilinx.com:module_ref:id_mux:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="jump_target_addr_id_mux_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" NAME="IsJalr" SIGIS="undef" SIGNAME="External_Ports_IsJalr_0">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="IsJalr_0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="branch_address" RIGHT="0" SIGIS="undef" SIGNAME="branch_addr_0_branch_address">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="branch_addr_0" PORT="branch_address"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="jalr_address" RIGHT="0" SIGIS="undef" SIGNAME="jalr_0_jalr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="jalr_0" PORT="jalr"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="jump_target" RIGHT="0" SIGIS="undef" SIGNAME="id_mux_0_jump_target">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="jump_target_0"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+    <MODULE COREREVISION="1" FULLNAME="/jalr_0" HWVERSION="1.0" INSTANCE="jalr_0" IPTYPE="PERIPHERAL" IS_ENABLE="1" MODCLASS="PERIPHERAL" MODTYPE="jalr" VLNV="xilinx.com:module_ref:jalr:1.0">
+      <DOCUMENTS/>
+      <PARAMETERS>
+        <PARAMETER NAME="Component_Name" VALUE="jump_target_addr_jalr_0_0"/>
+        <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
+      </PARAMETERS>
+      <PORTS>
+        <PORT DIR="I" LEFT="31" NAME="Immediate" RIGHT="0" SIGIS="undef" SIGNAME="External_Ports_Immediate_0">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="Immediate_0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="I" LEFT="31" NAME="Rd1" RIGHT="0" SIGIS="undef" SIGNAME="External_Ports_Rd1_0">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="Rd1_0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" LEFT="31" NAME="jalr" RIGHT="0" SIGIS="undef" SIGNAME="jalr_0_jalr">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="id_mux_0" PORT="jalr_address"/>
+          </CONNECTIONS>
+        </PORT>
+      </PORTS>
+      <BUSINTERFACES/>
+    </MODULE>
+  </MODULES>
+
+</EDKSYSTEM>

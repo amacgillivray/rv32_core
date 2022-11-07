@@ -1,32 +1,32 @@
 {
    "ActiveEmotionalView":"Default View",
-   "Default View_ScaleFactor":"0.334929",
-   "Default View_TopLeft":"-325,-1729",
+   "Default View_ScaleFactor":"0.421649",
+   "Default View_TopLeft":"-541,-311",
    "ExpandedHierarchyInLayout":"",
    "guistr":"# # String gsaved with Nlview 7.0.21  2019-05-29 bk=1.5064 VDI=41 GEI=36 GUI=JA:9.0 non-TLS
 #  -string -flagsOSRD
-preplace inst pcsrc_0 -pg 1 -lvl 1 -x 250 -y -980 -defaultsOSRD
-preplace inst if_mux_0 -pg 1 -lvl 1 -x 250 -y -780 -defaultsOSRD
-preplace inst control_unit_0 -pg 1 -lvl 3 -x 1060 -y -1250 -defaultsOSRD
-preplace inst regfile_0 -pg 1 -lvl 3 -x 1060 -y -650 -defaultsOSRD
-preplace inst forwarding_unit_bran_0 -pg 1 -lvl 3 -x 1060 -y -430 -defaultsOSRD
-preplace inst hazard_detection_unit_0 -pg 1 -lvl 3 -x 1060 -y -1460 -defaultsOSRD
-preplace inst latch_ifid_0 -pg 1 -lvl 2 -x 620 -y -750 -defaultsOSRD
-preplace inst branch_comparator_0 -pg 1 -lvl 3 -x 1060 -y -930 -defaultsOSRD
-preplace inst latch_idex_0 -pg 1 -lvl 4 -x 1600 -y -780 -defaultsOSRD
-preplace netloc pcsrc_0_pcsrc 1 0 2 -270 -1050 380
-preplace netloc control_unit_0_jump 1 0 4 -280 -1080 NJ -1080 N -1080 1240
-preplace netloc control_unit_0_execption 1 0 4 -260 -670 NJ -670 840 -800 1270
-preplace netloc regfile_0_read_data_1 1 2 2 860 -790 1270
-preplace netloc regfile_0_read_data_2 1 2 2 870 -780 1260
-preplace netloc forwarding_unit_bran_0_ctrl_mux_1_branch 1 2 2 870 -1060 1240
-preplace netloc forwarding_unit_bran_0_ctrl_mux_2_branch 1 2 2 850 -520 1230
-preplace netloc branch_comparator_0_BranchCmp 1 0 4 -260 -1070 NJ -1070 N -1070 1230
-preplace netloc control_unit_0_is_branch 1 2 2 860 -1100 1230
-preplace netloc latch_ifid_0_Latched_ReadInstruction 1 2 2 830 -770 1250
-preplace netloc latch_idex_0_InstrSeg_4 1 2 3 830 -1090 NJ -1090 1760
-levelinfo -pg 1 -300 250 620 1060 1600 1780
-pagesize -pg 1 -db -bbox -sgen -300 -1560 1780 860
+preplace inst pcsrc_0 -pg 1 -lvl 4 -x 1290 -y 540 -defaultsOSRD
+preplace inst if_mux_0 -pg 1 -lvl 5 -x 1590 -y 320 -defaultsOSRD
+preplace inst regfile_0 -pg 1 -lvl 2 -x 600 -y 120 -defaultsOSRD
+preplace inst latch_ifid_0 -pg 1 -lvl 1 -x 220 -y 130 -defaultsOSRD
+preplace inst control_unit_0 -pg 1 -lvl 2 -x 600 -y 380 -defaultsOSRD
+preplace inst forwarding_unit_bran_0 -pg 1 -lvl 2 -x 600 -y 590 -defaultsOSRD
+preplace inst branch_comparator_0 -pg 1 -lvl 3 -x 960 -y 530 -defaultsOSRD
+preplace inst hazard_detection_unit_0 -pg 1 -lvl 4 -x 1290 -y 180 -defaultsOSRD
+preplace inst latch_idex_0 -pg 1 -lvl 3 -x 960 -y 160 -defaultsOSRD
+preplace netloc pcsrc_0_pcsrc 1 4 1 1460 280n
+preplace netloc control_unit_0_jump 1 2 2 NJ 320 1120
+preplace netloc control_unit_0_execption 1 2 3 N 300 NJ 300 NJ
+preplace netloc regfile_0_read_data_1 1 2 1 790 110n
+preplace netloc regfile_0_read_data_2 1 2 1 770 130n
+preplace netloc forwarding_unit_bran_0_ctrl_mux_1_branch 1 2 1 780 500n
+preplace netloc forwarding_unit_bran_0_ctrl_mux_2_branch 1 2 1 800 520n
+preplace netloc branch_comparator_0_BranchCmp 1 3 1 N 530
+preplace netloc control_unit_0_is_branch 1 2 1 N 460
+preplace netloc latch_ifid_0_Latched_ReadInstruction 1 1 2 430 240 800
+preplace netloc latch_idex_0_InstrSeg_4 1 3 1 NJ 190
+levelinfo -pg 1 0 220 600 960 1290 1590 1730
+pagesize -pg 1 -db -bbox -sgen 0 0 1730 680
 "
 }
 0

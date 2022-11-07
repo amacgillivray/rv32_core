@@ -1,0 +1,167 @@
+{
+  "design": {
+    "design_info": {
+      "boundary_crc": "0x5CC172C25CC172C2",
+      "device": "xc7z020clg484-1",
+      "name": "jump_target_addr",
+      "synth_flow_mode": "Hierarchical",
+      "tool_version": "2019.2.1"
+    },
+    "design_tree": {
+      "id_mux_0": "",
+      "jalr_0": "",
+      "branch_addr_0": ""
+    },
+    "ports": {
+      "PC_0": {
+        "direction": "I",
+        "left": "31",
+        "right": "0"
+      },
+      "Rd1_0": {
+        "direction": "I",
+        "left": "31",
+        "right": "0"
+      },
+      "jump_target_0": {
+        "direction": "O",
+        "left": "31",
+        "right": "0"
+      },
+      "IsJalr_0": {
+        "direction": "I"
+      },
+      "Immediate": {
+        "direction": "I"
+      }
+    },
+    "components": {
+      "id_mux_0": {
+        "vlnv": "xilinx.com:module_ref:id_mux:1.0",
+        "xci_name": "jump_target_addr_id_mux_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "id_mux",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "IsJalr": {
+            "direction": "I"
+          },
+          "branch_address": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "jalr_address": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "jump_target": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          }
+        }
+      },
+      "jalr_0": {
+        "vlnv": "xilinx.com:module_ref:jalr:1.0",
+        "xci_name": "jump_target_addr_jalr_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "jalr",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "Immediate": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "Rd1": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "jalr": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          }
+        }
+      },
+      "branch_addr_0": {
+        "vlnv": "xilinx.com:module_ref:branch_addr:1.0",
+        "xci_name": "jump_target_addr_branch_addr_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "branch_addr",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "PC": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "Immediate": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "branch_address": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          }
+        }
+      }
+    },
+    "nets": {
+      "jalr_0_jalr": {
+        "ports": [
+          "jalr_0/jalr",
+          "id_mux_0/jalr_address"
+        ]
+      },
+      "branch_addr_0_branch_address": {
+        "ports": [
+          "branch_addr_0/branch_address",
+          "id_mux_0/branch_address"
+        ]
+      },
+      "PC_0_1": {
+        "ports": [
+          "PC_0",
+          "branch_addr_0/PC"
+        ]
+      },
+      "Rd1_0_1": {
+        "ports": [
+          "Rd1_0",
+          "jalr_0/Rd1"
+        ]
+      },
+      "id_mux_0_jump_target": {
+        "ports": [
+          "id_mux_0/jump_target",
+          "jump_target_0"
+        ]
+      },
+      "IsJalr_0_1": {
+        "ports": [
+          "IsJalr_0",
+          "id_mux_0/IsJalr"
+        ]
+      },
+      "Immediate_1": {
+        "ports": [
+          "Immediate",
+          "jalr_0/Immediate",
+          "branch_addr_0/Immediate"
+        ]
+      }
+    }
+  }
+}
