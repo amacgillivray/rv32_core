@@ -19,7 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module id_mux(
+module id_mux1(
     input IsJalr,
     input[31:0] branch_address,
     input [31:0] jalr_address,
