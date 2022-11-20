@@ -21,5 +21,5 @@ module imm_gen(
 );
     reg[31:0] result;
     assign generated_immediate = result;
-    // todo
+    // todo: behavior
 endmodule
