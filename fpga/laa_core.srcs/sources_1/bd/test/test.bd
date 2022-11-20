@@ -9,13 +9,13 @@
     },
     "design_tree": {
       "pcsrc_0": "",
-      "if_mux_0": "",
       "regfile_0": "",
-      "latch_ifid_0": "",
+      "if_mux_0": "",
       "control_unit_0": "",
       "forwarding_unit_bran_0": "",
       "branch_comparator_0": "",
       "hazard_detection_unit_0": "",
+      "latch_ifid_0": "",
       "latch_idex_0": ""
     },
     "components": {
@@ -36,43 +36,6 @@
           },
           "pcsrc": {
             "direction": "O"
-          }
-        }
-      },
-      "if_mux_0": {
-        "vlnv": "xilinx.com:module_ref:if_mux:1.0",
-        "xci_name": "test_if_mux_0_0",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "if_mux",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "pcsrc": {
-            "direction": "I"
-          },
-          "exception": {
-            "direction": "I"
-          },
-          "jaddr": {
-            "direction": "I",
-            "left": "31",
-            "right": "0"
-          },
-          "eaddr": {
-            "direction": "I",
-            "left": "31",
-            "right": "0"
-          },
-          "oldpc": {
-            "direction": "I",
-            "left": "31",
-            "right": "0"
-          },
-          "newpc": {
-            "direction": "O",
-            "left": "31",
-            "right": "0"
           }
         }
       },
@@ -128,35 +91,37 @@
           }
         }
       },
-      "latch_ifid_0": {
-        "vlnv": "xilinx.com:module_ref:latch_ifid:1.0",
-        "xci_name": "test_latch_ifid_0_5",
+      "if_mux_0": {
+        "vlnv": "xilinx.com:module_ref:if_mux:1.0",
+        "xci_name": "test_if_mux_0_0",
         "reference_info": {
           "ref_type": "hdl",
-          "ref_name": "latch_ifid",
+          "ref_name": "if_mux",
           "boundary_crc": "0x0"
         },
         "ports": {
-          "clock": {
-            "type": "clk",
+          "pcsrc": {
             "direction": "I"
           },
-          "ReadInstruction": {
+          "exception": {
+            "direction": "I"
+          },
+          "jaddr": {
             "direction": "I",
             "left": "31",
             "right": "0"
           },
-          "PC": {
+          "eaddr": {
             "direction": "I",
             "left": "31",
             "right": "0"
           },
-          "Latched_ReadInstruction": {
-            "direction": "O",
+          "oldpc": {
+            "direction": "I",
             "left": "31",
             "right": "0"
           },
-          "Latched_PC": {
+          "newpc": {
             "direction": "O",
             "left": "31",
             "right": "0"
@@ -324,6 +289,41 @@
           }
         }
       },
+      "latch_ifid_0": {
+        "vlnv": "xilinx.com:module_ref:latch_ifid:1.0",
+        "xci_name": "test_latch_ifid_0_5",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "latch_ifid",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clock": {
+            "type": "clk",
+            "direction": "I"
+          },
+          "ReadInstruction": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "PC": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "Latched_ReadInstruction": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          },
+          "Latched_PC": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          }
+        }
+      },
       "latch_idex_0": {
         "vlnv": "xilinx.com:module_ref:latch_idex:1.0",
         "xci_name": "test_latch_idex_0_0",
@@ -375,6 +375,31 @@
           "Instruction": {
             "direction": "I",
             "left": "31",
+            "right": "0"
+          },
+          "idex_WB": {
+            "direction": "O",
+            "left": "1",
+            "right": "0"
+          },
+          "idex_M": {
+            "direction": "O",
+            "left": "1",
+            "right": "0"
+          },
+          "ALUOp": {
+            "direction": "O",
+            "left": "1",
+            "right": "0"
+          },
+          "ALUSrc1": {
+            "direction": "O",
+            "left": "1",
+            "right": "0"
+          },
+          "ALUSrc2": {
+            "direction": "O",
+            "left": "1",
             "right": "0"
           },
           "InstrSeg_1": {

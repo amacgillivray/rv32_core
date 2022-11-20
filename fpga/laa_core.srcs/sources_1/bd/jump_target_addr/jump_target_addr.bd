@@ -8,9 +8,9 @@
       "tool_version": "2019.2.1"
     },
     "design_tree": {
-      "id_mux_0": "",
       "jalr_0": "",
-      "branch_addr_0": ""
+      "branch_addr_0": "",
+      "id_mux_0": ""
     },
     "ports": {
       "PC_0": {
@@ -36,35 +36,6 @@
       }
     },
     "components": {
-      "id_mux_0": {
-        "vlnv": "xilinx.com:module_ref:id_mux:1.0",
-        "xci_name": "jump_target_addr_id_mux_0_0",
-        "reference_info": {
-          "ref_type": "hdl",
-          "ref_name": "id_mux",
-          "boundary_crc": "0x0"
-        },
-        "ports": {
-          "IsJalr": {
-            "direction": "I"
-          },
-          "branch_address": {
-            "direction": "I",
-            "left": "31",
-            "right": "0"
-          },
-          "jalr_address": {
-            "direction": "I",
-            "left": "31",
-            "right": "0"
-          },
-          "jump_target": {
-            "direction": "O",
-            "left": "31",
-            "right": "0"
-          }
-        }
-      },
       "jalr_0": {
         "vlnv": "xilinx.com:module_ref:jalr:1.0",
         "xci_name": "jump_target_addr_jalr_0_0",
@@ -111,6 +82,35 @@
             "right": "0"
           },
           "branch_address": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          }
+        }
+      },
+      "id_mux_0": {
+        "vlnv": "xilinx.com:module_ref:id_mux:1.0",
+        "xci_name": "jump_target_addr_id_mux_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "id_mux",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "IsJalr": {
+            "direction": "I"
+          },
+          "branch_address": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "jalr_address": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "jump_target": {
             "direction": "O",
             "left": "31",
             "right": "0"
