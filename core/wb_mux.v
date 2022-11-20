@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
+// Company: EECS 581 Team 11
 // Engineer: Jarrod Grothusen
 // 
 // Create Date: 10/29/2022 01:52:39 PM

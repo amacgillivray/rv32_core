@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
+// Company: EECS 581 Team 11
+// Engineer: Andrew MacGillivray 
 // 
 // Create Date: 10/29/2022 08:58:40 PM
 // Design Name: 
