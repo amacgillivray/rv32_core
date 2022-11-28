@@ -20,20 +20,32 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module id_mux1(
-    input IsJalr,
-    input[31:0] branch_address,
-    input [31:0] jalr_address,
-    output [31:0] jump_target
+    input stall,
+    input id_flush,
+    input[1:0] cntrl_wb,
+    input [4:0] cntrl_m,
+    input [5:0] cntrl_ex,
+    output [1:0] idex_wb,
+    output [4:0] idex_m,
+    output [5:0] idex_ex
     );
-    reg [31:0] result;
-    assign jump_target = result;
+    wire control;
     always @(*)
     begin
-        case (IsJalr)
+        if(stall || id_flush)
+            control = 1;
+        else
+            control = 0;        
+
+        case (control)
             1'b0: // is not JALR
-                result = branch_address;
+                idex_wb = cntrl_wb;
+                idex_m = cntrl_m;
+                idex_ex = cntrl_ex;
             1'b1: // is JALR 
-                result = jalr_address;
+                idex_wb = 00;
+                idex_m = 00000;
+                idex_ex = 000000;
         endcase
     end
 endmodule
