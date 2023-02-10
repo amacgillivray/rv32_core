@@ -1,4 +1,4 @@
-module riscv_multiplier(
+module multiplier(
 	//inputs
 	input clk,
 	input rst,
