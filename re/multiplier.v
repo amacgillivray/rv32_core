@@ -18,7 +18,7 @@ module multiplier(
 
 );
 
-`include "riscv_def.v"
+`include "defs.v"
 
 localparam MULT_STAGES = 2;
 
