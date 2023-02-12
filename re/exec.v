@@ -7,9 +7,49 @@
 // Additional Comments:
 // Experimental
 //-----------------------------------------------------------------
-module riscv_exec
+//-----------------------------------------------------------------
+//                         RISC-V Core
+//                            V1.0.1
+//                     Ultra-Embedded.com
+//                     Copyright 2014-2019
+//
+//                   admin@ultra-embedded.com
+//
+//                       License: BSD
+//-----------------------------------------------------------------
+//
+// Copyright (c) 2014-2019, Ultra-Embedded.com
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions 
+// are met:
+//   - Redistributions of source code must retain the above copyright
+//     notice, this list of conditions and the following disclaimer.
+//   - Redistributions in binary form must reproduce the above copyright
+//     notice, this list of conditions and the following disclaimer 
+//     in the documentation and/or other materials provided with the 
+//     distribution.
+//   - Neither the name of the author nor the names of its contributors 
+//     may be used to endorse or promote products derived from this 
+//     software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR 
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE 
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR 
+// BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF 
+// THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
+// SUCH DAMAGE.
+//-----------------------------------------------------------------
+
+module exec
 (
-    // Inputs
      input           InClk
     ,input           InRst
     ,input           InOpcodeValid
@@ -22,8 +62,6 @@ module riscv_exec
     ,input  [ 31:0]  InOpcodeRaOperand
     ,input  [ 31:0]  InOpcodeRbOperand
     ,input           InHold
-
-    // Outputs
     ,output          OutBranchRequest
     ,output          OutBranchIsTaken
     ,output          OutBranchIsNotTaken
@@ -37,11 +75,6 @@ module riscv_exec
     ,output [  1:0]  OutBranchDPriv
     ,output [ 31:0]  OutWritebackValue
 );
-
-
-
-
-// Includes
 
 `include "defs.v"
 
@@ -59,7 +92,6 @@ begin
     Jimm20R    = {{12{InOpcodeOpcode[31]}}, InOpcodeOpcode[19:12], InOpcodeOpcode[20], InOpcodeOpcode[30:25], InOpcodeOpcode[24:21], 1'b0};
     ShamtR     = InOpcodeOpcode[24:20];
 end
-
 
 reg [3:0]  AluFuncR;
 reg [31:0] AluInputAR;
@@ -91,25 +123,25 @@ begin
     end
     else if ((InOpcodeOpcode & `INST_SLL_MASK) == `INST_SLL) // sll
     begin
-        AluFuncR     = `ALU_SHIFTL;
+        AluFuncR     = `ALU_SHIFT_LEFT;
         AluInputAR  = InOpcodeRaOperand;
         AluInputBR  = InOpcodeRbOperand;
     end
     else if ((InOpcodeOpcode & `INST_SRA_MASK) == `INST_SRA) // sra
     begin
-        AluFuncR     = `ALU_SHIFTR_ARITH;
+        AluFuncR     = `ALU_SHIFT_RIGHT_ARITHMETIC;
         AluInputAR  = InOpcodeRaOperand;
         AluInputBR  = InOpcodeRbOperand;
     end
     else if ((InOpcodeOpcode & `INST_SRL_MASK) == `INST_SRL) // srl
     begin
-        AluFuncR     = `ALU_SHIFTR;
+        AluFuncR     = `ALU_SHIFT_RIGHT;
         AluInputAR  = InOpcodeRaOperand;
         AluInputBR  = InOpcodeRbOperand;
     end
     else if ((InOpcodeOpcode & `INST_SUB_MASK) == `INST_SUB) // sub
     begin
-        AluFuncR     = `ALU_SUB;
+        AluFuncR     = `ALU_SUBTRACT;
         AluInputAR  = InOpcodeRaOperand;
         AluInputBR  = InOpcodeRbOperand;
     end
@@ -121,7 +153,7 @@ begin
     end
     else if ((InOpcodeOpcode & `INST_SLT_MASK) == `INST_SLT) // slt
     begin
-        AluFuncR     = `ALU_LessThanSigned;
+        AluFuncR     = `ALU_SIGNED_LESS_THAN;
         AluInputAR  = InOpcodeRaOperand;
         AluInputBR  = InOpcodeRbOperand;
     end
@@ -145,7 +177,7 @@ begin
     end
     else if ((InOpcodeOpcode & `INST_SLTI_MASK) == `INST_SLTI) // slti
     begin
-        AluFuncR     = `ALU_LessThanSigned;
+        AluFuncR     = `ALU_SIGNED_LESS_THAN;
         AluInputAR  = InOpcodeRaOperand;
         AluInputBR  = Imm12R;
     end
@@ -169,19 +201,19 @@ begin
     end
     else if ((InOpcodeOpcode & `INST_SLLI_MASK) == `INST_SLLI) // slli
     begin
-        AluFuncR     = `ALU_SHIFTL;
+        AluFuncR     = `ALU_SHIFT_LEFT;
         AluInputAR  = InOpcodeRaOperand;
         AluInputBR  = {27'b0, ShamtR};
     end
     else if ((InOpcodeOpcode & `INST_SRLI_MASK) == `INST_SRLI) // srli
     begin
-        AluFuncR     = `ALU_SHIFTR;
+        AluFuncR     = `ALU_SHIFT_RIGHT;
         AluInputAR  = InOpcodeRaOperand;
         AluInputBR  = {27'b0, ShamtR};
     end
     else if ((InOpcodeOpcode & `INST_SRAI_MASK) == `INST_SRAI) // srai
     begin
-        AluFuncR     = `ALU_SHIFTR_ARITH;
+        AluFuncR     = `ALU_SHIFT_RIGHT_ARITHMETIC;
         AluInputAR  = InOpcodeRaOperand;
         AluInputBR  = {27'b0, ShamtR};
     end
@@ -364,7 +396,5 @@ assign OutBranchIsImp    = BranchJmpQ;
 assign OutBranchDRequest = (BranchR && InOpcodeValid && BranchTakenR);
 assign OutBranchDPc      = BranchTargetR;
 assign OutBranchDPriv    = 2'b0; // don't care
-
-
 
 endmodule

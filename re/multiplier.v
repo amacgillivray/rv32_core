@@ -1,5 +1,5 @@
+/* todo - defines don't match names in defs.v */
 module multiplier(
-	//inputs
 	input clk,
 	input rst,
 	input Valid,
@@ -12,15 +12,10 @@ module multiplier(
 	input [31:0] ra_operand,
 	input [31:0] rb_operand,
 	input hold,
-
-	//outputs
 	output [31:0] wb_value
-
 );
 
 `include "defs.v"
-
-localparam MULT_STAGES = 2;
 
 //registers & wires
 reg [31:0]  result_1;
@@ -96,5 +91,4 @@ else if(~hold)
 	result_1 <= result;
 
 assign wb_value = result_1;
-
 endmodule
