@@ -1,3 +1,6 @@
+/* PRIVILEGE LEVELS */
+`define PRIV_MACHINE
+
 /* ALU Operations -- defined in order they appear in alu.v */
 `define ALU_ADD                     4'b0100
 `define ALU_SUBTRACT                4'b0110
