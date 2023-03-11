@@ -41,6 +41,7 @@
 
 // Rewritten by Andrew MacGillivray with heavy reference to the original code
 // TODO: tried to organize i/o but made it really messy instead. need to improve.
+// also, having clock and reset out of order is probably a mistake
 module issue 
 #(
      parameter SUPPORT_MULDIV         = 1
@@ -218,8 +219,306 @@ wire       issue_csr      = f_i_csr;
 wire       issue_invalid  = f_i_invalid;
 
 // Pipeline Status Tracking
-wire pipe_squash_e1_e2;
+reg  oc_i; // opcode issue
+reg  oc_a; // opcode accept
+wire p_squash_e1_e2;
+wire p_stall_raw;
 
+wire        p_load_e1;
+wire        p_store_e1;
+wire        p_mul_e1;
+wire        p_branch_e1;
+wire [ 4:0] p_rd_e1;
+wire [31:0] p_pc_e1;
+wire [31:0] p_oc_e1;
+wire [31:0] p_opr_ra_e1;
+wire [31:0] p_opr_rb_e1;
 
+wire p_load_e2;
+wire p_mul_e2;
+wire [ 4:0] p_rd_e2;
+wire [31:0] p_result_e2;
+
+wire p_valid_wb;
+wire p_csr_wb;
+wire [4:0] p_rd_wb;
+wire [31:0] p_result_wb; 
+wire [31:0] p_pc_wb; 
+wire [31:0] p_opc_wb;
+wire [31:0] p_ra_val_wb;
+wire [31:0] p_rb_val_wb;
+
+wire [`EXCEPTION_W-1:0] p_except_wb;
+wire [`EXCEPTION_W-1:0] issue_fault = 
+    f_fault ? `EXCEPTION_FAULT_FETCH : f_fault_page ? `EXCEPTION_PAGE_FAULT_INST : `EXCEPTION_W'b0;
+
+pipe_ctrl
+#(
+    .SUPPORT_LOAD_BYPASS(SUPPORT_LOAD_BYPASS),
+    .SUPPORT_MUL_BYPASS(SUPPORT_MUL_BYPASS)
+)
+u_pipe_ctrl(
+    // clock, reset
+     .clk(clk)
+    ,.rst(rst)
+    
+    // issue
+    ,.issue_valid(oc_i)
+    ,.issue_accept(oc_a)
+    ,.issue_stall(stall)
+    ,.issue_lsu(issue_lsu)
+    ,.issue_csr(issue_csr)
+    ,.issue_div(issue_div)
+    ,.issue_mul(issue_mul)
+    ,.issue_branch(issue_branch)
+    ,.issue_rd_valid(issue_sb_alloc)
+    ,.issue_rd(issue_rd_idx)
+    ,.issue_exception(issue_fault)
+    ,.issue_pc(oc_pc)
+    ,.issue_opcode(oc_oc)
+    ,.issue_opr_ra(oc_ra_operand)
+    ,.issue_opr_rb(oc_rb_operand)
+    ,.issue_branch_taken(bde_request)
+    ,.issue_branch_target(bde_pc)
+    ,.take_interrupt(take_interrupt)
+
+    // alu
+    ,.alu_result_e1(wb_exec_value)
+    ,.csr_re1_value(csr_re1_value)
+    ,.csr_re1_write(csr_re1_write)
+    ,.csr_re1_wdata(csr_re1_wdata)
+    ,.csr_re1_exception(csr_re1_exception)
+
+    // exec stage 1
+    ,.load_e1(p_load_e1)
+    ,.store_e1(p_store_e1)
+    ,.mul_e1(p_mul_e1)
+    ,.branch_e1(p_branch_e1)
+    ,.rd_e1(p_rd_e1)
+    ,.pc_e1(p_pc_e1)
+    ,.opcode_e1(p_oc_e1)
+    ,.opr_ra_e1(p_opr_ra_e1)
+    ,.opr_rb_e1(p_opr_rb_e1)
+
+    // exec stage 2
+    ,.load_e2(p_load_e2)
+    ,.mul_e2(p_mul_e2)
+    ,.rd_e2(p_rd_e2)
+    ,.result_e2(p_result_e2)
+
+    // Stall, squash
+    ,.stall(p_stall_raw)
+    ,.squash_e1_e2(p_squash_e1_e2)
+    ,.squash_e1_e2(1'b0)
+    ,.squash_wb(1'b0)
+
+    // div
+    ,.div_complete(wb_div_valid)
+    ,.div_result(wb_div_value)
+
+    // commit
+    ,.valid_wb(p_valid_wb)
+    ,.csr_wb(p_csr_wb)
+    ,.rd_wb(p_rd_wb)
+    ,.result_wb(p_result_wb)
+    ,.pc_wb(p_pc_wb)
+    ,.opcode_wb(p_opc_wb)
+    ,.opr_ra_wb(p_ra_val_wb)
+    ,.opr_rb_wb(p_rb_val_wb)
+    ,.exception_wb(p_except_wb)
+    ,.csr_write_wb(csr_wb_write)
+    ,.csr_waddr_wb(csr_wb_waddr)
+    ,.csr_wdata_wb(csr_wb_wdata)
+);
+
+assign exec_hold = stall; 
+assign mul_hold = stall;
+
+// Pipe 1 - Status Tracking
+assign csr_wb_except = p_except_wb;
+assign csr_wb_except_pc = p_pc_wb;
+assign csr_wb_except_addr = p_result_wb; 
+
+// Blocking Events 
+//  - CSR Unit Access
+//  - Division 
+// TODO: vector operations?
+reg csr_pending;
+reg div_pending;
+
+// for division operations:
+//  2 - 34 cycles, stall pipeline until complete
+always @ (posedge clk or posedge rst)
+if (rst)
+    div_pending <= 1'b0;
+else if (p_squash_e1_e2)
+    div_pending <= 1'b0;
+else if (div_opcode_valid && issue_div)
+    div_pending <= 1'b1;
+else if (wb_div_valid)
+    div_pending <= 1'b0;
+
+// for csr operations:
+//  2 - 3 cycles... 
+// per @ultraembedded's comments: "CSR operations are infrequent - avoid any complications of pipelining them."
+//                 "These only take a 2-3 cycles anyway and may result in a pipe flush (e.g. ecall, ebreak..)."
+always @ (posedge clk or posedge rst)
+if (rst)
+    csr_pending <= 1'b0;
+else if (p_squash_e1_e2)
+    csr_pending <= 1'b0;
+else if (csr_opcode_valid && issue_csr)
+    csr_pending <= 1'b1;
+else if (p_csr_wb)
+    csr_pending <= 1'b0;
+assign squash = p_squash_e1_e2;
+
+// Scheduling
+reg [31:0] scoreboard;
+always @ * 
+begin
+    oc_i = 1'b0;
+    oc_a = 1'b0;
+    scoreboard = 32'b0;
+
+    // >= 2 cycle latency... 
+    // TODO: vector?
+    if (SUPPORT_LOAD_BYPASS == 0)
+    begin 
+        if (p_load_e2)
+            scoreboard[p_rd_e2] = 1'b1;
+    end
+    if (SUPPORT_MUL_BYPASS == 0)
+    begin 
+        if (p_mul_e2)
+            scoreboard[p_rd_e2] = 1'b1;
+    end
+
+    // >= 1 cycle latency...
+    if (p_load_e1 || p_mul_e1)
+        scoreboard[p_rd_e1] = 1'b1;
+
+    // per UE/riscv: "Do not start multiply, division or CSR operation in the cycle after a load (leaving only ALU operations and branches)"
+    if ((p_load_e1 || p_store_e1) && (issue_mul || issue_div || issue_csr))
+        scoreboard = 32'hffffffff;
+    
+    // stall
+    if (
+        lsu_stall   || 
+        stall       || 
+        div_pending || 
+        csr_pending
+    )
+        ;
+    else if (
+        opcode_valid && 
+        !(scoreboard[issue_ra_idx] || 
+          scoreboard[issue_rb_idx] || 
+          scoreboard[issue_rd_idx])
+    )
+    begin
+        oc_i = 1'b1;
+        oc_a = 1'b1;
+
+        if (oc_a && issue_sb_alloc && (|issue_rd_idx))
+            scoreboard[issue_rd_idx] = 1'b1;
+    end
+end
+
+assign lsu_opcode_valid = oc_i & ~take_interrupt;
+assign exec_opcode_valid= oc_i;
+assign mul_opcode_valid = enable_m_ext & oc_i;
+assign div_opcode_valid = enable_m_ext & oc_i;
+assign interrupt_inhibit= csr_pending || issue_csr;
+assign f_accept = opcode_valid ? (oc_a & ~take_interrupt) : 1'b1;
+assign stall = p_stall_raw;
+
+// Regfile
+wire [31:0] issue_ra_value;
+wire [31:0] issue_rb_value;
+wire [31:0] issue_b_ra_value;
+wire [31:0] issue_b_rb_value;
+regfile
+#(
+    .SUPPORT_REGFILE_XILINX(SUPPORT_REGFILE_XILINX)
+)
+u_regfile
+(
+     .clk(clk)
+    ,.rst(rst)
+    ,.rd0(p_rd_wb)
+    ,.rd0_value(p_result_wb)
+    ,.ra0(issue_ra_idx)
+    ,.rb0(issue_rb_idx)
+    ,.ra0_value(issue_ra_value)
+    ,.rb0_value(issue_rb_value)
+);
+
+// Set opcode values
+assign oc_oc = f_instr;
+assign oc_pc = f_pc;
+assign oc_rd_idx = issue_rd_idx;
+assign oc_ra_idx = issue_ra_idx;
+assign oc_rb_idx = issue_rb_idx;
+assign oc_invalid= 1'b0;
+reg [31:0] ira_value_reg;
+reg [31:0] irb_value_reg;
+always @ *
+begin
+    ira_value_reg = issue_ra_value;
+    irb_value_reg = issue_rb_value;
+    // wb bypass
+    if (p_rd_wb == issue_ra_idx)
+        ira_value_reg = p_result_wb;
+    if (p_rd_wb == issue_rb_idx)
+        irb_value_reg = p_result_wb;
+    // e2 bypass
+    if (p_rd_e2 == issue_ra_idx)
+        ira_value_reg = p_result_e2;
+    if (p_rd_e2 == issue_rb_idx)
+        irb_value_reg = p_result_e2;
+    // e1 bypass
+    if (p_rd_e1 == issue_ra_idx)
+        ira_value_reg = p_result_e1;
+    if (p_rd_e1 == issue_rb_idx)
+        irb_value_reg = p_result_e1;
+    // 0 source
+    if (issue_ra_idx == 5'b0)
+        ira_value_reg = 32'b0;
+    if (issue_rb_idx == 5'b0)
+        irb_value_reg = 32'b0;
+end 
+assign oc_ra_operand = ira_value_reg;
+assign oc_rb_operand = irb_value_reg;
+
+// Copy oc values for load-store unit
+assign lsu_oc_oc = oc_oc;
+assign lsu_oc_pc = oc_pc;
+assign lsu_oc_rd_idx = oc_rd_idx;
+assign lsu_oc_ra_idx = oc_ra_idx;
+assign lsu_oc_rb_idx = oc_rb_idx;
+assign lsu_oc_ra_operand = oc_ra_operand;
+assign lsu_oc_rb_operand = oc_rb_operand;
+assign lsu_oc_invalid = 1'b0;
+
+// Copy oc values for multiplier
+assign mul_oc_oc = oc_oc;
+assign mul_oc_pc = oc_pc;
+assign mul_oc_rd_idx = oc_rd_idx;
+assign mul_oc_ra_idx = oc_ra_idx;
+assign mul_oc_rb_idx = oc_rb_idx;
+assign mul_oc_ra_operand = oc_ra_operand;
+assign mul_oc_rb_operand = oc_rb_operand;
+assign mul_oc_invalid = 1'b0;
+
+// Copy oc values for control/status register
+assign csr_oc_oc = oc_oc;
+assign csr_oc_pc = oc_pc;
+assign csr_oc_rd_idx = oc_rd_idx;
+assign csr_oc_ra_idx = oc_ra_idx;
+assign csr_oc_rb_idx = oc_rb_idx;
+assign csr_oc_ra_operand = oc_ra_operand;
+assign csr_oc_rb_operand = oc_rb_operand;
+assign csr_oc_invalid = oc_i && issue_invalid;
 
 endmodule
