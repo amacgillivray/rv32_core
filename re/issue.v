@@ -40,8 +40,7 @@
 //--------------------------------------------------------------
 
 // Rewritten by Andrew MacGillivray with heavy reference to the original code
-// TODO: tried to organize i/o but made it really messy instead. need to improve.
-// also, having clock and reset out of order is probably a mistake
+
 module issue 
 #(
      parameter SUPPORT_MULDIV         = 1
@@ -50,14 +49,89 @@ module issue
     ,parameter SUPPORT_MUL_BYPASS     = 1
     ,parameter SUPPORT_REGFILE_XILINX = 0
 )
-(
+(   
+    ///////////////////
+    // INPUTS 
+    ///////////////////
+
+    // CLOCK / RESET
+    input        clk,
+    input        rst,
+
+    // FETCH
+    input        f_valid,
+    input [31:0] f_instr,
+    input [31:0] f_pc,
+    input        f_fault,
+    input        f_fault_page,
+    
+    // FETCH_INSTR
+    input        f_i_exec,      // where from?
+    input        f_i_lsu,       // ??
+    input        f_i_branch,
+    input        f_i_mul,       // MULTIPLICATION
+    input        f_i_div,       // DIVISION 
+    input        f_i_csr,       // control and status register
+    input        f_i_rd_valid,
+    input        f_i_invalid,
+
+    // BRANCH (be_ = EXEC, bde = D EXEC, bcsr = CSR)
+    input        be_request,
+    input        be_is_taken,
+    input        be_is_not_taken, 
+    input [31:0] be_source,
+    input        be_is_call,
+    input        be_is_return,
+    input        be_is_jump,
+    input [31:0] be_pc,
+    input        bde_request,
+    input [31:0] bde_pc,
+    input [ 1:0] bde_priv,
+    input        bcsr_request,
+    input [31:0] bcsr_pc,
+    input [ 1:0] bcsr_priv,
+
+    // WRITEBACK
+    input [31:0] wb_exec_value,
+    input        wb_mem_valid,
+    input [31:0] wb_mem_value,
+    input [ 5:0] wb_mem_exception,
+    input [31:0] wb_mul_value, // TODO: note mul has a valid flag, div does not?
+    input        wb_div_valid,
+    input [31:0] wb_div_value,
+
+    // CONTROL / STATUS REGISTER (re1 = "result_e1")
+    input [31:0] csr_re1_value,
+    input        csr_re1_write,
+    input [31:0] csr_re1_wdata,
+    input [ 5:0] csr_re1_exception,
+
+    // LOAD-STORE UNIT
+    input        lsu_stall,
+
     // HOLDS / INTERRUPTS
     input  take_interrupt,
-    output hold_exec, 
-    output hold_mul,
-    output interrupt_inhibit,
 
-    // OPCODES
+    ///////////////////
+    // OUTPUTS  
+    ///////////////////
+
+    // FETCH
+    output        f_accept, 
+
+    // BRANCH
+    output        b_request,
+    output [31:0] b_pc,
+    output [ 1:0] b_priv,
+
+    // OPCODE-VALID (exec, lsu, csr, mul, div)
+    output        exec_opcode_valid,
+    output        lsu_opcode_valid,
+    output        csr_opcode_valid,
+    output        mul_opcode_valid, 
+    output        div_opcode_valid,
+
+    // BASE OPCODES
     output [31:0] oc_oc, // opcode value 
     output [31:0] oc_pc, // opcode pgm counter
     output        oc_invalid,
@@ -67,48 +141,7 @@ module issue
     output [31:0] oc_ra_operand,
     output [31:0] oc_rb_operand,
 
-    // FETCH
-    input        f_valid,
-    input [31:0] f_instr,
-    input [31:0] f_pc,
-    input        f_fault,
-    input        f_fault_page,
-    output       f_accept, 
-
-    // TODO: FETCH_INSTR ?? 
-    input f_i_exec,      // where from?
-    input f_i_lsu,       // ??
-    input f_i_branch,
-    input f_i_mul,       // MULTIPLICATION
-    input f_i_div,       // DIVISION 
-    input f_i_csr,       // control and status register
-    input f_i_rd_valid,
-    input f_i_invalid,
-
-    // BRANCH (be_ = EXEC, bde = D EXEC, bcsr = CSR)
-    input         be_request,
-    input         be_is_taken,
-    input         be_is_not_taken, 
-    input  [31:0] be_source,
-    input         be_is_call,
-    input         be_is_return,
-    input         be_is_jump,
-    input  [31:0] be_pc,
-    input         bde_request,
-    input  [31:0] bde_pc,
-    input  [ 1:0] bde_priv,
-    input         bcsr_request,
-    input  [31:0] bcsr_pc,
-    input  [ 1:0] bcsr_priv,
-    output        b_request,
-    output        b_priv,
-
-    // EXEC
-    output exec_opcode_valid,
-
-    // LOAD-STORE UNIT
-    input         lsu_stall,
-    output        lsu_opcode_valid,
+    // LSU OPCODE COPY (LOAD-STORE UNIT)
     output [31:0] lsu_oc_oc, 
     output [31:0] lsu_oc_pc, 
     output        lsu_oc_invalid,
@@ -117,10 +150,8 @@ module issue
     output [ 4:0] lsu_oc_rb_idx,
     output [31:0] lsu_oc_ra_operand,
     output [31:0] lsu_oc_rb_operand,
-    
-    // "M" EXTENSION MISC
-    output        mul_opcode_valid, 
-    output        div_opcode_valid,
+
+    // M OPCODE COPY (MULTIPLICATION / DIVISION EXTENSION)
     output [31:0] mul_oc_oc, 
     output [31:0] mul_oc_pc, 
     output        mul_oc_invalid,
@@ -129,8 +160,8 @@ module issue
     output [ 4:0] mul_oc_rb_idx,
     output [31:0] mul_oc_ra_operand,
     output [31:0] mul_oc_rb_operand,
-    
-    // "V" EXTENSION MISC
+
+    // V OPCODE COPY (VECTOR EXTENSION)
     // output vec_opcode_valid,
     // output [31:0] vec_oc_oc, 
     // output [31:0] vec_oc_pc, 
@@ -140,22 +171,8 @@ module issue
     // output [ 4:0] vec_oc_rb_idx,
     // output [31:0] vec_oc_ra_operand,
     // output [31:0] vec_oc_rb_operand,
-    
-    // WRITEBACK
-    input [31:0] wb_exec_value,
-    input        wb_mem_valid,
-    input [31:0] wb_mem_value,
-    input [ 5:0] wb_mem_exception,
-    input [31:0] wb_mul_value, // TODO: note mul has a valid flag, div does not?
-    input        wb_div_valid,
-    input [31:0] wb_div_value,
-    
-    // CONTROL / STATUS REGISTER (re1 = "result_e1")
-    input  [31:0] csr_re1_value,
-    input         csr_re1_write,
-    input  [31:0] csr_re1_wdata,
-    input  [ 5:0] csr_re1_exception,
-    output        csr_opcode_valid,
+
+    // CSR OPCODE COPY (CONTROL / STATUS REGISTER)
     output [31:0] csr_oc_oc, 
     output [31:0] csr_oc_pc, 
     output        csr_oc_invalid,
@@ -164,6 +181,8 @@ module issue
     output [ 4:0] csr_oc_rb_idx,
     output [31:0] csr_oc_ra_operand,
     output [31:0] csr_oc_rb_operand,
+
+    // CSR WRITEBACK
     output        csr_wb_write,
     output [11:0] csr_wb_waddr,
     output [31:0] csr_wb_wdata,
@@ -171,9 +190,10 @@ module issue
     output [31:0] csr_wb_exception_pc,
     output [31:0] csr_wb_exception_addr,
 
-    // CLOCK / RESET
-    input clk,
-    input rst
+    // HOLDS / INTERRUPTS
+    output hold_exec, 
+    output hold_mul,
+    output interrupt_inhibit
 );
 
 `include "defs.v"
