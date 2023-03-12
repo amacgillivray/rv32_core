@@ -52,7 +52,7 @@ module csr
     ///////////////////
 
     // CLOCK / RESET
-     input clk,
+     input clk
     ,input rst
     
     // INTR
