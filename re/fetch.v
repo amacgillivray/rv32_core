@@ -39,6 +39,8 @@
 // SUCH DAMAGE.
 //-----------------------------------------------------------------
 
+// Rewritten by Jarrod Grothusen with heavy reference to the original code
+
 module fetch
 // Params
 #( parameter SUPPORT_MMU = 1)

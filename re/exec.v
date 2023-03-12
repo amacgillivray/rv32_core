@@ -39,6 +39,8 @@
 // SUCH DAMAGE.
 //-----------------------------------------------------------------
 
+// Rewritten by Aditi Darade with heavy reference to the original code
+
 module exec
 (
     // Inputs 
