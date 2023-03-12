@@ -64,7 +64,7 @@ module exec
     ,output [ 31:0]  OutBranchSource
     ,output          OutBranchIsCall
     ,output          OutBranchIsRet
-    ,output          OutBranchIsImp
+    ,output          Out BranchIsJmp
     ,output [ 31:0]  OutBranchPc
     ,output          OutBranchDRequest
     ,output [ 31:0]  OutBranchDPc
@@ -450,7 +450,7 @@ assign OutBranchSource = PcMQ;
 assign OutBranchPc = PcXQ;
 assign OutBranchIsCall = BranchCallQ;
 assign OutBranchIsRet = BranchRetQ;
-assign OutBranchIsImp = BranchJmpQ;
+assign Out BranchIsJmp = BranchJmpQ;
 assign OutBranchDRequest = (BranchR && InOpcodeValid && BranchTakenR);
 assign OutBranchDPc = BranchTargetR;
 assign OutBranchDPriv = 2'b0; 
