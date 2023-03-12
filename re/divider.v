@@ -57,8 +57,8 @@ module divider
     ,input [ 4:0] oc_rd_idx
     ,input [ 4:0] oc_ra_idx
     ,input [ 4:0] oc_rb_idx
-    ,input [31:0] oc_ra_opr
-    ,input [31:0] oc_rb_opr
+    ,input [31:0] oc_ra_operand
+    ,input [31:0] oc_rb_operand
 
     ///////////////////
     // OUTPUTS  
@@ -115,18 +115,18 @@ begin
     div_busy_q     <= 1'b1;
     div_inst_q     <= div_operation_w;
 
-    if (signed_operation_w && oc_ra_opr[31])
-        dividend_q <= -oc_ra_opr;
+    if (signed_operation_w && oc_ra_operand[31])
+        dividend_q <= -oc_ra_operand;
     else
-        dividend_q <= oc_ra_opr;
+        dividend_q <= oc_ra_operand;
 
-    if (signed_operation_w && oc_rb_opr[31])
-        divisor_q <= {-oc_rb_opr, 31'b0};
+    if (signed_operation_w && oc_rb_operand[31])
+        divisor_q <= {-oc_rb_operand, 31'b0};
     else
-        divisor_q <= {oc_rb_opr, 31'b0};
+        divisor_q <= {oc_rb_operand, 31'b0};
 
-    invert_res_q  <= (((oc_oc & `INST_DIV_MASK) == `INST_DIV) && (oc_ra_opr[31] != oc_rb_opr[31]) && |oc_rb_opr) || 
-                     (((oc_oc & `INST_REM_MASK) == `INST_REM) && oc_ra_opr[31]);
+    invert_res_q  <= (((oc_oc & `INST_DIV_MASK) == `INST_DIV) && (oc_ra_operand[31] != oc_rb_operand[31]) && |oc_rb_operand) || 
+                     (((oc_oc & `INST_REM_MASK) == `INST_REM) && oc_ra_operand[31]);
 
     quotient_q     <= 32'b0;
     q_mask_q       <= 32'h80000000;
