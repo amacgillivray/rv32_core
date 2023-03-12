@@ -239,8 +239,8 @@ wire       issue_csr      = f_i_csr;
 wire       issue_invalid  = f_i_invalid;
 
 // Pipeline Status Tracking
-reg  oc_i; // opcode issue
-reg  oc_a; // opcode accept
+reg  oc_issue; // opcode issue
+reg  oc_accept; // opcode accept
 wire p_squash_e1_e2;
 wire p_stall_raw;
 
@@ -283,8 +283,8 @@ u_pipe_ctrl(
     ,.rst(rst)
     
     // issue
-    ,.issue_valid(oc_i)
-    ,.issue_accept(oc_a)
+    ,.issue_valid(oc_issue)
+    ,.issue_accept(oc_accept)
     ,.issue_stall(stall)
     ,.issue_lsu(issue_lsu)
     ,.issue_csr(issue_csr)
@@ -397,8 +397,8 @@ assign squash = p_squash_e1_e2;
 reg [31:0] scoreboard;
 always @ * 
 begin
-    oc_i = 1'b0;
-    oc_a = 1'b0;
+    oc_issue = 1'b0;
+    oc_accept = 1'b0;
     scoreboard = 32'b0;
 
     // >= 2 cycle latency... 
@@ -437,20 +437,20 @@ begin
           scoreboard[issue_rd_idx])
     )
     begin
-        oc_i = 1'b1;
-        oc_a = 1'b1;
+        oc_issue = 1'b1;
+        oc_accept = 1'b1;
 
-        if (oc_a && issue_sb_alloc && (|issue_rd_idx))
+        if (oc_accept && issue_sb_alloc && (|issue_rd_idx))
             scoreboard[issue_rd_idx] = 1'b1;
     end
 end
 
-assign lsu_opcode_valid = oc_i & ~take_interrupt;
-assign exec_opcode_valid= oc_i;
-assign mul_opcode_valid = enable_m_ext & oc_i;
-assign div_opcode_valid = enable_m_ext & oc_i;
+assign lsu_opcode_valid = oc_issue & ~take_interrupt;
+assign exec_opcode_valid= oc_issue;
+assign mul_opcode_valid = enable_m_ext & oc_issue;
+assign div_opcode_valid = enable_m_ext & oc_issue;
 assign interrupt_inhibit= csr_pending || issue_csr;
-assign f_accept = opcode_valid ? (oc_a & ~take_interrupt) : 1'b1;
+assign f_accept = opcode_valid ? (oc_accept & ~take_interrupt) : 1'b1;
 assign stall = p_stall_raw;
 
 // Regfile
@@ -532,13 +532,13 @@ assign mul_oc_rb_operand = oc_rb_operand;
 assign mul_oc_invalid = 1'b0;
 
 // Copy oc values for control/status register
-assign csr_oc_oc = oc_oc;
+assign csr_oc_oc = oc_issue & ~take_interrupt;
 assign csr_oc_pc = oc_pc;
 assign csr_oc_rd_idx = oc_rd_idx;
 assign csr_oc_ra_idx = oc_ra_idx;
 assign csr_oc_rb_idx = oc_rb_idx;
 assign csr_oc_ra_operand = oc_ra_operand;
 assign csr_oc_rb_operand = oc_rb_operand;
-assign csr_oc_invalid = oc_i && issue_invalid;
+assign csr_oc_invalid = oc_issue && issue_invalid;
 
 endmodule
