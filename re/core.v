@@ -43,7 +43,7 @@
 
 module core 
 #(
-    // new params for our project
+    // new params for our project - not yet used 
     parameter SUPPORT_ATOMICS = 0,
     parameter SUPPORT_VECTOR = 0,
     // params from original code
@@ -107,11 +107,11 @@ wire [31:0] branch_pc;
 wire branch_csr_request;
 wire [1:0] branch_csr_priv;
 wire [31:0] branch_csr_pc;
-wire branch_d_exec_is_not_taken;
 wire branch_d_exec_request;
 wire [1:0] branch_d_exec_priv;
 wire [31:0] branch_d_exec_pc;
 wire branch_exec_is_taken;
+wire branch_exec_is_not_taken;
 wire branch_exec_request;
 wire branch_exec_is_ret;
 wire branch_exec_is_jmp;
@@ -238,6 +238,7 @@ wire [31:0] wb_mul_value;
 wire [31:0] wb_div_value;
 
 // Misc
+wire take_interrupt;
 wire interrupt_inhibit;
 wire ifence;
 wire squash_decode;
@@ -257,8 +258,33 @@ wire div_opcode_valid;
 
 exec
 u_exec (
-    // TODO: fill in after writing core
-)
+     .InClk(clk)
+    ,.InRst(rst)
+    
+    ,.InOpcodeValid(exec_opcode_valid)
+    ,.InOpcodeOpcode(oc_oc)
+    ,.InOpcodePc(oc_pc)
+    ,.InOpcodeInvalid(oc_invalid)
+    ,.InOpcodeRdIdx(oc_rd_idx)
+    ,.InOpcodeRaIdx(oc_ra_idx)
+    ,.InOpcodeRbIdx(oc_rb_idx)
+    ,.InOpcodeRaOperand(oc_ra_operand)
+    ,.InOpcodeRbOperand(oc_rb_operand)
+    ,.InHold(exec_hold)
+
+    ,.OutBranchRequest(branch_exec_request)
+    ,.OutBranchIsTaken(branch_exec_is_taken)
+    ,.OutBranchIsNotTaken(branch_exec_is_not_taken)
+    ,.OutBranchSource(branch_exec_source)
+    ,.OutBranchIsCall(branch_exec_is_call)
+    ,.OutBranchIsRet(branch_exec_is_ret)
+    ,.OutBranchIsJmp(branch_exec_is_jmp)
+    ,.OutBranchPc(branch_exec_pc)
+    ,.OutBranchDRequest(branch_d_exec_request)
+    ,.OutBranchDPc(branch_d_exec_pc)
+    ,.OutBranchDPriv(branch_d_exec_priv)
+    ,.OutWritebackValue(wb_exec_value)
+);
 
 decode
 #(
@@ -417,3 +443,161 @@ u_mul
     .wb_value(wb_mul_value)
 );
 
+divider
+u_div
+(
+    .clk(clk),
+    .rst(rst), 
+    
+    .oc_valid(div_opcode_valid),
+    .oc_oc(oc_oc),
+    .oc_pc(oc_pc),
+    .oc_invalid(oc_invalid),
+    .oc_rd_idx(oc_rd_idx),
+    .oc_ra_idx(oc_ra_idx),
+    .oc_rb_idx(oc_rb_idx),
+    .oc_ra_operand(oc_ra_operand),
+    .oc_rb_operand(oc_rb_operand),
+
+    .wb_valid(wb_div_valid),
+    .wb_value(wb_div_value)
+);
+
+issue
+#(
+    .SUPPORT_REGFILE_XILINX(SUPPORT_REGFILE_XILINX),
+    .SUPPORT_LOAD_BYPASS(SUPPORT_LOAD_BYPASS),
+    .SUPPORT_MULDIV(SUPPORT_MULDIV),
+    .SUPPORT_MUL_BYPASS(SUPPORT_MUL_BYPASS),
+    .SUPPORT_DUAL_ISSUE(1)
+) u_issue (
+    .clk(clk),
+    .rst(rst),
+
+    .f_valid(fetch_valid),
+    .f_instr(fetch_instr),
+    .f_pc(fetch_pc),
+    .f_fault(fetch_fault_fetch),
+    .f_fault_page(fetch_fault_page),
+
+    .f_i_exec(fetch_instr_exec),
+    .f_i_lsu(fetch_instr_lsu),
+    .f_i_branch(fetch_instr_branch),
+    .f_i_mul(fetch_instr_mul),  
+    .f_i_div(fetch_instr_div),     
+    .f_i_csr(fetch_instr_csr),     
+    .f_i_rd_valid(fetch_instr_rd_valid),
+    .f_i_invalid(fetch_instr_invalid),    
+
+    .be_request(branch_exec_request),
+    .be_is_taken(branch_exec_is_taken),
+    .be_is_not_taken(branch_exec_is_not_taken), 
+    .be_source(branch_exec_source),
+    .be_is_call(branch_exec_is_call),
+    .be_is_return(branch_exec_is_ret),
+    .be_is_jump(branch_exec_is_jmp),
+    .be_pc(branch_exec_pc),
+    .bde_request(branch_d_exec_request),
+    .bde_pc(branch_d_exec_pc),
+    .bde_priv(branch_d_exec_priv),
+    .bcsr_request(branch_csr_request),
+    .bcsr_pc(branch_csr_pc),
+    .bcsr_priv(branch_csr_priv),
+
+    .wb_exec_value(wb_exec_value),
+    .wb_mem_valid(wb_mem_valid),
+    .wb_mem_value(wb_mem_value),
+    .wb_mem_exception(wb_mem_exception),
+    .wb_mul_value(wb_mul_value),
+    .wb_div_valid(wb_div_valid),
+    .wb_div_value(wb_div_value),
+
+    .csr_re1_value(csr_re1_value),
+    .csr_re1_write(csr_re1_write),
+    .csr_re1_wdata(csr_re1_wdata),
+    .csr_re1_exception(csr_re1_exception),
+
+    .lsu_stall(lsu_stall),
+    .take_interrupt(take_interrupt),
+
+    .f_accept(fetch_accept),
+
+    .b_request(branch_request),
+    .b_pc(branch_pc),
+    .b_priv(branch_priv),
+    
+    .exec_opcode_valid(exec_opcode_valid),
+    .lsu_opcode_valid(lsu_opcode_valid),
+    .csr_opcode_valid(csr_opcode_valid),
+    .mul_opcode_valid(mul_opcode_valid),
+    .div_opcode_valid(div_opcode_valid),
+
+    .oc_oc(oc_oc),
+    .oc_pc(oc_pc),
+    .oc_invalid(oc_invalid),
+    .oc_rd_idx(oc_rd_idx),
+    .oc_ra_idx(oc_ra_idx),
+    .oc_rb_idx(oc_rb_idx),
+    .oc_ra_operand(oc_ra_operand),
+    .oc_rb_operand(oc_rb_operand),
+
+    .mul_oc_oc(mul_opcode_opcode),
+    .mul_oc_pc(mul_opcode_pc),
+    .mul_oc_invalid(mul_opcode_invalid),
+    .mul_oc_rd_idx(mul_opcode_rd_idx),
+    .mul_oc_ra_idx(mul_opcode_ra_idx),
+    .mul_oc_rb_idx(mul_opcode_rb_idx),
+    .mul_oc_ra_operand(mul_opcode_ra_operand),
+    .mul_oc_rb_operand(mul_opcode_rb_operand),
+
+    .csr_oc_oc(csr_opcode_opcode),
+    .csr_oc_pc(csr_opcode_pc),
+    .csr_oc_invalid(csr_opcode_invalid),
+    .csr_oc_rd_idx(csr_opcode_rd_idx),
+    .csr_oc_ra_idx(csr_opcode_ra_idx),
+    .csr_oc_rb_idx(csr_opcode_rb_idx),
+    .csr_oc_ra_operand(csr_opcode_ra_operand),
+    .csr_oc_rb_operand(csr_opcode_rb_operand),
+
+    .csr_wb_write(csr_wb_write),
+    .csr_wb_waddr(csr_wb_waddr),
+    .csr_wb_wdata(csr_wb_wdata),
+    .csr_wb_exception(csr_wb_except),
+    .csr_wb_exception_pc(csr_wb_except_pc),
+    .csr_wb_exception_addr(csr_wb_except_addr),
+
+    .hold_exec(exec_hold)
+    .hold_mul(mul_hold)
+    .interrupt_inhibit(interrupt_inhibit)
+);
+
+fetch
+#(
+    .SUPPORT_MMU(SUPPORT_MMU)
+) u_fetch (
+     .clk(clk)
+    ,.rst(rst)
+    
+    ,.f_accept_i(fetch_accept)
+    ,.ic_accept_i(mmu_ifetch_accept)
+    ,.ic_valid_i(mmu_ifetch_valid)
+    ,.ic_error_i(mmu_ifetch_error)
+    ,.ic_inst_i(mmu_ifetch_inst)
+    ,.ic_page_fault_i(fetch_in_fault)
+    ,.f_invalidate_i(ifence)
+    ,.br_request_i(branch_request)
+    ,.br_pc_i(branch_pc)
+    ,.br_priv_i(branch_priv)
+    
+    ,.f_valid_o(fetch_dec_valid)
+    ,.f_instr_o(fetch_dec_instr)
+    ,.f_pc_o(fetch_dec_pc)
+    ,.f_fault_o(fetch_dec_fault_fetch)
+    ,.f_fault_page_o(fetch_dec_fault_page)
+    ,.ic_rd_o(mmu_ifetch_rd)
+    ,.ic_flush_o(mmu_ifetch_flush)
+    ,.ic_invalidate_o(mmu_ifetch_invalidate)
+    ,.ic_pc_o(mmu_ifetch_pc)
+    ,.ic_priv_o(fetch_in_priv)
+    ,.squash_decode_o(squash_decode)
+);
