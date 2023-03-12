@@ -49,8 +49,8 @@ module decode
 
 (
     // Inputs
-     input           InClk
-    ,input           InRst
+     input           clk
+    ,input           rst
     ,input           InFetchInValid
     ,input  [ 31:0]  InFetchInInstr
     ,input  [ 31:0]  InFetchInPC
