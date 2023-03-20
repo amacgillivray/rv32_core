@@ -78,7 +78,7 @@ module csr
     ,input [31:0] csr_wb_except_addr
     
     // MISC
-    ,input [31:0] cpu_id,
+    ,input [31:0] cpu_id
     ,input [31:0] reset_vector
     ,input interrupt_inhibit
 
@@ -111,20 +111,20 @@ module csr
 
 `include "defs.v"
 
-wire ecall = oc_valid && ((oc_oc & `INST_ECALL_MASK) == `INST_ECALL);
-wire ebreak = oc_valid && ((oc_oc & `INST_EBREAK_MASK) == `INST_EBREAK);
-wire eret = oc_valid && ((oc_oc & `INST_ERET_MASK) == `INST_ERET);
+wire ecall = oc_valid && ((oc_oc & `M_ECALL) == `I_ECALL);
+wire ebreak = oc_valid && ((oc_oc & `M_EBREAK) == `I_EBREAK);
+wire eret = oc_valid && ((oc_oc & `M_ERET) == `I_ERET);
 wire [1:0] eret_priv = oc_oc[29:28];
-wire csrrw = oc_valid && ((oc_oc & `INST_CSRRW_MASK) == `INST_CSRRW);
-wire csrrs = oc_valid && ((oc_oc & `INST_CSRRS_MASK) == `INST_CSRRS);
-wire csrrc = oc_valid && ((oc_oc & `INST_CSRRC_MASK) == `INST_CSRRC);
-wire csrrwi = oc_valid && ((oc_oc & `INST_CSRRWI_MASK) == `INST_CSRRWI);
-wire csrrsi = oc_valid && ((oc_oc & `INST_CSRRSI_MASK) == `INST_CSRRSI);
-wire csrrci = oc_valid && ((oc_oc & `INST_CSRRCI_MASK) == `INST_CSRRCI);
-wire wfi = oc_valid && ((oc_oc & `INST_WFI_MASK) == `INST_WFI);
-wire fence = oc_valid && ((oc_oc & `INST_FENCE_MASK) == `INST_FENCE);
-wire sfence = oc_valid && ((oc_oc & `INST_SFENCE_MASK) == `INST_SFENCE);
-wire ifence_w = oc_valid && ((oc_oc & `INST_IFENCE_MASK) == `INST_IFENCE);
+wire csrrw = oc_valid && ((oc_oc & `M_CSRRW) == `I_CSRRW);
+wire csrrs = oc_valid && ((oc_oc & `M_CSRRS) == `I_CSRRS);
+wire csrrc = oc_valid && ((oc_oc & `M_CSRRC) == `I_CSRRC);
+wire csrrwi = oc_valid && ((oc_oc & `M_CSRRWI) == `I_CSRRWI);
+wire csrrsi = oc_valid && ((oc_oc & `M_CSRRSI) == `I_CSRRSI);
+wire csrrci = oc_valid && ((oc_oc & `M_CSRRCI) == `I_CSRRCI);
+wire wfi = oc_valid && ((oc_oc & `M_WFI) == `I_WFI);
+wire fence = oc_valid && ((oc_oc & `M_FENCE) == `I_FENCE);
+wire sfence = oc_valid && ((oc_oc & `M_SFENCE) == `I_SFENCE);
+wire ifence_w = oc_valid && ((oc_oc & `M_IFENCE) == `I_IFENCE);
 
 // CSR
 reg set;
@@ -225,16 +225,16 @@ begin
         rd_result_e1 <= csr_rdata;
 
     // TODO: define all `DEFINITION refs
-    if ((oc_oc & `INST_ECALL_MASK) == `INST_ECALL)
+    if ((oc_oc & `M_ECALL) == `I_ECALL)
         exception_e1_q <= `EXCEPTION_ECALL + {4'b0, current_priv};
 
     else if (eret_fault)
         exception_e1 <= `EXCEPTION_ILLEGAL_INSTRUCTION;
 
-    else if ((oc_oc & `INST_ERET_MASK) == `INST_ERET)
+    else if ((oc_oc & `M_ERET) == `I_ERET)
         exception_e1 <= `EXCEPTION_ERET_U + {4'b0, eret_priv};
 
-    else if ((oc_oc & `INST_EBREAK_MASK) == `INST_EBREAK)
+    else if ((oc_oc & `M_EBREAK) == `I_EBREAK)
         exception_e1 <= `EXCEPTION_BREAKPOINT;
     
     else if (oc_invalid || csr_fault)
