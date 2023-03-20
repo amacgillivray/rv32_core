@@ -56,6 +56,7 @@ module csr_regfile
     ,input [31:0]    cpu_id_i
     ,input [31:0]    misa_i
 
+    // Exception Handling
     ,input [5:0]     exception_i
     ,input [31:0]    exception_pc_i
     ,input [31:0]    exception_addr_i
@@ -81,7 +82,6 @@ module csr_regfile
     ,output [31:0]   interrupt_o
 );
 
-// Will change this later
 `include "defs.v"
 
 // Registers / Wires
