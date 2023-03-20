@@ -213,7 +213,7 @@ reg [1:0] priv_x_q;
 always @(posedge clk or posedge rst)
 if (rst)
     // When reset, revert to machine-level privilege
-    priv_x_q <= `PRIV_MACHINE
+    priv_x_q <= `PRIV_MACHINE;
 else if (bcsr_request)
     // otherwise, use the privilege set in bcsr_priv
     priv_x_q <= bcsr_priv;
@@ -499,9 +499,9 @@ begin
         irb_value_reg = p_result_e2;
     // e1 bypass
     if (p_rd_e1 == issue_ra_idx)
-        ira_value_reg = p_result_e1;
+        ira_value_reg = wb_exec_value;
     if (p_rd_e1 == issue_rb_idx)
-        irb_value_reg = p_result_e1;
+        irb_value_reg = wb_exec_value;
     // 0 source
     if (issue_ra_idx == 5'b0)
         ira_value_reg = 32'b0;
