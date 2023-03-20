@@ -468,6 +468,31 @@
 `define SATP_ASID_R       30:22
 `define SATP_MODE_R       31
 
+//--------------------------------------------------------------------
+// MMU Defs (SV32)
+//--------------------------------------------------------------------
+// Direct
+`define MMU_LEVELS        2
+`define MMU_PTIDXBITS     10
+`define MMU_PTESIZE       4
+`define MMU_PGSHIFT       (`MMU_PTIDXBITS + 2)
+`define MMU_PGSIZE        (1 << `MMU_PGSHIFT)
+`define MMU_VPN_BITS      (`MMU_PTIDXBITS * `MMU_LEVELS)
+`define MMU_PPN_BITS      (32 - `MMU_PGSHIFT)
+`define MMU_VA_BITS       (`MMU_VPN_BITS + `MMU_PGSHIFT)
+`define PAGE_PRESENT      0
+`define PAGE_READ         1
+`define PAGE_WRITE        2
+`define PAGE_EXEC         3
+`define PAGE_USER         4
+`define PAGE_GLOBAL       5
+`define PAGE_ACCESSED     6
+`define PAGE_DIRTY        7
+`define PAGE_SOFT         9:8
+`define PAGE_FLAGS        10'h3FF
+`define PAGE_PFN_SHIFT    10
+`define PAGE_SIZE         4096
+
 /* Exception Constants */
 // Direct from other repo
 `define EXCEPTION_W                        6
