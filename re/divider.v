@@ -75,29 +75,29 @@ reg          valid_q;
 reg  [31:0]  wb_result_q;
 
 // Divider
-wire inst_div_w  = (oc_oc & `INST_DIV_MASK)  == `INST_DIV;
-wire inst_divu_w = (oc_oc & `INST_DIVU_MASK) == `INST_DIVU;
-wire inst_rem_w  = (oc_oc & `INST_REM_MASK)  == `INST_REM;
-wire inst_remu_w = (oc_oc & `INST_REMU_MASK) == `INST_REMU;
+wire inst_div_w  = (oc_oc & `M_DIV)  == `I_DIV;
+wire inst_divu_w = (oc_oc & `M_DIVU) == `I_DIVU;
+wire inst_rem_w  = (oc_oc & `M_REM)  == `I_REM;
+wire inst_remu_w = (oc_oc & `M_REMU) == `I_REMU;
 
-wire div_rem_inst_w =   ((oc_oc & `INST_DIV_MASK)  == `INST_DIV)  || 
-                        ((oc_oc & `INST_DIVU_MASK) == `INST_DIVU) ||
-                        ((oc_oc & `INST_REM_MASK)  == `INST_REM)  ||
-                        ((oc_oc & `INST_REMU_MASK) == `INST_REMU);
+wire div_rem_inst_w =   ((oc_oc & `M_DIV)  == `I_DIV)  || 
+                        ((oc_oc & `M_DIVU) == `I_DIVU) ||
+                        ((oc_oc & `M_REM)  == `I_REM)  ||
+                        ((oc_oc & `M_REMU) == `I_REMU);
 
-wire signed_operation_w = ((oc_oc & `INST_DIV_MASK) == `INST_DIV) || ((oc_oc & `INST_REM_MASK)  == `INST_REM);
-wire div_operation_w    = ((oc_oc & `INST_DIV_MASK) == `INST_DIV) || ((oc_oc & `INST_DIVU_MASK) == `INST_DIVU);
+wire signed_operation_w = ((oc_oc & `M_DIV) == `I_DIV) || ((oc_oc & `M_REM)  == `I_REM);
+wire div_operation_w    = ((oc_oc & `M_DIV) == `I_DIV) || ((oc_oc & `M_DIVU) == `I_DIVU);
 
 reg [31:0] dividend_q;
 reg [62:0] divisor_q;
 reg [31:0] quotient_q;
-reg [31:0] q_mask_q;
+reg [31:0] q_q;
 reg        div_inst_q;
 reg        div_busy_q;
 reg        invert_res_q;
 
 wire div_start_w    = oc_valid & div_rem_inst_w;
-wire div_complete_w = !(|q_mask_q) & div_busy_q;
+wire div_complete_w = !(|q_q) & div_busy_q;
 
 always @(posedge clk or posedge rst)
 if (rst)
@@ -107,7 +107,7 @@ begin
     divisor_q      <= 63'b0;
     invert_res_q   <= 1'b0;
     quotient_q     <= 32'b0;
-    q_mask_q       <= 32'b0;
+    q_q       <= 32'b0;
     div_inst_q     <= 1'b0;
 end
 else if (div_start_w)
@@ -125,11 +125,11 @@ begin
     else
         divisor_q <= {oc_rb_operand, 31'b0};
 
-    invert_res_q  <= (((oc_oc & `INST_DIV_MASK) == `INST_DIV) && (oc_ra_operand[31] != oc_rb_operand[31]) && |oc_rb_operand) || 
-                     (((oc_oc & `INST_REM_MASK) == `INST_REM) && oc_ra_operand[31]);
+    invert_res_q  <= (((oc_oc & `M_DIV) == `I_DIV) && (oc_ra_operand[31] != oc_rb_operand[31]) && |oc_rb_operand) || 
+                     (((oc_oc & `M_REM) == `I_REM) && oc_ra_operand[31]);
 
     quotient_q     <= 32'b0;
-    q_mask_q       <= 32'h80000000;
+    q_q       <= 32'h80000000;
 end
 else if (div_complete_w)
 begin
@@ -140,11 +140,11 @@ begin
     if (divisor_q <= {31'b0, dividend_q})
     begin
         dividend_q <= dividend_q - divisor_q[31:0];
-        quotient_q <= quotient_q | q_mask_q;
+        quotient_q <= quotient_q | q_q;
     end
 
     divisor_q <= {1'b0, divisor_q[62:1]};
-    q_mask_q  <= {1'b0, q_mask_q[31:1]};
+    q_q  <= {1'b0, q_q[31:1]};
 end
 
 reg [31:0] div_result_r;
