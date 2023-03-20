@@ -419,6 +419,17 @@
 `define CSR_SATP          12'h180
 `define CSR_SATP_MASK     32'hFFFFFFFF
 
+//--------------------------------------------------------------------
+// CSR Registers - DCACHE control
+//--------------------------------------------------------------------
+// DIRECT
+`define CSR_DFLUSH            12'h3a0 // pmpcfg0
+`define CSR_DFLUSH_MASK       32'hFFFFFFFF
+`define CSR_DWRITEBACK        12'h3a1 // pmpcfg1
+`define CSR_DWRITEBACK_MASK   32'hFFFFFFFF
+`define CSR_DINVALIDATE       12'h3a2 // pmpcfg2
+`define CSR_DINVALIDATE_MASK  32'hFFFFFFFF
+
 
 /* STATUS REGISTER */
 `define SR_UIE_R  0
