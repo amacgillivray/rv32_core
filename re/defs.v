@@ -327,6 +327,27 @@
 
 
 //--------------------------------------------------------------------
+// IRQ Numbers
+//--------------------------------------------------------------------
+// Taken direct from other repo
+`define IRQ_S_SOFT   1
+`define IRQ_M_SOFT   3
+`define IRQ_S_TIMER  5
+`define IRQ_M_TIMER  7
+`define IRQ_S_EXT    9
+`define IRQ_M_EXT    11
+`define IRQ_MIN      (`IRQ_S_SOFT)
+`define IRQ_MAX      (`IRQ_M_EXT + 1)
+`define IRQ_MASK     ((1 << `IRQ_M_EXT) | (1 << `IRQ_S_EXT) | (1 << `IRQ_M_TIMER) | (1 << `IRQ_S_TIMER) | (1 << `IRQ_M_SOFT) | (1 << `IRQ_S_SOFT))
+`define SR_IP_MSIP_R `IRQ_M_SOFT
+`define SR_IP_MTIP_R `IRQ_M_TIMER
+`define SR_IP_MEIP_R `IRQ_M_EXT
+`define SR_IP_SSIP_R `IRQ_S_SOFT
+`define SR_IP_STIP_R `IRQ_S_TIMER
+`define SR_IP_SEIP_R `IRQ_S_EXT
+
+
+//--------------------------------------------------------------------
 // CSR Registers
 //--------------------------------------------------------------------
 // taken directly from the other repository
@@ -437,6 +458,7 @@
 `define SATP_MODE_R       31
 
 /* Exception Constants */
+// Direct from other repo
 `define EXCEPTION_W                        6
 `define EXCEPTION_MISALIGNED_FETCH         6'h10
 `define EXCEPTION_FAULT_FETCH              6'h11
@@ -463,4 +485,21 @@
 `define EXCEPTION_FENCE                    6'h34
 `define EXCEPTION_TYPE_MASK                6'h30
 `define EXCEPTION_SUBTYPE_R                3:0
+`define MCAUSE_INT                      31
+`define MCAUSE_MISALIGNED_FETCH         ((0 << `MCAUSE_INT) | 0)
+`define MCAUSE_FAULT_FETCH              ((0 << `MCAUSE_INT) | 1)
+`define MCAUSE_ILLEGAL_INSTRUCTION      ((0 << `MCAUSE_INT) | 2)
+`define MCAUSE_BREAKPOINT               ((0 << `MCAUSE_INT) | 3)
+`define MCAUSE_MISALIGNED_LOAD          ((0 << `MCAUSE_INT) | 4)
+`define MCAUSE_FAULT_LOAD               ((0 << `MCAUSE_INT) | 5)
+`define MCAUSE_MISALIGNED_STORE         ((0 << `MCAUSE_INT) | 6)
+`define MCAUSE_FAULT_STORE              ((0 << `MCAUSE_INT) | 7)
+`define MCAUSE_ECALL_U                  ((0 << `MCAUSE_INT) | 8)
+`define MCAUSE_ECALL_S                  ((0 << `MCAUSE_INT) | 9)
+`define MCAUSE_ECALL_H                  ((0 << `MCAUSE_INT) | 10)
+`define MCAUSE_ECALL_M                  ((0 << `MCAUSE_INT) | 11)
+`define MCAUSE_PAGE_FAULT_INST          ((0 << `MCAUSE_INT) | 12)
+`define MCAUSE_PAGE_FAULT_LOAD          ((0 << `MCAUSE_INT) | 13)
+`define MCAUSE_PAGE_FAULT_STORE         ((0 << `MCAUSE_INT) | 15)
+`define MCAUSE_INTERRUPT                (1 << `MCAUSE_INT)
 
