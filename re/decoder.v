@@ -64,66 +64,66 @@ module decoder
 );
 
 // Instruction invalid
-wire WInvalid = InValid && 
-                ~(((InOpcode & `M_ANDI) == `I_ANDI) ||
-                ((InOpcode & `M_ADDI) == `I_ADDI)  ||
-                ((InOpcode & `M_SLTI) == `I_SLTI)  ||
+wire WInvalid = InValid && ~(
+                ((InOpcode & `M_ANDI)  == `I_ANDI)  ||
+                ((InOpcode & `M_ADDI)  == `I_ADDI)  ||
+                ((InOpcode & `M_SLTI)  == `I_SLTI)  ||
                 ((InOpcode & `M_SLTIU) == `I_SLTIU) ||
-                ((InOpcode & `M_ORI) == `I_ORI) ||
-                ((InOpcode & `M_XORI) == `I_XORI) ||
-                ((InOpcode & `M_SLLI) == `I_SLLI) ||
-                ((InOpcode & `M_SRLI) == `I_SRLI) ||
-                ((InOpcode & `M_SRAI) == `I_SRAI) ||
-                ((InOpcode & `M_LUI) == `I_LUI) ||
+                ((InOpcode & `M_ORI)   == `I_ORI)   ||
+                ((InOpcode & `M_XORI)  == `I_XORI)  ||
+                ((InOpcode & `M_SLLI)  == `I_SLLI)  ||
+                ((InOpcode & `M_SRLI)  == `I_SRLI)  ||
+                ((InOpcode & `M_SRAI)  == `I_SRAI)  ||
+                ((InOpcode & `M_LUI)   == `I_LUI)   ||
                 ((InOpcode & `M_AUIPC) == `I_AUIPC) ||
-                ((InOpcode & `M_ADD) == `I_ADD) ||
-                ((InOpcode & `M_SUB) == `I_SUB) ||
-                ((InOpcode & `M_SLT) == `I_SLT) ||
-                ((InOpcode & `M_SLTU) == `I_SLTU) ||
-                ((InOpcode & `M_XOR) == `I_XOR) ||
-                ((InOpcode & `M_OR) == `I_OR) ||
-                ((InOpcode & `M_AND) == `I_AND) ||
-                ((InOpcode & `M_SLL) == `I_SLL) ||
-                ((InOpcode & `M_SRL) == `I_SRL) ||
-                ((InOpcode & `M_SRA) == `I_SRA) ||
-                ((InOpcode & `M_JAL) == `I_JAL) ||
-                ((InOpcode & `M_JALR) == `I_JALR) ||
-                ((InOpcode & `M_BEQ) == `I_BEQ) ||
-                ((InOpcode & `M_BNE) == `I_BNE) ||
-                ((InOpcode & `M_BLT) == `I_BLT) ||
-                ((InOpcode & `M_BGE) == `I_BGE) ||
-                ((InOpcode & `M_BLTU) == `I_BLTU) ||
-                ((InOpcode & `M_BGEU) == `I_BGEU) ||
-                ((InOpcode & `M_LB) == `I_LB) ||
-                ((InOpcode & `M_LH) == `I_LH) ||
-                ((InOpcode & `M_LW) == `I_LW) ||
-                ((InOpcode & `M_LBU) == `I_LBU) ||
-                ((InOpcode & `M_LHU) == `I_LHU) ||
-                ((InOpcode & `M_LWU) == `I_LWU) ||
-                ((InOpcode & `M_SB) == `I_SB) ||
-                ((InOpcode & `M_SH) == `I_SH) ||
-                ((InOpcode & `M_SW) == `I_SW) ||
-                ((InOpcode & `M_ECALL) == `I_ECALL) ||
+                ((InOpcode & `M_ADD)   == `I_ADD)   ||
+                ((InOpcode & `M_SUB)   == `I_SUB)   ||
+                ((InOpcode & `M_SLT)   == `I_SLT)   ||
+                ((InOpcode & `M_SLTU)  == `I_SLTU)  ||
+                ((InOpcode & `M_XOR)   == `I_XOR)   ||
+                ((InOpcode & `M_OR)    == `I_OR)    ||
+                ((InOpcode & `M_AND)   == `I_AND)   ||
+                ((InOpcode & `M_SLL)   == `I_SLL)   ||
+                ((InOpcode & `M_SRL)   == `I_SRL)   ||
+                ((InOpcode & `M_SRA)   == `I_SRA)   ||
+                ((InOpcode & `M_JAL)   == `I_JAL)   ||
+                ((InOpcode & `M_JALR)  == `I_JALR)  ||
+                ((InOpcode & `M_BEQ)   == `I_BEQ)   ||
+                ((InOpcode & `M_BNE)   == `I_BNE)   ||
+                ((InOpcode & `M_BLT)   == `I_BLT)   ||
+                ((InOpcode & `M_BGE)   == `I_BGE)   ||
+                ((InOpcode & `M_BLTU)  == `I_BLTU)  ||
+                ((InOpcode & `M_BGEU)  == `I_BGEU)  ||
+                ((InOpcode & `M_LB)    == `I_LB)    ||
+                ((InOpcode & `M_LH)    == `I_LH)    ||
+                ((InOpcode & `M_LW)    == `I_LW)    ||
+                ((InOpcode & `M_LBU)   == `I_LBU)   ||
+                ((InOpcode & `M_LHU)   == `I_LHU)   ||
+                ((InOpcode & `M_LWU)   == `I_LWU)   ||
+                ((InOpcode & `M_SB)    == `I_SB)    ||
+                ((InOpcode & `M_SH)    == `I_SH)    ||
+                ((InOpcode & `M_SW)    == `I_SW)    ||
+                ((InOpcode & `M_ECALL)  == `I_ECALL)  ||
                 ((InOpcode & `M_EBREAK) == `I_EBREAK) ||
-                ((InOpcode & `M_ERET) == `I_ERET) ||
-                ((InOpcode & `M_CSRRW) == `I_CSRRW) ||
-                ((InOpcode & `M_CSRRS) == `I_CSRRS) ||
-                ((InOpcode & `M_CSRRC) == `I_CSRRC) ||
+                ((InOpcode & `M_ERET)   == `I_ERET)   ||
+                ((InOpcode & `M_CSRRW)  == `I_CSRRW)  ||
+                ((InOpcode & `M_CSRRS)  == `I_CSRRS)  ||
+                ((InOpcode & `M_CSRRC)  == `I_CSRRC)  ||
                 ((InOpcode & `M_CSRRWI) == `I_CSRRWI) ||
                 ((InOpcode & `M_CSRRSI) == `I_CSRRSI) ||
                 ((InOpcode & `M_CSRRCI) == `I_CSRRCI) ||
-                ((InOpcode & `M_WFI) == `I_WFI) ||
-                ((InOpcode & `M_FENCE) == `I_FENCE) ||
+                ((InOpcode & `M_WFI)    == `I_WFI)    ||
+                ((InOpcode & `M_FENCE)  == `I_FENCE)  ||
                 ((InOpcode & `M_IFENCE) == `I_IFENCE) ||
                 ((InOpcode & `M_SFENCE) == `I_SFENCE) ||
-                (InEnableMuldiv && (InOpcode & `M_MUL) == `I_MUL) ||
-                (InEnableMuldiv && (InOpcode & `M_MULH) == `I_MULH) ||
+                (InEnableMuldiv && (InOpcode & `M_MUL)    == `I_MUL)    ||
+                (InEnableMuldiv && (InOpcode & `M_MULH)   == `I_MULH)   ||
                 (InEnableMuldiv && (InOpcode & `M_MULHSU) == `I_MULHSU) ||
-                (InEnableMuldiv && (InOpcode & `M_MULHU) == `I_MULHU) ||
-                (InEnableMuldiv && (InOpcode & `M_DIV) == `I_DIV) ||
-                (InEnableMuldiv && (InOpcode & `M_DIVU) == `I_DIVU) ||
-                (InEnableMuldiv && (InOpcode & `M_REM) == `I_REM) ||
-                (InEnableMuldiv && (InOpcode & `M_REMU) == `I_REMU));
+                (InEnableMuldiv && (InOpcode & `M_MULHU)  == `I_MULHU)  ||
+                (InEnableMuldiv && (InOpcode & `M_DIV)    == `I_DIV)    ||
+                (InEnableMuldiv && (InOpcode & `M_DIVU)   == `I_DIVU)   ||
+                (InEnableMuldiv && (InOpcode & `M_REM)    == `I_REM)    ||
+                (InEnableMuldiv && (InOpcode & `M_REMU)   == `I_REMU));
 
 
 assign OutInvalid = WInvalid;
