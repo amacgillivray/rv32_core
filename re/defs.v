@@ -100,91 +100,91 @@
 
 // JALR rd,rs1,offset  | Jump and Link Register 
 `define I_JALR 32'h67
-`define M_JALR M_ITYPE
+`define M_JALR `M_ITYPE
 
 // BEQ rs1,rs2,offset  | Branch Equal 
 `define I_BEQ 32'h63
-`define M_BEQ M_ITYPE
+`define M_BEQ `M_ITYPE
 
 // BNE rs1,rs2,offset  | Branch Not Equal
 `define I_BNE 32'h1063 
-`define M_BNE M_ITYPE
+`define M_BNE `M_ITYPE
 
 // BLT rs1,rs2,offset  | Branch Less Than
 `define I_BLT 32'h4063
-`define M_BLT M_ITYPE
+`define M_BLT `M_ITYPE
 
 // BGE rs1,rs2,offset  | Branch Greater Than Equal
 `define I_BGE 32'h5063
-`define M_BGE M_ITYPE
+`define M_BGE `M_ITYPE
 
 // BLTU rs1,rs2,offset | Branch Less Than Unsigned 
 `define I_BLTU 32'h6063
-`define M_BLTU M_ITYPE
+`define M_BLTU `M_ITYPE
 
 // BGEU rs1,rs2,offset | Branch Greater Than Equal Unsigned 
 `define I_BGEU 32'h7063
-`define M_BGEU M_ITYPE
+`define M_BGEU `M_ITYPE
 
 // LB rd,offset(rs1)   | Load Byte -
 `define I_LB 32'h3
-`define M_LB M_ITYPE
+`define M_LB `M_ITYPE
 
 // LH rd,offset(rs1)   | Load Half
 `define I_LH 32'h1003
-`define M_LH M_ITYPE
+`define M_LH `M_ITYPE
 
 // LW rd,offset(rs1)   | Load Word
 `define I_LW 32'h2003
-`define M_LW M_ITYPE
+`define M_LW `M_ITYPE
 
 // LBU rd,offset(rs1)  | Load Byte Unsigned 
 `define I_LBU 32'h4003
-`define M_LBU M_ITYPE
+`define M_LBU `M_ITYPE
 
 // LHU rd,offset(rs1)  | Load Half Unsigned
 `define I_LHU 32'h5003
-`define M_LHU M_ITYPE
+`define M_LHU `M_ITYPE
 
 // LWU
 `define I_LWU 32'h6003
-`define M_LWU M_ITYPE
+`define M_LWU `M_ITYPE
 
 // SB rs2,offset(rs1)  | Store Byte
 `define I_SB 32'h23
-`define M_SB M_ITYPE
+`define M_SB `M_ITYPE
 
 // SH rs2,offset(rs1)  | Store Half 
 `define I_SH 32'h1023
-`define M_SH M_ITYPE
+`define M_SH `M_ITYPE
 
 // SW rs2,offset(rs1)  | Store Word
 `define I_SW 32'h2023
-`define M_SW M_ITYPE
+`define M_SW `M_ITYPE
 
 // ADDI rd,rs1,imm     | Add Immediate
 `define I_ADDI 32'h7013
-`define M_ADDI M_ITYPE
+`define M_ADDI `M_ITYPE
 
 // SLTI rd,rs1,imm     | Set Less Than Immediate
 `define I_SLTI 32'h2013
-`define M_SLTI M_ITYPE 
+`define M_SLTI `M_ITYPE 
 
 // SLTIU rd,rs1,imm    | Set Less Than Immediate Unsigned
 `define I_SLTIU 32'h3013
-`define M_SLTIU M_ITYPE
+`define M_SLTIU `M_ITYPE
 
 // XORI rd,rs1,imm     | XOR immediate
 `define I_XORI 32'h4013
-`define M_XORI M_ITYPE
+`define M_XORI `M_ITYPE
 
 // ORI rd,rs1,imm      | OR immediate
 `define I_ORI 32'h6013
-`define M_ORI M_ITYPE
+`define M_ORI `M_ITYPE
 
 // ANDI rd,rs1,imm     | AND immediate
 `define I_ANDI 32'h7013
-`define M_ANDI M_ITYPE
+`define M_ANDI `M_ITYPE
 
 // SLLI rd,rs1,imm     | Shift Left Logical Immediate 
 `define I_SLLI 32'h1013
@@ -200,43 +200,43 @@
 
 // ADD rd,rs1,rs2      | Add
 `define I_ADD 32'h33
-`define M_ADD M_RTYPE
+`define M_ADD `M_RTYPE
 
 // SUB rd,rs1,rs2      | Sub
 `define I_SUB 32'h40000033
-`define M_SUB M_RTYPE
+`define M_SUB `M_RTYPE
 
 // SLL rd,rs1,rs2      | Shift Left Logical
 `define I_SLL 32'h1033
-`define M_SLL M_RTYPE
+`define M_SLL `M_RTYPE
 
 // SLT
 `define I_SLT 32'h2033
-`define M_SLT M_RTYPE
+`define M_SLT `M_RTYPE
 
 // SLTU
 `define I_SLTU 32'h3033
-`define M_SLTU M_RTYPE
+`define M_SLTU `M_RTYPE
 
 // SRL  --- ?? todo 
 `define I_SRL 32'h5033
-`define M_SRL M_RTYPE
+`define M_SRL `M_RTYPE
 
 // SRA rd,rs1,rs2      | Shift Right Arithmetic
 `define I_SRA 32'h40005033
-`define M_SRA M_RTYPE
+`define M_SRA `M_RTYPE
 
 // XOR                 | Exclusive Or
 `define I_XOR 32'h4033
-`define M_XOR M_RTYPE
+`define M_XOR `M_RTYPE
 
 // OR rd,rs1,rs2       | OR 
 `define I_OR 32'h6033
-`define M_OR M_RTYPE
+`define M_OR `M_RTYPE
 
 // AND rd,rs1,rs2      | AND 
 `define I_AND 32'h7033
-`define M_AND M_RTYPE
+`define M_AND `M_RTYPE
 
 // ECALL
 `define I_ECALL 32'h73
@@ -252,27 +252,27 @@
 
 // CSRRW
 `define I_CSRRW 32'h1073
-`define M_CSRRW M_ITYPE
+`define M_CSRRW `M_ITYPE
 
 // CSRRS
 `define I_CSRRS 32'h2073
-`define M_CSRRS M_ITYPE
+`define M_CSRRS `M_ITYPE
 
 // CSRRC
 `define I_CSRRC 32'h3073
-`define M_CSRRC M_ITYPE
+`define M_CSRRC `M_ITYPE
 
 // CSRRWI
 `define I_CSRRWI 32'h5073
-`define M_CSRRWI M_ITYPE
+`define M_CSRRWI `M_ITYPE
 
 // CSRRSI
 `define I_CSRRSI 32'h6073
-`define M_CSRRSI M_ITYPE
+`define M_CSRRSI `M_ITYPE
 
 // CSRRCI
 `define I_CSRRCI 32'h7073
-`define M_CSRRCI M_ITYPE
+`define M_CSRRCI `M_ITYPE
 
 // WFI
 `define I_WFI 32'h10500073
@@ -280,7 +280,7 @@
 
 // FENCE pred,succ     | Fence 
 `define I_FENCE 32'hf
-`define M_FENCE M_ITYPE
+`define M_FENCE `M_ITYPE
 
 // SFENCE 
 `define I_SFENCE 32'h12000073
@@ -288,41 +288,41 @@
 
 // FENCE.I             | Fence Instruction
 `define I_IFENCE 32'h100f
-`define M_IFENCE M_ITYPE
+`define M_IFENCE `M_ITYPE
 
 /* TODO - Atomics */
 /* INSTRUCTIONS - RISCV M EXTENSION - Multiplication / Division */
 // MUL
 `define I_MUL 32'h2000033
-`define M_MUL M_RTYPE
+`define M_MUL `M_RTYPE
 
 // MULH
 `define I_MULH 32'h2001033
-`define M_MULH M_RTYPE
+`define M_MULH `M_RTYPE
 
 // MULHSU
 `define I_MULHSU 32'h2002033
-`define M_MULHSU M_RTYPE
+`define M_MULHSU `M_RTYPE
 
 // MULHU
 `define I_MULHU 32'h2003033
-`define M_MULHU M_RTYPE
+`define M_MULHU `M_RTYPE
 
 // DIV
 `define I_DIV 32'h2004033
-`define M_DIV M_RTYPE
+`define M_DIV `M_RTYPE
 
 // DIVU
 `define I_DIVU 32'h2005033
-`define M_DIVU M_RTYPE
+`define M_DIVU `M_RTYPE
 
 // REM
 `define I_REM 32'h2006033
-`define M_REM M_RTYPE
+`define M_REM `M_RTYPE
 
 // REMU 
 `define I_REMU 32'h2007033
-`define M_REMU M_RTYPE
+`define M_REMU `M_RTYPE
 /* TODO - Vector Extension Instructions */
 
 /* STATUS REGISTER */
