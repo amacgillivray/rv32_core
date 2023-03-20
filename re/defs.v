@@ -146,12 +146,16 @@
 `define I_LHU 32'h5003
 `define M_LHU M_ITYPE
 
+// LWU
+`define I_LWU 32'h6003
+`define M_LWU M_ITYPE
+
 // SB rs2,offset(rs1)  | Store Byte
 `define I_SB 32'h23
 `define M_SB M_ITYPE
 
 // SH rs2,offset(rs1)  | Store Half 
-`define I_SH 32'1023
+`define I_SH 32'h1023
 `define M_SH M_ITYPE
 
 // SW rs2,offset(rs1)  | Store Word
@@ -234,6 +238,46 @@
 `define I_AND 32'h7033
 `define M_AND M_RTYPE
 
+// ECALL
+`define I_ECALL 32'h73
+`define M_ECALL 32'hffffffff
+
+// EBREAK
+`define I_EBREAK 32'h100073
+`define M_EBREAK 32'hffffffff
+
+// ERET
+`define I_ERET 32'h200073
+`define M_ERET 32'hcfffffff
+
+// CSRRW
+`define I_CSRRW 32'h1073
+`define M_CSRRW M_ITYPE
+
+// CSRRS
+`define I_CSRRS 32'h2073
+`define M_CSRRS M_ITYPE
+
+// CSRRC
+`define I_CSRRC 32'h3073
+`define M_CSRRC M_ITYPE
+
+// CSRRWI
+`define I_CSRRWI 32'h5073
+`define M_CSRRWI M_ITYPE
+
+// CSRRSI
+`define I_CSRRSI 32'h6073
+`define M_CSRRSI M_ITYPE
+
+// CSRRCI
+`define I_CSRRCI 32'h7073
+`define M_CSRRCI M_ITYPE
+
+// WFI
+`define I_WFI 32'h10500073
+`define M_WFI 32'hffff8fff
+
 // FENCE pred,succ     | Fence 
 `define I_FENCE 32'hf
 `define M_FENCE M_ITYPE
@@ -247,7 +291,38 @@
 `define M_IFENCE M_ITYPE
 
 /* TODO - Atomics */
-/* TODO - */
+/* INSTRUCTIONS - RISCV M EXTENSION - Multiplication / Division */
+// MUL
+`define I_MUL 32'h2000033
+`define M_MUL M_RTYPE
+
+// MULH
+`define I_MULH 32'h2001033
+`define M_MULH M_RTYPE
+
+// MULHSU
+`define I_MULHSU 32'h2002033
+`define M_MULHSU M_RTYPE
+
+// MULHU
+`define I_MULHU 32'h2003033
+`define M_MULHU M_RTYPE
+
+// DIV
+`define I_DIV 32'h2004033
+`define M_DIV M_RTYPE
+
+// DIVU
+`define I_DIVU 32'h2005033
+`define M_DIVU M_RTYPE
+
+// REM
+`define I_REM 32'h2006033
+`define M_REM M_RTYPE
+
+// REMU 
+`define I_REMU 32'h2007033
+`define M_REMU M_RTYPE
 /* TODO - Vector Extension Instructions */
 
 /* STATUS REGISTER */
