@@ -213,7 +213,7 @@ reg [1:0] priv_x_q;
 always @(posedge clk or posedge rst)
 if (rst)
     // When reset, revert to machine-level privilege
-    priv_x_q <= `PRIV_MACHINE; // TODO: Add to defs
+    priv_x_q <= `PRIV_MACHINE
 else if (bcsr_request)
     // otherwise, use the privilege set in bcsr_priv
     priv_x_q <= bcsr_priv;
