@@ -226,7 +226,7 @@ begin
 
     // TODO: define all `DEFINITION refs
     if ((oc_oc & `M_ECALL) == `I_ECALL)
-        exception_e1_q <= `EXCEPTION_ECALL + {4'b0, current_priv};
+        exception_e1 <= `EXCEPTION_ECALL + {4'b0, current_priv};
 
     else if (eret_fault)
         exception_e1 <= `EXCEPTION_ILLEGAL_INSTRUCTION;
@@ -305,7 +305,7 @@ begin
 end
 else if (reset_q)
 begin
-    branch_target <= reset_vector_i;
+    branch_target <= reset_vector;
     branch <= 1'b1;
     reset_q <= 1'b0;
 end
@@ -316,7 +316,7 @@ begin
 end
 assign branch_csr_request = branch;
 assign branch_csr_pc = branch_target;
-assign branch_csr_priv = satp_reg[`SATP_MODE_R] ? current_priv : `PRIV_MACHINE
+assign branch_csr_priv = satp_reg[`SATP_MODE_R] ? current_priv : `PRIV_MACHINE;
 
 assign mmu_priv_d = status_reg[`SR_MPRV_R] ? status_reg[`SR_MPP_R] : current_priv;
 assign mmu_satp = satp_reg;
