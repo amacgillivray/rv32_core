@@ -82,7 +82,7 @@ module csr_regfile
 );
 
 // Will change this later
-`include "riscv_defs.v"
+`include "defs.v"
 
 // Registers / Wires
 // CSR - Machine
