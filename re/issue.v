@@ -226,7 +226,7 @@ assign b_pc      = bcsr_request ? bcsr_pc   : bde_pc;
 assign b_priv    = bcsr_request ? bcsr_priv : priv_x_q; // priv_x_q is bcsr_priv unless reset
 
 // Instruction Decoder
-wire [4:0] issue_ra_idx   = f_instr[19:25];
+wire [4:0] issue_ra_idx   = f_instr[19:15];
 wire [4:0] issue_rb_idx   = f_instr[24:20];
 wire [4:0] issue_rd_idx   = f_instr[ 11:7];
 wire       issue_sb_alloc = f_i_rd_valid;
@@ -283,72 +283,76 @@ u_pipe_ctrl(
     ,.rst(rst)
     
     // issue
-    ,.issue_valid(oc_issue)
-    ,.issue_accept(oc_accept)
-    ,.issue_stall(stall)
-    ,.issue_lsu(issue_lsu)
-    ,.issue_csr(issue_csr)
-    ,.issue_div(issue_div)
-    ,.issue_mul(issue_mul)
-    ,.issue_branch(issue_branch)
-    ,.issue_rd_valid(issue_sb_alloc)
-    ,.issue_rd(issue_rd_idx)
-    ,.issue_exception(issue_fault)
-    ,.issue_pc(oc_pc)
-    ,.issue_opcode(oc_oc)
-    ,.issue_opr_ra(oc_ra_operand)
-    ,.issue_opr_rb(oc_rb_operand)
-    ,.issue_branch_taken(bde_request)
-    ,.issue_branch_target(bde_pc)
-    ,.take_interrupt(take_interrupt)
+    ,.issue_valid_i(oc_issue)
+    ,.issue_accept_i(oc_accept)
+    ,.issue_stall_i(stall)
+    ,.issue_lsu_i(issue_lsu)
+    ,.issue_csr_i(issue_csr)
+    ,.issue_div_i(issue_div)
+    ,.issue_mul_i(issue_mul)
+    ,.issue_branch_i(issue_branch)
+    ,.issue_rd_valid_i(issue_sb_alloc)
+    ,.issue_rd_i(issue_rd_idx)
+    ,.issue_exception_i(issue_fault)
+    ,.take_interrupt_i(take_interrupt)
+    ,.issue_branch_taken_i(bde_request)
+    ,.issue_branch_target_i(bde_pc)
+    ,.issue_pc_i(oc_pc)
+    ,.issue_opcode_i(oc_oc)
+    ,.issue_operand_ra_i(oc_ra_operand)
+    ,.issue_operand_rb_i(oc_rb_operand)
 
     // alu
-    ,.alu_result_e1(wb_exec_value)
-    ,.csr_re1_value(csr_re1_value)
-    ,.csr_re1_write(csr_re1_write)
-    ,.csr_re1_wdata(csr_re1_wdata)
-    ,.csr_re1_exception(csr_re1_exception)
+    ,.alu_result_e1_i(wb_exec_value)
+    ,.csr_result_value_e1_i(csr_re1_value)
+    ,.csr_result_write_e1_i(csr_re1_write)
+    ,.csr_result_wdata_e1_i(csr_re1_wdata)
+    ,.csr_result_exception_e1_i(csr_re1_exception)
 
     // exec stage 1
-    ,.load_e1(p_load_e1)
-    ,.store_e1(p_store_e1)
-    ,.mul_e1(p_mul_e1)
-    ,.branch_e1(p_branch_e1)
-    ,.rd_e1(p_rd_e1)
-    ,.pc_e1(p_pc_e1)
-    ,.opcode_e1(p_oc_e1)
-    ,.opr_ra_e1(p_opr_ra_e1)
-    ,.opr_rb_e1(p_opr_rb_e1)
+    ,.load_e1_o(p_load_e1)
+    ,.store_e1_o(p_store_e1)
+    ,.mul_e1_o(p_mul_e1)
+    ,.branch_e1_o(p_branch_e1)
+    ,.rd_e1_o(p_rd_e1)
+    ,.pc_e1_o(p_pc_e1)
+    ,.opcode_e1_o(p_oc_e1)
+    ,.operand_ra_e1_o(p_opr_ra_e1)
+    ,.operand_rb_e1_o(p_opr_rb_e1)
 
     // exec stage 2
-    ,.load_e2(p_load_e2)
-    ,.mul_e2(p_mul_e2)
-    ,.rd_e2(p_rd_e2)
-    ,.result_e2(p_result_e2)
+    ,.mem_complete_i(wb_mem_valid)
+    ,.mem_result_e2_i(wb_mem_value)
+    ,.mem_exception_e2_i(wb_mem_exception)
+    ,.mul_result_e2_i(wb_mul_value)
+    ,.load_e2_o(p_load_e2)
+    ,.mul_e2_o(p_mul_e2)
+    ,.rd_e2_o(p_rd_e2)
+    ,.result_e2_o(p_result_e2)
 
-    // Stall, squash
-    ,.stall(p_stall_raw)
-    ,.squash_e1_e2(p_squash_e1_e2)
-    ,.squash_e1_e2(1'b0)
-    ,.squash_wb(1'b0)
-
-    // div
-    ,.div_complete(wb_div_valid)
-    ,.div_result(wb_div_value)
+    // div result
+    ,.div_complete_i(wb_div_valid)
+    ,.div_result_i(wb_div_value)
 
     // commit
-    ,.valid_wb(p_valid_wb)
-    ,.csr_wb(p_csr_wb)
-    ,.rd_wb(p_rd_wb)
-    ,.result_wb(p_result_wb)
-    ,.pc_wb(p_pc_wb)
-    ,.opcode_wb(p_opc_wb)
-    ,.opr_ra_wb(p_ra_val_wb)
-    ,.opr_rb_wb(p_rb_val_wb)
-    ,.exception_wb(p_except_wb)
-    ,.csr_write_wb(csr_wb_write)
-    ,.csr_waddr_wb(csr_wb_waddr)
-    ,.csr_wdata_wb(csr_wb_wdata)
+    ,.valid_wb_o(p_valid_wb)
+    ,.csr_wb_o(p_csr_wb)
+    ,.rd_wb_o(p_rd_wb)
+    ,.result_wb_o(p_result_wb)
+    ,.pc_wb_o(p_pc_wb)
+    ,.opcode_wb_o(p_opc_wb)
+    ,.operand_ra_wb_o(p_ra_val_wb)
+    ,.operand_rb_wb_o(p_rb_val_wb)
+    ,.exception_wb_o(p_except_wb)
+    ,.csr_write_wb_o(csr_wb_write)
+    ,.csr_waddr_wb_o(csr_wb_waddr)
+    ,.csr_wdata_wb_o(csr_wb_wdata)
+    
+    // Stall, squash
+    ,.stall_o(p_stall_raw)
+    ,.squash_e1_e2_o(p_squash_e1_e2)
+    ,.squash_e1_e2_i(1'b0)
+    ,.squash_wb_i(1'b0)
 );
 
 assign exec_hold = stall; 
@@ -459,19 +463,16 @@ wire [31:0] issue_rb_value;
 wire [31:0] issue_b_ra_value;
 wire [31:0] issue_b_rb_value;
 regfile
-#(
-    .SUPPORT_REGFILE_XILINX(SUPPORT_REGFILE_XILINX)
-)
 u_regfile
 (
      .clk(clk)
     ,.rst(rst)
-    ,.rd0(p_rd_wb)
-    ,.rd0_value(p_result_wb)
-    ,.ra0(issue_ra_idx)
-    ,.rb0(issue_rb_idx)
-    ,.ra0_value(issue_ra_value)
-    ,.rb0_value(issue_rb_value)
+    ,.rd0_i(p_rd_wb)
+    ,.rd0_value_i(p_result_wb)
+    ,.ra0_i(issue_ra_idx)
+    ,.rb0_i(issue_rb_idx)
+    ,.ra0_value_o(issue_ra_value)
+    ,.rb0_value_o(issue_rb_value)
 );
 
 // Set opcode values
