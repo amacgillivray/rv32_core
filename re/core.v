@@ -54,7 +54,7 @@ module core
     parameter SUPPORT_MUL_BYPASS = 1,
     parameter SUPPORT_REGFILE_XILINX = 0,
     parameter EXTRA_DECODE_STAGE = 0,
-    parameter MEM_CACHE_ADDR_MIN = 32'h80000000
+    parameter MEM_CACHE_ADDR_MIN = 32'h80000000,
     parameter MEM_CACHE_ADDR_MAX = 32'h8FFFFFFF
 )
 (
@@ -245,7 +245,7 @@ wire squash_decode;
 
 // "M" Extension ("mul_" = Multiplication, "div_" = Division)
 wire mul_opcode_valid;
-wire mul_opcode_invalid
+wire mul_opcode_invalid;
 wire [31:0] mul_opcode_opcode;
 wire [31:0] mul_opcode_pc;
 wire [4:0] mul_opcode_rd_idx;
@@ -566,8 +566,8 @@ issue
     .csr_wb_exception_pc(csr_wb_except_pc),
     .csr_wb_exception_addr(csr_wb_except_addr),
 
-    .hold_exec(exec_hold)
-    .hold_mul(mul_hold)
+    .hold_exec(exec_hold),
+    .hold_mul(mul_hold),
     .interrupt_inhibit(interrupt_inhibit)
 );
 
@@ -601,3 +601,5 @@ fetch
     ,.ic_priv_o(fetch_in_priv)
     ,.squash_decode_o(squash_decode)
 );
+
+endmodule

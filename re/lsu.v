@@ -85,9 +85,7 @@ module lsu
     ,output          stall_o
 );
 
-
-// leaving this in for now and will adjust any references to this later
-`include "riscv_defs.v"
+`include "defs.v"
 
 // Registers / Wires
 reg [31:0]   mem_addr_q;
@@ -132,30 +130,30 @@ else
     mem_unaligned_e2_q <= mem_unaligned_e1_q & ~delay_lsu_e2_w;
 
 // Opcode decode
-wire load_inst_w =(((opcode_opcode_i & `INST_LB_MASK) == `INST_LB)  || 
-                   ((opcode_opcode_i & `INST_LH_MASK) == `INST_LH)  || 
-                   ((opcode_opcode_i & `INST_LW_MASK) == `INST_LW)  || 
-                   ((opcode_opcode_i & `INST_LBU_MASK) == `INST_LBU) || 
-                   ((opcode_opcode_i & `INST_LHU_MASK) == `INST_LHU) || 
-                   ((opcode_opcode_i & `INST_LWU_MASK) == `INST_LWU));
+wire load_inst_w =(((opcode_opcode_i & `M_LB) == `I_LB)   || 
+                   ((opcode_opcode_i & `M_LH) == `I_LH)   || 
+                   ((opcode_opcode_i & `M_LW) == `I_LW)   || 
+                   ((opcode_opcode_i & `M_LBU) == `I_LBU) || 
+                   ((opcode_opcode_i & `M_LHU) == `I_LHU) || 
+                   ((opcode_opcode_i & `M_LWU) == `I_LWU));
 
-wire load_signed_inst_w =(((opcode_opcode_i & `INST_LB_MASK) == `INST_LB)  || 
-                          ((opcode_opcode_i & `INST_LH_MASK) == `INST_LH)  || 
-                          ((opcode_opcode_i & `INST_LW_MASK) == `INST_LW));
+wire load_signed_inst_w =(((opcode_opcode_i & `M_LB) == `I_LB)  || 
+                          ((opcode_opcode_i & `M_LH) == `I_LH)  || 
+                          ((opcode_opcode_i & `M_LW) == `I_LW));
 
-wire store_inst_w =(((opcode_opcode_i & `INST_SB_MASK) == `INST_SB)  || 
-                    ((opcode_opcode_i & `INST_SH_MASK) == `INST_SH)  || 
-                    ((opcode_opcode_i & `INST_SW_MASK) == `INST_SW));
+wire store_inst_w =(((opcode_opcode_i & `M_SB) == `I_SB)  || 
+                    ((opcode_opcode_i & `M_SH) == `I_SH)  || 
+                    ((opcode_opcode_i & `M_SW) == `I_SW));
 
-wire req_lb_w =((opcode_opcode_i & `INST_LB_MASK) == `INST_LB) ||((opcode_opcode_i & `INST_LBU_MASK) == `INST_LBU);
-wire req_lh_w =((opcode_opcode_i & `INST_LH_MASK) == `INST_LH) ||((opcode_opcode_i & `INST_LHU_MASK) == `INST_LHU);
-wire req_lw_w =((opcode_opcode_i & `INST_LW_MASK) == `INST_LW) ||((opcode_opcode_i & `INST_LWU_MASK) == `INST_LWU);
-wire req_sb_w =((opcode_opcode_i & `INST_LB_MASK) == `INST_SB);
-wire req_sh_w =((opcode_opcode_i & `INST_LH_MASK) == `INST_SH);
-wire req_sw_w =((opcode_opcode_i & `INST_LW_MASK) == `INST_SW);
+wire req_lb_w =((opcode_opcode_i & `M_LB) == `I_LB) ||((opcode_opcode_i & `M_LBU) == `I_LBU);
+wire req_lh_w =((opcode_opcode_i & `M_LH) == `I_LH) ||((opcode_opcode_i & `M_LHU) == `I_LHU);
+wire req_lw_w =((opcode_opcode_i & `M_LW) == `I_LW) ||((opcode_opcode_i & `M_LWU) == `I_LWU);
+wire req_sb_w =((opcode_opcode_i & `M_LB) == `I_SB);
+wire req_sh_w =((opcode_opcode_i & `M_LH) == `I_SH);
+wire req_sw_w =((opcode_opcode_i & `M_LW) == `I_SW);
 
-wire req_sw_lw_w =((opcode_opcode_i & `INST_SW_MASK) == `INST_SW) ||((opcode_opcode_i & `INST_LW_MASK) == `INST_LW) ||((opcode_opcode_i & `INST_LWU_MASK) == `INST_LWU);
-wire req_sh_lh_w =((opcode_opcode_i & `INST_SH_MASK) == `INST_SH) ||((opcode_opcode_i & `INST_LH_MASK) == `INST_LH) ||((opcode_opcode_i & `INST_LHU_MASK) == `INST_LHU);
+wire req_sw_lw_w =((opcode_opcode_i & `M_SW) == `I_SW) ||((opcode_opcode_i & `M_LW) == `I_LW) ||((opcode_opcode_i & `M_LWU) == `I_LWU);
+wire req_sh_lh_w =((opcode_opcode_i & `M_SH) == `I_SH) ||((opcode_opcode_i & `M_LH) == `I_LH) ||((opcode_opcode_i & `M_LHU) == `I_LHU);
 
 reg [31:0]  mem_addr_r;
 reg         mem_unaligned_r;
@@ -171,7 +169,7 @@ begin
     mem_wr_r        = 4'b0;
     mem_rd_r        = 1'b0;
 
-    if(opcode_valid_i &&((opcode_opcode_i & `INST_CSRRW_MASK) == `INST_CSRRW))
+    if(opcode_valid_i &&((opcode_opcode_i & `M_CSRRW) == `I_CSRRW))
         mem_addr_r = opcode_ra_operand_i;
     else if(opcode_valid_i && load_inst_w)
         mem_addr_r = opcode_ra_operand_i + {{20{opcode_opcode_i[31]}}, opcode_opcode_i[31:20]};
@@ -185,12 +183,12 @@ begin
 
     mem_rd_r = (opcode_valid_i && load_inst_w && !mem_unaligned_r);
 
-    if(opcode_valid_i && ((opcode_opcode_i & `INST_SW_MASK) == `INST_SW) && !mem_unaligned_r)
+    if(opcode_valid_i && ((opcode_opcode_i & `M_SW) == `I_SW) && !mem_unaligned_r)
     begin
         mem_data_r = opcode_rb_operand_i;
         mem_wr_r = 4'hF;
     end
-    else if(opcode_valid_i &&((opcode_opcode_i & `INST_SH_MASK) == `INST_SH) && !mem_unaligned_r)
+    else if(opcode_valid_i &&((opcode_opcode_i & `M_SH) == `I_SH) && !mem_unaligned_r)
     begin
         case(mem_addr_r[1:0])
         2'h2 :
@@ -205,7 +203,7 @@ begin
         end
         endcase
     end
-    else if(opcode_valid_i &&((opcode_opcode_i & `INST_SB_MASK) == `INST_SB))
+    else if(opcode_valid_i &&((opcode_opcode_i & `M_SB) == `I_SB))
     begin
         case(mem_addr_r[1:0])
         2'h3 :
@@ -236,9 +234,9 @@ begin
         mem_wr_r = 4'b0;
 end
 
-wire dcache_flush_w = ((opcode_opcode_i & `INST_CSRRW_MASK) == `INST_CSRRW) &&(opcode_opcode_i[31:20] == `CSR_DFLUSH);
-wire dcache_writeback_w = ((opcode_opcode_i & `INST_CSRRW_MASK) == `INST_CSRRW) &&(opcode_opcode_i[31:20] == `CSR_DWRITEBACK);
-wire dcache_invalidate_w = ((opcode_opcode_i & `INST_CSRRW_MASK) == `INST_CSRRW) &&(opcode_opcode_i[31:20] == `CSR_DINVALIDATE);
+wire dcache_flush_w = ((opcode_opcode_i & `M_CSRRW) == `I_CSRRW) && (opcode_opcode_i[31:20] == `CSR_DFLUSH);
+wire dcache_writeback_w = ((opcode_opcode_i & `M_CSRRW) == `I_CSRRW) &&(opcode_opcode_i[31:20] == `CSR_DWRITEBACK);
+wire dcache_invalidate_w = ((opcode_opcode_i & `M_CSRRW) == `I_CSRRW) &&(opcode_opcode_i[31:20] == `CSR_DINVALIDATE);
 
 // Sequential
 always @(posedge clk or posedge rst)

@@ -45,7 +45,7 @@ module alu
 (
      input  [3:0]  alu_i_op
     ,input  [31:0] alu_i_a
-    ,input  [31:0] alu_i_b,
+    ,input  [31:0] alu_i_b
     ,output [31:0] alu_o
 ); 
 
@@ -138,7 +138,7 @@ begin
                 sl4 = sl2;
             
             if (alu_i_b[3] == 1'b1)
-                sl8 = {sl4[23:0], 8'b00000000}
+                sl8 = {sl4[23:0], 8'b00000000};
             else 
                 sl8 = sl4;
 
@@ -147,9 +147,9 @@ begin
             else
                 r = sl8;
         end
-        `ALU_SHIFT_RIGHT, `ALU_SHIFT_RIGHT_ARITHMETIC
+        `ALU_SHIFT_RIGHT, `ALU_SHIFT_RIGHT_ARITHMETIC:
         begin
-            if (alu_i_op = `ALU_SHIFT_RIGHT_ARITHMETIC && alu_i_a[31] == 1'b1)
+            if (alu_i_op == `ALU_SHIFT_RIGHT_ARITHMETIC && alu_i_a[31] == 1'b1)
                 srf = 16'b1111111111111111;
             else
                 srf = 16'b0000000000000000;

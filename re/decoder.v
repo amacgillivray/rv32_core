@@ -64,184 +64,184 @@ module decoder
 );
 
 // Instruction invalid
-wire WInvalid = InValid && 
-                ~(((InOpcode & `INST_ANDI_MASK) == `INST_ANDI) ||
-                ((InOpcode & `INST_ADDI_MASK) == `INST_ADDI)  ||
-                ((InOpcode & `INST_SLTI_MASK) == `INST_SLTI)  ||
-                ((InOpcode & `INST_SLTIU_MASK) == `INST_SLTIU) ||
-                ((InOpcode & `INST_ORI_MASK) == `INST_ORI) ||
-                ((InOpcode & `INST_XORI_MASK) == `INST_XORI) ||
-                ((InOpcode & `INST_SLLI_MASK) == `INST_SLLI) ||
-                ((InOpcode & `INST_SRLI_MASK) == `INST_SRLI) ||
-                ((InOpcode & `INST_SRAI_MASK) == `INST_SRAI) ||
-                ((InOpcode & `INST_LUI_MASK) == `INST_LUI) ||
-                ((InOpcode & `INST_AUIPC_MASK) == `INST_AUIPC) ||
-                ((InOpcode & `INST_ADD_MASK) == `INST_ADD) ||
-                ((InOpcode & `INST_SUB_MASK) == `INST_SUB) ||
-                ((InOpcode & `INST_SLT_MASK) == `INST_SLT) ||
-                ((InOpcode & `INST_SLTU_MASK) == `INST_SLTU) ||
-                ((InOpcode & `INST_XOR_MASK) == `INST_XOR) ||
-                ((InOpcode & `INST_OR_MASK) == `INST_OR) ||
-                ((InOpcode & `INST_AND_MASK) == `INST_AND) ||
-                ((InOpcode & `INST_SLL_MASK) == `INST_SLL) ||
-                ((InOpcode & `INST_SRL_MASK) == `INST_SRL) ||
-                ((InOpcode & `INST_SRA_MASK) == `INST_SRA) ||
-                ((InOpcode & `INST_JAL_MASK) == `INST_JAL) ||
-                ((InOpcode & `INST_JALR_MASK) == `INST_JALR) ||
-                ((InOpcode & `INST_BEQ_MASK) == `INST_BEQ) ||
-                ((InOpcode & `INST_BNE_MASK) == `INST_BNE) ||
-                ((InOpcode & `INST_BLT_MASK) == `INST_BLT) ||
-                ((InOpcode & `INST_BGE_MASK) == `INST_BGE) ||
-                ((InOpcode & `INST_BLTU_MASK) == `INST_BLTU) ||
-                ((InOpcode & `INST_BGEU_MASK) == `INST_BGEU) ||
-                ((InOpcode & `INST_LB_MASK) == `INST_LB) ||
-                ((InOpcode & `INST_LH_MASK) == `INST_LH) ||
-                ((InOpcode & `INST_LW_MASK) == `INST_LW) ||
-                ((InOpcode & `INST_LBU_MASK) == `INST_LBU) ||
-                ((InOpcode & `INST_LHU_MASK) == `INST_LHU) ||
-                ((InOpcode & `INST_LWU_MASK) == `INST_LWU) ||
-                ((InOpcode & `INST_SB_MASK) == `INST_SB) ||
-                ((InOpcode & `INST_SH_MASK) == `INST_SH) ||
-                ((InOpcode & `INST_SW_MASK) == `INST_SW) ||
-                ((InOpcode & `INST_ECALL_MASK) == `INST_ECALL) ||
-                ((InOpcode & `INST_EBREAK_MASK) == `INST_EBREAK) ||
-                ((InOpcode & `INST_ERET_MASK) == `INST_ERET) ||
-                ((InOpcode & `INST_CSRRW_MASK) == `INST_CSRRW) ||
-                ((InOpcode & `INST_CSRRS_MASK) == `INST_CSRRS) ||
-                ((InOpcode & `INST_CSRRC_MASK) == `INST_CSRRC) ||
-                ((InOpcode & `INST_CSRRWI_MASK) == `INST_CSRRWI) ||
-                ((InOpcode & `INST_CSRRSI_MASK) == `INST_CSRRSI) ||
-                ((InOpcode & `INST_CSRRCI_MASK) == `INST_CSRRCI) ||
-                ((InOpcode & `INST_WFI_MASK) == `INST_WFI) ||
-                ((InOpcode & `INST_FENCE_MASK) == `INST_FENCE) ||
-                ((InOpcode & `INST_IFENCE_MASK) == `INST_IFENCE) ||
-                ((InOpcode & `INST_SFENCE_MASK) == `INST_SFENCE) ||
-                (InEnableMuldiv && (InOpcode & `INST_MUL_MASK) == `INST_MUL) ||
-                (InEnableMuldiv && (InOpcode & `INST_MULH_MASK) == `INST_MULH) ||
-                (InEnableMuldiv && (InOpcode & `INST_MULHSU_MASK) == `INST_MULHSU) ||
-                (InEnableMuldiv && (InOpcode & `INST_MULHU_MASK) == `INST_MULHU) ||
-                (InEnableMuldiv && (InOpcode & `INST_DIV_MASK) == `INST_DIV) ||
-                (InEnableMuldiv && (InOpcode & `INST_DIVU_MASK) == `INST_DIVU) ||
-                (InEnableMuldiv && (InOpcode & `INST_REM_MASK) == `INST_REM) ||
-                (InEnableMuldiv && (InOpcode & `INST_REMU_MASK) == `INST_REMU));
+wire WInvalid = InValid && ~(
+                ((InOpcode & `M_ANDI)  == `I_ANDI)  ||
+                ((InOpcode & `M_ADDI)  == `I_ADDI)  ||
+                ((InOpcode & `M_SLTI)  == `I_SLTI)  ||
+                ((InOpcode & `M_SLTIU) == `I_SLTIU) ||
+                ((InOpcode & `M_ORI)   == `I_ORI)   ||
+                ((InOpcode & `M_XORI)  == `I_XORI)  ||
+                ((InOpcode & `M_SLLI)  == `I_SLLI)  ||
+                ((InOpcode & `M_SRLI)  == `I_SRLI)  ||
+                ((InOpcode & `M_SRAI)  == `I_SRAI)  ||
+                ((InOpcode & `M_LUI)   == `I_LUI)   ||
+                ((InOpcode & `M_AUIPC) == `I_AUIPC) ||
+                ((InOpcode & `M_ADD)   == `I_ADD)   ||
+                ((InOpcode & `M_SUB)   == `I_SUB)   ||
+                ((InOpcode & `M_SLT)   == `I_SLT)   ||
+                ((InOpcode & `M_SLTU)  == `I_SLTU)  ||
+                ((InOpcode & `M_XOR)   == `I_XOR)   ||
+                ((InOpcode & `M_OR)    == `I_OR)    ||
+                ((InOpcode & `M_AND)   == `I_AND)   ||
+                ((InOpcode & `M_SLL)   == `I_SLL)   ||
+                ((InOpcode & `M_SRL)   == `I_SRL)   ||
+                ((InOpcode & `M_SRA)   == `I_SRA)   ||
+                ((InOpcode & `M_JAL)   == `I_JAL)   ||
+                ((InOpcode & `M_JALR)  == `I_JALR)  ||
+                ((InOpcode & `M_BEQ)   == `I_BEQ)   ||
+                ((InOpcode & `M_BNE)   == `I_BNE)   ||
+                ((InOpcode & `M_BLT)   == `I_BLT)   ||
+                ((InOpcode & `M_BGE)   == `I_BGE)   ||
+                ((InOpcode & `M_BLTU)  == `I_BLTU)  ||
+                ((InOpcode & `M_BGEU)  == `I_BGEU)  ||
+                ((InOpcode & `M_LB)    == `I_LB)    ||
+                ((InOpcode & `M_LH)    == `I_LH)    ||
+                ((InOpcode & `M_LW)    == `I_LW)    ||
+                ((InOpcode & `M_LBU)   == `I_LBU)   ||
+                ((InOpcode & `M_LHU)   == `I_LHU)   ||
+                ((InOpcode & `M_LWU)   == `I_LWU)   ||
+                ((InOpcode & `M_SB)    == `I_SB)    ||
+                ((InOpcode & `M_SH)    == `I_SH)    ||
+                ((InOpcode & `M_SW)    == `I_SW)    ||
+                ((InOpcode & `M_ECALL)  == `I_ECALL)  ||
+                ((InOpcode & `M_EBREAK) == `I_EBREAK) ||
+                ((InOpcode & `M_ERET)   == `I_ERET)   ||
+                ((InOpcode & `M_CSRRW)  == `I_CSRRW)  ||
+                ((InOpcode & `M_CSRRS)  == `I_CSRRS)  ||
+                ((InOpcode & `M_CSRRC)  == `I_CSRRC)  ||
+                ((InOpcode & `M_CSRRWI) == `I_CSRRWI) ||
+                ((InOpcode & `M_CSRRSI) == `I_CSRRSI) ||
+                ((InOpcode & `M_CSRRCI) == `I_CSRRCI) ||
+                ((InOpcode & `M_WFI)    == `I_WFI)    ||
+                ((InOpcode & `M_FENCE)  == `I_FENCE)  ||
+                ((InOpcode & `M_IFENCE) == `I_IFENCE) ||
+                ((InOpcode & `M_SFENCE) == `I_SFENCE) ||
+                (InEnableMuldiv && (InOpcode & `M_MUL)    == `I_MUL)    ||
+                (InEnableMuldiv && (InOpcode & `M_MULH)   == `I_MULH)   ||
+                (InEnableMuldiv && (InOpcode & `M_MULHSU) == `I_MULHSU) ||
+                (InEnableMuldiv && (InOpcode & `M_MULHU)  == `I_MULHU)  ||
+                (InEnableMuldiv && (InOpcode & `M_DIV)    == `I_DIV)    ||
+                (InEnableMuldiv && (InOpcode & `M_DIVU)   == `I_DIVU)   ||
+                (InEnableMuldiv && (InOpcode & `M_REM)    == `I_REM)    ||
+                (InEnableMuldiv && (InOpcode & `M_REMU)   == `I_REMU));
 
 
 assign OutInvalid = WInvalid;
-assign OutRdValid = ((InOpcode & `INST_JALR_MASK) == `INST_JALR) ||
-                    ((InOpcode & `INST_JAL_MASK) == `INST_JAL) ||
-                    ((InOpcode & `INST_LUI_MASK) == `INST_LUI) ||
-                    ((InOpcode & `INST_AUIPC_MASK) == `INST_AUIPC) ||
-                    ((InOpcode & `INST_ADDI_MASK) == `INST_ADDI) ||
-                    ((InOpcode & `INST_SLLI_MASK) == `INST_SLLI) ||
-                    ((InOpcode & `INST_SLTI_MASK) == `INST_SLTI) ||
-                    ((InOpcode & `INST_SLTIU_MASK) == `INST_SLTIU) ||
-                    ((InOpcode & `INST_XORI_MASK) == `INST_XORI) ||
-                    ((InOpcode & `INST_SRLI_MASK) == `INST_SRLI) ||
-                    ((InOpcode & `INST_SRAI_MASK) == `INST_SRAI) ||
-                    ((InOpcode & `INST_ORI_MASK) == `INST_ORI) ||
-                    ((InOpcode & `INST_ANDI_MASK) == `INST_ANDI) ||
-                    ((InOpcode & `INST_ADD_MASK) == `INST_ADD) ||
-                    ((InOpcode & `INST_SUB_MASK) == `INST_SUB) ||
-                    ((InOpcode & `INST_SLL_MASK) == `INST_SLL) ||
-                    ((InOpcode & `INST_SLT_MASK) == `INST_SLT) ||
-                    ((InOpcode & `INST_SLTU_MASK) == `INST_SLTU) ||
-                    ((InOpcode & `INST_XOR_MASK) == `INST_XOR) ||
-                    ((InOpcode & `INST_SRL_MASK) == `INST_SRL) ||
-                    ((InOpcode & `INST_SRA_MASK) == `INST_SRA) ||
-                    ((InOpcode & `INST_OR_MASK) == `INST_OR) ||
-                    ((InOpcode & `INST_AND_MASK) == `INST_AND) ||
-                    ((InOpcode & `INST_LB_MASK) == `INST_LB) ||
-                    ((InOpcode & `INST_LH_MASK) == `INST_LH) ||
-                    ((InOpcode & `INST_LW_MASK) == `INST_LW) ||
-                    ((InOpcode & `INST_LBU_MASK) == `INST_LBU) ||
-                    ((InOpcode & `INST_LHU_MASK) == `INST_LHU) ||
-                    ((InOpcode & `INST_LWU_MASK) == `INST_LWU) ||
-                    ((InOpcode & `INST_MUL_MASK) == `INST_MUL) ||
-                    ((InOpcode & `INST_MULH_MASK) == `INST_MULH) ||
-                    ((InOpcode & `INST_MULHSU_MASK) == `INST_MULHSU) ||
-                    ((InOpcode & `INST_MULHU_MASK) == `INST_MULHU) ||
-                    ((InOpcode & `INST_DIV_MASK) == `INST_DIV) ||
-                    ((InOpcode & `INST_DIVU_MASK) == `INST_DIVU) ||
-                    ((InOpcode & `INST_REM_MASK) == `INST_REM) ||
-                    ((InOpcode & `INST_REMU_MASK) == `INST_REMU) ||
-                    ((InOpcode & `INST_CSRRW_MASK) == `INST_CSRRW) ||
-                    ((InOpcode & `INST_CSRRS_MASK) == `INST_CSRRS) ||
-                    ((InOpcode & `INST_CSRRC_MASK) == `INST_CSRRC) ||
-                    ((InOpcode & `INST_CSRRWI_MASK) == `INST_CSRRWI) ||
-                    ((InOpcode & `INST_CSRRSI_MASK) == `INST_CSRRSI) ||
-                    ((InOpcode & `INST_CSRRCI_MASK) == `INST_CSRRCI);
+assign OutRdValid = ((InOpcode & `M_JALR) == `I_JALR) ||
+                    ((InOpcode & `M_JAL) == `I_JAL) ||
+                    ((InOpcode & `M_LUI) == `I_LUI) ||
+                    ((InOpcode & `M_AUIPC) == `I_AUIPC) ||
+                    ((InOpcode & `M_ADDI) == `I_ADDI) ||
+                    ((InOpcode & `M_SLLI) == `I_SLLI) ||
+                    ((InOpcode & `M_SLTI) == `I_SLTI) ||
+                    ((InOpcode & `M_SLTIU) == `I_SLTIU) ||
+                    ((InOpcode & `M_XORI) == `I_XORI) ||
+                    ((InOpcode & `M_SRLI) == `I_SRLI) ||
+                    ((InOpcode & `M_SRAI) == `I_SRAI) ||
+                    ((InOpcode & `M_ORI) == `I_ORI) ||
+                    ((InOpcode & `M_ANDI) == `I_ANDI) ||
+                    ((InOpcode & `M_ADD) == `I_ADD) ||
+                    ((InOpcode & `M_SUB) == `I_SUB) ||
+                    ((InOpcode & `M_SLL) == `I_SLL) ||
+                    ((InOpcode & `M_SLT) == `I_SLT) ||
+                    ((InOpcode & `M_SLTU) == `I_SLTU) ||
+                    ((InOpcode & `M_XOR) == `I_XOR) ||
+                    ((InOpcode & `M_SRL) == `I_SRL) ||
+                    ((InOpcode & `M_SRA) == `I_SRA) ||
+                    ((InOpcode & `M_OR) == `I_OR) ||
+                    ((InOpcode & `M_AND) == `I_AND) ||
+                    ((InOpcode & `M_LB) == `I_LB) ||
+                    ((InOpcode & `M_LH) == `I_LH) ||
+                    ((InOpcode & `M_LW) == `I_LW) ||
+                    ((InOpcode & `M_LBU) == `I_LBU) ||
+                    ((InOpcode & `M_LHU) == `I_LHU) ||
+                    ((InOpcode & `M_LWU) == `I_LWU) ||
+                    ((InOpcode & `M_MUL) == `I_MUL) ||
+                    ((InOpcode & `M_MULH) == `I_MULH) ||
+                    ((InOpcode & `M_MULHSU) == `I_MULHSU) ||
+                    ((InOpcode & `M_MULHU) == `I_MULHU) ||
+                    ((InOpcode & `M_DIV) == `I_DIV) ||
+                    ((InOpcode & `M_DIVU) == `I_DIVU) ||
+                    ((InOpcode & `M_REM) == `I_REM) ||
+                    ((InOpcode & `M_REMU) == `I_REMU) ||
+                    ((InOpcode & `M_CSRRW) == `I_CSRRW) ||
+                    ((InOpcode & `M_CSRRS) == `I_CSRRS) ||
+                    ((InOpcode & `M_CSRRC) == `I_CSRRC) ||
+                    ((InOpcode & `M_CSRRWI) == `I_CSRRWI) ||
+                    ((InOpcode & `M_CSRRSI) == `I_CSRRSI) ||
+                    ((InOpcode & `M_CSRRCI) == `I_CSRRCI);
 
 // Exec
-assign OutExec = ((InOpcode & `INST_ANDI_MASK) == `INST_ANDI) ||
-                ((InOpcode & `INST_ADDI_MASK) == `INST_ADDI) ||
-                ((InOpcode & `INST_SLTI_MASK) == `INST_SLTI) ||
-                ((InOpcode & `INST_SLTIU_MASK) == `INST_SLTIU)||
-                ((InOpcode & `INST_ORI_MASK) == `INST_ORI) ||
-                ((InOpcode & `INST_XORI_MASK) == `INST_XORI) ||
-                ((InOpcode & `INST_SLLI_MASK) == `INST_SLLI) ||
-                ((InOpcode & `INST_SRLI_MASK) == `INST_SRLI) ||
-                ((InOpcode & `INST_SRAI_MASK) == `INST_SRAI) ||
-                ((InOpcode & `INST_LUI_MASK) == `INST_LUI) ||
-                ((InOpcode & `INST_AUIPC_MASK) == `INST_AUIPC)||
-                ((InOpcode & `INST_ADD_MASK) == `INST_ADD) ||
-                ((InOpcode & `INST_SUB_MASK) == `INST_SUB)||
-                ((InOpcode & `INST_SLT_MASK) == `INST_SLT) ||
-                ((InOpcode & `INST_SLTU_MASK) == `INST_SLTU) ||
-                ((InOpcode & `INST_XOR_MASK) == `INST_XOR) ||
-                ((InOpcode & `INST_OR_MASK) == `INST_OR) ||
-                ((InOpcode & `INST_AND_MASK) == `INST_AND) ||
-                ((InOpcode & `INST_SLL_MASK) == `INST_SLL) ||
-                ((InOpcode & `INST_SRL_MASK) == `INST_SRL) ||
-                ((InOpcode & `INST_SRA_MASK) == `INST_SRA);
+assign OutExec = ((InOpcode & `M_ANDI) == `I_ANDI) ||
+                ((InOpcode & `M_ADDI) == `I_ADDI) ||
+                ((InOpcode & `M_SLTI) == `I_SLTI) ||
+                ((InOpcode & `M_SLTIU) == `I_SLTIU)||
+                ((InOpcode & `M_ORI) == `I_ORI) ||
+                ((InOpcode & `M_XORI) == `I_XORI) ||
+                ((InOpcode & `M_SLLI) == `I_SLLI) ||
+                ((InOpcode & `M_SRLI) == `I_SRLI) ||
+                ((InOpcode & `M_SRAI) == `I_SRAI) ||
+                ((InOpcode & `M_LUI) == `I_LUI) ||
+                ((InOpcode & `M_AUIPC) == `I_AUIPC)||
+                ((InOpcode & `M_ADD) == `I_ADD) ||
+                ((InOpcode & `M_SUB) == `I_SUB)||
+                ((InOpcode & `M_SLT) == `I_SLT) ||
+                ((InOpcode & `M_SLTU) == `I_SLTU) ||
+                ((InOpcode & `M_XOR) == `I_XOR) ||
+                ((InOpcode & `M_OR) == `I_OR) ||
+                ((InOpcode & `M_AND) == `I_AND) ||
+                ((InOpcode & `M_SLL) == `I_SLL) ||
+                ((InOpcode & `M_SRL) == `I_SRL) ||
+                ((InOpcode & `M_SRA) == `I_SRA);
 
 // Lsu
-assign OutLsu = ((InOpcode & `INST_LB_MASK) == `INST_LB) ||
-                ((InOpcode & `INST_LH_MASK) == `INST_LH) ||
-                ((InOpcode & `INST_LW_MASK) == `INST_LW) ||
-                ((InOpcode & `INST_LBU_MASK) == `INST_LBU) ||
-                ((InOpcode & `INST_LHU_MASK) == `INST_LHU) ||
-                ((InOpcode & `INST_LWU_MASK) == `INST_LWU) ||
-                ((InOpcode & `INST_SB_MASK) == `INST_SB) ||
-                ((InOpcode & `INST_SH_MASK) == `INST_SH) ||
-                ((InOpcode & `INST_SW_MASK) == `INST_SW);
+assign OutLsu = ((InOpcode & `M_LB) == `I_LB) ||
+                ((InOpcode & `M_LH) == `I_LH) ||
+                ((InOpcode & `M_LW) == `I_LW) ||
+                ((InOpcode & `M_LBU) == `I_LBU) ||
+                ((InOpcode & `M_LHU) == `I_LHU) ||
+                ((InOpcode & `M_LWU) == `I_LWU) ||
+                ((InOpcode & `M_SB) == `I_SB) ||
+                ((InOpcode & `M_SH) == `I_SH) ||
+                ((InOpcode & `M_SW) == `I_SW);
 
 // Branch
-assign OutBranch = ((InOpcode & `INST_JAL_MASK) == `INST_JAL)   ||
-                ((InOpcode & `INST_JALR_MASK) == `INST_JALR) ||
-                ((InOpcode & `INST_BEQ_MASK) == `INST_BEQ) ||
-                ((InOpcode & `INST_BNE_MASK) == `INST_BNE) ||
-                ((InOpcode & `INST_BLT_MASK) == `INST_BLT) ||
-                ((InOpcode & `INST_BGE_MASK) == `INST_BGE) ||
-                ((InOpcode & `INST_BLTU_MASK) == `INST_BLTU) ||
-                ((InOpcode & `INST_BGEU_MASK) == `INST_BGEU);
+assign OutBranch = ((InOpcode & `M_JAL) == `I_JAL)   ||
+                ((InOpcode & `M_JALR) == `I_JALR) ||
+                ((InOpcode & `M_BEQ) == `I_BEQ) ||
+                ((InOpcode & `M_BNE) == `I_BNE) ||
+                ((InOpcode & `M_BLT) == `I_BLT) ||
+                ((InOpcode & `M_BGE) == `I_BGE) ||
+                ((InOpcode & `M_BLTU) == `I_BLTU) ||
+                ((InOpcode & `M_BGEU) == `I_BGEU);
 
 // Mul
 assign OutMul = InEnableMuldiv &&
-                (((InOpcode & `INST_MUL_MASK) == `INST_MUL) ||
-                ((InOpcode & `INST_MULH_MASK) == `INST_MULH) ||
-                ((InOpcode & `INST_MULHSU_MASK) == `INST_MULHSU) ||
-                ((InOpcode & `INST_MULHU_MASK) == `INST_MULHU));
+                (((InOpcode & `M_MUL) == `I_MUL) ||
+                ((InOpcode & `M_MULH) == `I_MULH) ||
+                ((InOpcode & `M_MULHSU) == `I_MULHSU) ||
+                ((InOpcode & `M_MULHU) == `I_MULHU));
 
 // Div
 assign OutDiv = InEnableMuldiv &&
-                (((InOpcode & `INST_DIV_MASK) == `INST_DIV) ||
-                ((InOpcode & `INST_DIVU_MASK) == `INST_DIVU) ||
-                ((InOpcode & `INST_REM_MASK) == `INST_REM) ||
-                ((InOpcode & `INST_REMU_MASK) == `INST_REMU));
+                (((InOpcode & `M_DIV) == `I_DIV) ||
+                ((InOpcode & `M_DIVU) == `I_DIVU) ||
+                ((InOpcode & `M_REM) == `I_REM) ||
+                ((InOpcode & `M_REMU) == `I_REMU));
 
 // Csr
-assign OutCsr = ((InOpcode & `INST_ECALL_MASK) == `INST_ECALL) ||
-                ((InOpcode & `INST_EBREAK_MASK) == `INST_EBREAK) ||
-                ((InOpcode & `INST_ERET_MASK) == `INST_ERET) ||
-                ((InOpcode & `INST_CSRRW_MASK) == `INST_CSRRW) ||
-                ((InOpcode & `INST_CSRRS_MASK) == `INST_CSRRS) ||
-                ((InOpcode & `INST_CSRRC_MASK) == `INST_CSRRC) ||
-                ((InOpcode & `INST_CSRRWI_MASK) == `INST_CSRRWI) ||
-                ((InOpcode & `INST_CSRRSI_MASK) == `INST_CSRRSI) ||
-                ((InOpcode & `INST_CSRRCI_MASK) == `INST_CSRRCI) ||
-                ((InOpcode & `INST_WFI_MASK) == `INST_WFI) ||
-                ((InOpcode & `INST_FENCE_MASK) == `INST_FENCE) ||
-                ((InOpcode & `INST_IFENCE_MASK) == `INST_IFENCE) ||
-                ((InOpcode & `INST_SFENCE_MASK) == `INST_SFENCE) ||
+assign OutCsr = ((InOpcode & `M_ECALL) == `I_ECALL) ||
+                ((InOpcode & `M_EBREAK) == `I_EBREAK) ||
+                ((InOpcode & `M_ERET) == `I_ERET) ||
+                ((InOpcode & `M_CSRRW) == `I_CSRRW) ||
+                ((InOpcode & `M_CSRRS) == `I_CSRRS) ||
+                ((InOpcode & `M_CSRRC) == `I_CSRRC) ||
+                ((InOpcode & `M_CSRRWI) == `I_CSRRWI) ||
+                ((InOpcode & `M_CSRRSI) == `I_CSRRSI) ||
+                ((InOpcode & `M_CSRRCI) == `I_CSRRCI) ||
+                ((InOpcode & `M_WFI) == `I_WFI) ||
+                ((InOpcode & `M_FENCE) == `I_FENCE) ||
+                ((InOpcode & `M_IFENCE) == `I_IFENCE) ||
+                ((InOpcode & `M_SFENCE) == `I_SFENCE) ||
                 WInvalid || InFetchFault;
 endmodule

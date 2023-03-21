@@ -41,7 +41,7 @@
 
 // Rewritten by Jarrod Grothusen with heavy reference to the original code
 
-module riscv_regfile
+module regfile
 
 // Ports
 (

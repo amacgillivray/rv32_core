@@ -64,7 +64,7 @@ module exec
     ,output [ 31:0]  OutBranchSource
     ,output          OutBranchIsCall
     ,output          OutBranchIsRet
-    ,output          Out BranchIsJmp
+    ,output          OutBranchIsJmp
     ,output [ 31:0]  OutBranchPc
     ,output          OutBranchDRequest
     ,output [ 31:0]  OutBranchDPc
@@ -97,12 +97,12 @@ reg [31:0] AluInputBR;
 
 always @ *
 begin
-    AluFuncR = `ALU_NONE;
+    AluFuncR = `ALU_NOOP;
     AluInputAR = 32'b0;
     AluInputBR = 32'b0;
 
     // add mask
-    if((InOpcodeOpcode & `INST_ADD_MASK) == `INST_ADD) 
+    if((InOpcodeOpcode & `M_ADD) == `I_ADD) 
     begin
         AluFuncR = `ALU_ADD;
         AluInputAR = InOpcodeRaOperand;
@@ -110,7 +110,7 @@ begin
     end
 
     // and mask
-    else if((InOpcodeOpcode & `INST_AND_MASK) == `INST_AND) 
+    else if((InOpcodeOpcode & `M_AND) == `I_AND) 
     begin
         AluFuncR = `ALU_AND;
         AluInputAR = InOpcodeRaOperand;
@@ -118,7 +118,7 @@ begin
     end
 
     // or mask
-    else if((InOpcodeOpcode & `INST_OR_MASK) == `INST_OR) 
+    else if((InOpcodeOpcode & `M_OR) == `I_OR) 
     begin
         AluFuncR = `ALU_OR;
         AluInputAR = InOpcodeRaOperand;
@@ -126,39 +126,39 @@ begin
     end
 
     // sll mask
-    else if((InOpcodeOpcode & `INST_SLL_MASK) == `INST_SLL) 
+    else if ((InOpcodeOpcode & `M_SLL) == `I_SLL) 
     begin
-        AluFuncR = `ALU_SHIFTL;
+        AluFuncR = `ALU_SHIFT_LEFT;
         AluInputAR = InOpcodeRaOperand;
         AluInputBR = InOpcodeRbOperand;
     end
 
     // sra mask
-    else if((InOpcodeOpcode & `INST_SRA_MASK) == `INST_SRA) 
+    else if((InOpcodeOpcode & `M_SRA) == `I_SRA) 
     begin
-        AluFuncR = `ALU_SHIFTR_ARITH;
+        AluFuncR = `ALU_SHIFT_RIGHT_ARITHMETIC;
         AluInputAR = InOpcodeRaOperand;
         AluInputBR = InOpcodeRbOperand;
     end
 
     // srl mask
-    else if((InOpcodeOpcode & `INST_SRL_MASK) == `INST_SRL) 
+    else if((InOpcodeOpcode & `M_SRL) == `I_SRL) 
     begin
-        AluFuncR = `ALU_SHIFTR;
+        AluFuncR = `ALU_SHIFT_RIGHT;
         AluInputAR = InOpcodeRaOperand;
         AluInputBR = InOpcodeRbOperand;
     end
 
     // sub mask
-    else if((InOpcodeOpcode & `INST_SUB_MASK) == `INST_SUB) 
+    else if((InOpcodeOpcode & `M_SUB) == `I_SUB) 
     begin
-        AluFuncR = `ALU_SUB;
+        AluFuncR = `ALU_SUBTRACT;
         AluInputAR = InOpcodeRaOperand;
         AluInputBR = InOpcodeRbOperand;
     end
 
     // xor mask
-    else if((InOpcodeOpcode & `INST_XOR_MASK) == `INST_XOR) 
+    else if((InOpcodeOpcode & `M_XOR) == `I_XOR) 
     begin
         AluFuncR = `ALU_XOR;
         AluInputAR = InOpcodeRaOperand;
@@ -166,15 +166,15 @@ begin
     end
 
     // slt mask
-    else if((InOpcodeOpcode & `INST_SLT_MASK) == `INST_SLT) 
+    else if((InOpcodeOpcode & `M_SLT) == `I_SLT) 
     begin
-        AluFuncR = `ALU_LessThanSigned;
+        AluFuncR = `ALU_SIGNED_LESS_THAN;
         AluInputAR = InOpcodeRaOperand;
         AluInputBR = InOpcodeRbOperand;
     end
 
     // sltu mask
-    else if((InOpcodeOpcode & `INST_SLTU_MASK) == `INST_SLTU) 
+    else if((InOpcodeOpcode & `M_SLTU) == `I_SLTU) 
     begin
         AluFuncR = `ALU_LESS_THAN;
         AluInputAR = InOpcodeRaOperand;
@@ -182,7 +182,7 @@ begin
     end
 
     // addi mask
-    else if((InOpcodeOpcode & `INST_ADDI_MASK) == `INST_ADDI) 
+    else if((InOpcodeOpcode & `M_ADDI) == `I_ADDI) 
     begin
         AluFuncR = `ALU_ADD;
         AluInputAR = InOpcodeRaOperand;
@@ -190,7 +190,7 @@ begin
     end
 
     // andi mask
-    else if((InOpcodeOpcode & `INST_ANDI_MASK) == `INST_ANDI) 
+    else if((InOpcodeOpcode & `M_ANDI) == `I_ANDI) 
     begin
         AluFuncR = `ALU_AND;
         AluInputAR = InOpcodeRaOperand;
@@ -198,15 +198,15 @@ begin
     end
 
     // slti mask
-    else if((InOpcodeOpcode & `INST_SLTI_MASK) == `INST_SLTI) 
+    else if((InOpcodeOpcode & `M_SLTI) == `I_SLTI) 
     begin
-        AluFuncR = `ALU_LessThanSigned;
+        AluFuncR = `ALU_SIGNED_LESS_THAN;
         AluInputAR = InOpcodeRaOperand;
         AluInputBR = Imm12R;
     end
 
     // sltiu mask
-    else if((InOpcodeOpcode & `INST_SLTIU_MASK) == `INST_SLTIU) 
+    else if((InOpcodeOpcode & `M_SLTIU) == `I_SLTIU) 
     begin
         AluFuncR = `ALU_LESS_THAN;
         AluInputAR = InOpcodeRaOperand;
@@ -214,7 +214,7 @@ begin
     end
 
     // ori mask
-    else if((InOpcodeOpcode & `INST_ORI_MASK) == `INST_ORI) 
+    else if((InOpcodeOpcode & `M_ORI) == `I_ORI) 
     begin
         AluFuncR = `ALU_OR;
         AluInputAR = InOpcodeRaOperand;
@@ -222,7 +222,7 @@ begin
     end
 
     // xori mask
-    else if((InOpcodeOpcode & `INST_XORI_MASK) == `INST_XORI) 
+    else if((InOpcodeOpcode & `M_XORI) == `I_XORI) 
     begin
         AluFuncR = `ALU_XOR;
         AluInputAR = InOpcodeRaOperand;
@@ -230,37 +230,37 @@ begin
     end
 
     // slli mask
-    else if((InOpcodeOpcode & `INST_SLLI_MASK) == `INST_SLLI) 
+    else if((InOpcodeOpcode & `M_SLLI) == `I_SLLI) 
     begin
-        AluFuncR = `ALU_SHIFTL;
+        AluFuncR = `ALU_SHIFT_LEFT;
         AluInputAR = InOpcodeRaOperand;
         AluInputBR = {27'b0, ShamtR};
     end
 
     // srli mask
-    else if((InOpcodeOpcode & `INST_SRLI_MASK) == `INST_SRLI) 
+    else if((InOpcodeOpcode & `M_SRLI) == `I_SRLI) 
     begin
-        AluFuncR = `ALU_SHIFTR;
+        AluFuncR = `ALU_SHIFT_RIGHT;
         AluInputAR = InOpcodeRaOperand;
         AluInputBR = {27'b0, ShamtR};
     end
 
     // srai mask
-    else if((InOpcodeOpcode & `INST_SRAI_MASK) == `INST_SRAI) 
+    else if((InOpcodeOpcode & `M_SRAI) == `I_SRAI) 
     begin
-        AluFuncR = `ALU_SHIFTR_ARITH;
+        AluFuncR = `ALU_SHIFT_RIGHT_ARITHMETIC;
         AluInputAR = InOpcodeRaOperand;
         AluInputBR = {27'b0, ShamtR};
     end
 
     // lui mask
-    else if((InOpcodeOpcode & `INST_LUI_MASK) == `INST_LUI) 
+    else if((InOpcodeOpcode & `M_LUI) == `I_LUI) 
     begin
         AluInputAR = Imm20R;
     end
 
     // auipc mask
-    else if((InOpcodeOpcode & `INST_AUIPC_MASK) == `INST_AUIPC) 
+    else if((InOpcodeOpcode & `M_AUIPC) == `I_AUIPC) 
     begin
         AluFuncR = `ALU_ADD;
         AluInputAR = InOpcodePc;
@@ -268,7 +268,7 @@ begin
     end
 
     // jal mask, jalr mask     
-    else if(((InOpcodeOpcode & `INST_JAL_MASK) == `INST_JAL) || ((InOpcodeOpcode & `INST_JALR_MASK) == `INST_JALR)) 
+    else if(((InOpcodeOpcode & `M_JAL) == `I_JAL) || ((InOpcodeOpcode & `M_JALR) == `I_JALR)) 
     begin
         AluFuncR = `ALU_ADD;
         AluInputAR = InOpcodePc;
@@ -348,7 +348,7 @@ begin
     BranchTargetR = InOpcodePc + BimmR;
     
     // jal mask
-    if((InOpcodeOpcode & `INST_JAL_MASK) == `INST_JAL) 
+    if((InOpcodeOpcode & `M_JAL) == `I_JAL) 
     begin
         BranchR = 1'b1;
         BranchTakenR = 1'b1;
@@ -358,7 +358,7 @@ begin
     end
 
     // jalr mask
-    else if((InOpcodeOpcode & `INST_JALR_MASK) == `INST_JALR) 
+    else if((InOpcodeOpcode & `M_JALR) == `I_JALR) 
     begin
         BranchR = 1'b1;
         BranchTakenR = 1'b1;
@@ -370,42 +370,42 @@ begin
     end
 
     // beq mask
-    else if((InOpcodeOpcode & `INST_BEQ_MASK) == `INST_BEQ) 
+    else if((InOpcodeOpcode & `M_BEQ) == `I_BEQ) 
     begin
         BranchR = 1'b1;
         BranchTakenR = (InOpcodeRaOperand == InOpcodeRbOperand);
     end
 
     // bne mask
-    else if((InOpcodeOpcode & `INST_BNE_MASK) == `INST_BNE) 
+    else if((InOpcodeOpcode & `M_BNE) == `I_BNE) 
     begin
         BranchR = 1'b1;    
         BranchTakenR = (InOpcodeRaOperand != InOpcodeRbOperand);
     end
 
     // blt mask
-    else if((InOpcodeOpcode & `INST_BLT_MASK) == `INST_BLT) 
+    else if((InOpcodeOpcode & `M_BLT) == `I_BLT) 
     begin
         BranchR = 1'b1;
         BranchTakenR = LessThanSigned(InOpcodeRaOperand, InOpcodeRbOperand);
     end
 
     // bge mask
-    else if((InOpcodeOpcode & `INST_BGE_MASK) == `INST_BGE) 
+    else if((InOpcodeOpcode & `M_BGE) == `I_BGE) 
     begin
         BranchR = 1'b1;    
         BranchTakenR = GreaterThanSigned(InOpcodeRaOperand,InOpcodeRbOperand) | (InOpcodeRaOperand == InOpcodeRbOperand);
     end
 
     // bltu mask
-    else if((InOpcodeOpcode & `INST_BLTU_MASK) == `INST_BLTU) 
+    else if((InOpcodeOpcode & `M_BLTU) == `I_BLTU) 
     begin
         BranchR = 1'b1;    
         BranchTakenR = (InOpcodeRaOperand < InOpcodeRbOperand);
     end
 
     // bgeu mask
-    else if((InOpcodeOpcode & `INST_BGEU_MASK) == `INST_BGEU) 
+    else if((InOpcodeOpcode & `M_BGEU) == `I_BGEU) 
     begin
         BranchR = 1'b1;
         BranchTakenR = (InOpcodeRaOperand >= InOpcodeRbOperand);
@@ -450,7 +450,7 @@ assign OutBranchSource = PcMQ;
 assign OutBranchPc = PcXQ;
 assign OutBranchIsCall = BranchCallQ;
 assign OutBranchIsRet = BranchRetQ;
-assign Out BranchIsJmp = BranchJmpQ;
+assign OutBranchIsJmp = BranchJmpQ;
 assign OutBranchDRequest = (BranchR && InOpcodeValid && BranchTakenR);
 assign OutBranchDPc = BranchTargetR;
 assign OutBranchDPriv = 2'b0; 

@@ -45,7 +45,7 @@
 module multiplier(
 	input clk,
 	input rst,
-	input Valid,
+	input valid,
 	input [31:0] opcode,
 	input [31:0] pc,
 	input invalid,
@@ -60,38 +60,38 @@ module multiplier(
 
 `include "defs.v"
 
-//registers & wires
+// registers & wires
 reg [31:0]  result_1;
 reg [32:0]  operand_a_2;
 reg [32:0]  operand_b_2;
 reg         mulhi_sel;
 
-
-//multiplier
-
+// multiplier
 wire [64:0] mult_result;
 reg [32:0] operand_a_1;
 reg [32:0] operand_b_1;
 reg [31:0] result;
 
-wire mult_inst =	((oc & `IM__MUL) == `I__MUL) ||
-					((oc & `IM__MULH) == `I__MULH) ||
-					((oc & `IM__MULHSU) == `I__MULHSU) ||
-					((oc & `IM__MULHU) == `I__MULHU);
+wire mult_inst =	((opcode & `M_MUL)    == `I_MUL)    ||
+					((opcode & `M_MULH)   == `I_MULH)   ||
+					((opcode & `M_MULHSU) == `I_MULHSU) ||
+					((opcode & `M_MULHU)  == `I_MULHU);
 
-//This sets operand_a
+// This sets operand_a
+// TODO: may be better to use two separate cases instead of 
+//       or-ing them together with || 
 always @ *
 begin
-	if(((opcode & `IM__MULHSU) == `I__MULHSU) || ((opcode & `IM__MULH) == `I__MULH))
+	if(((opcode & `M_MULHSU) == `I_MULHSU) || ((opcode & `M_MULH) == `I_MULH))
 		operand_a_1 = {ra_operand[31], ra_operand[31:0]};
 	else //is MULHU or MUL
 		operand_a_1 = {1'b0, ra_operand[31:0]};
 end
 
-//This sets operand_b
+// This sets operand_b
 always @ *
 begin
-	if(((opcode & `IM__MULHSU) == `I__MULHSU) || ((opcode & `IM__MULH) == `I__MULH))
+	if(((opcode & `M_MULHSU) == `I_MULHSU) || ((opcode & `M_MULH) == `I_MULH))
 		operand_b_1 = {rb_operand[31], rb_operand[31:0]};
 	else //is MULHU or MUL
 		operand_b_1 = {1'b0, rb_operand[31:0]};
@@ -99,19 +99,20 @@ end
 
 //pipeline flops for mult
 always @(posedge clk or posedge rst)
-if(rst)
+if (rst)
 begin
 	operand_a_2 <= 33'b0;
 	operand_b_2 <= 33'b0;
 	mulhi_sel <= 1'b0;
 end
-else if(hold)
-	//do nothing
-else if(valid && mult_inst)
+else if (hold)
+	// do nothing
+	;
+else if (valid && mult_inst)
 begin
-	operand_a_2 <= operand_a;
-	operand_b_2 <= operand_b;
-	mulhi_sel <= ~((opcode & `IM__MUL) == `I__MUL);
+	operand_a_2 <= operand_a_1;
+	operand_b_2 <= operand_b_1;
+	mulhi_sel <= ~((opcode & `M_MUL) == `I_MUL);
 end
 else
 begin
