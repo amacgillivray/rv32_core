@@ -130,18 +130,18 @@ begin
     decoder
     u_dec
     (
-         .valid_i(InFetchInValid)
-        ,.fetch_fault_i(InFetchInFaultFetch | InFetchInFaultPage)
-        ,.enable_muldiv_i(EnableMuldivW)
-        ,.opcode_i(OutFetchOutInstr)
-        ,.invalid_o(OutFetchOutInstrInvalid)
-        ,.exec_o(OutFetchOutInstrExec)
-        ,.lsu_o(OutFetchOutInstrLsu)
-        ,.branch_o(OutFetchOutInstrBranch)
-        ,.mul_o(OutFetchOutInstrMul)
-        ,.div_o(OutFetchOutInstrDiv)
-        ,.csr_o(OutFetchOutInstrCsr)
-        ,.rd_valid_o(OutFetchOutInstrRdValid)
+         .InValid(InFetchInValid)
+        ,.InFetchFault(InFetchInFaultFetch | InFetchInFaultPage)
+        ,.InEnableMuldiv(EnableMuldivW)
+        ,.InOpcode(OutFetchOutInstr)
+        ,.OutInvalid(OutFetchOutInstrInvalid)
+        ,.OutExec(OutFetchOutInstrExec)
+        ,.OutLsu(OutFetchOutInstrLsu)
+        ,.OutBranch(OutFetchOutInstrBranch)
+        ,.OutMul(OutFetchOutInstrMul)
+        ,.OutDiv(OutFetchOutInstrDiv)
+        ,.OutCsr(OutFetchOutInstrCsr)
+        ,.OutRdValid(OutFetchOutInstrRdValid)
     );
 
     // Outputs
