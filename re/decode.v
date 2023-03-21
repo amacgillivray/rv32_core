@@ -87,8 +87,8 @@ begin
     wire [31:0] FetchInInstrW = (InFetchInFaultPage | InFetchInFaultFetch) ? 32'b0 : InFetchInInstr;
     reg [66:0]  BufferQ;
 
-    always @(posedge InClk or posedge InRst)
-    if(InRst)
+    always @(posedge clk or posedge rst)
+    if(rst)
         BufferQ <= 67'b0;
 
     else if(InSquashDecode)
