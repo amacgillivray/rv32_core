@@ -87,8 +87,8 @@ begin
     wire [31:0] FetchInInstrW = (InFetchInFaultPage | InFetchInFaultFetch) ? 32'b0 : InFetchInInstr;
     reg [66:0]  BufferQ;
 
-    always @(posedge InClk or posedge InRst)
-    if(InRst)
+    always @(posedge clk or posedge rst)
+    if(rst)
         BufferQ <= 67'b0;
 
     else if(InSquashDecode)
@@ -107,18 +107,18 @@ begin
     decoder
     u_dec
     (
-         .valid_i(OutFetchOutValid)
-        ,.fetch_fault_i(OutFetchOutFaultPage | OutFetchOutFaultFetch)
-        ,.enable_muldiv_i(EnableMuldivW)
-        ,.opcode_i(OutFetchOutInstr)
-        ,.invalid_o(OutFetchOutInstrInvalid)
-        ,.exec_o(OutFetchOutInstrExec)
-        ,.lsu_o(OutFetchOutInstrLsu)
-        ,.branch_o(OutFetchOutInstrBranch)
-        ,.mul_o(OutFetchOutInstrMul)
-        ,.div_o(OutFetchOutInstrDiv)
-        ,.csr_o(OutFetchOutInstrCsr)
-        ,.rd_valid_o(OutFetchOutInstrRdValid)
+         .InValid(OutFetchOutValid)
+        ,.InFetchFault(OutFetchOutFaultPage | OutFetchOutFaultFetch)
+        ,.InEnableMuldiv(EnableMuldivW)
+        ,.InOpcode(OutFetchOutInstr)
+        ,.OutInvalid(OutFetchOutInstrInvalid)
+        ,.OutExec(OutFetchOutInstrExec)
+        ,.OutLsu(OutFetchOutInstrLsu)
+        ,.OutBranch(OutFetchOutInstrBranch)
+        ,.OutMul(OutFetchOutInstrMul)
+        ,.OutDiv(OutFetchOutInstrDiv)
+        ,.OutCsr(OutFetchOutInstrCsr)
+        ,.OutRdValid(OutFetchOutInstrRdValid)
     );
     assign OutFetchInAccept = InFetchOutAccept;
 end
@@ -130,18 +130,18 @@ begin
     decoder
     u_dec
     (
-         .valid_i(InFetchInValid)
-        ,.fetch_fault_i(InFetchInFaultFetch | InFetchInFaultPage)
-        ,.enable_muldiv_i(EnableMuldivW)
-        ,.opcode_i(OutFetchOutInstr)
-        ,.invalid_o(OutFetchOutInstrInvalid)
-        ,.exec_o(OutFetchOutInstrExec)
-        ,.lsu_o(OutFetchOutInstrLsu)
-        ,.branch_o(OutFetchOutInstrBranch)
-        ,.mul_o(OutFetchOutInstrMul)
-        ,.div_o(OutFetchOutInstrDiv)
-        ,.csr_o(OutFetchOutInstrCsr)
-        ,.rd_valid_o(OutFetchOutInstrRdValid)
+         .InValid(InFetchInValid)
+        ,.InFetchFault(InFetchInFaultFetch | InFetchInFaultPage)
+        ,.InEnableMuldiv(EnableMuldivW)
+        ,.InOpcode(OutFetchOutInstr)
+        ,.OutInvalid(OutFetchOutInstrInvalid)
+        ,.OutExec(OutFetchOutInstrExec)
+        ,.OutLsu(OutFetchOutInstrLsu)
+        ,.OutBranch(OutFetchOutInstrBranch)
+        ,.OutMul(OutFetchOutInstrMul)
+        ,.OutDiv(OutFetchOutInstrDiv)
+        ,.OutCsr(OutFetchOutInstrCsr)
+        ,.OutRdValid(OutFetchOutInstrRdValid)
     );
 
     // Outputs

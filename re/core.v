@@ -335,7 +335,7 @@ mmu
     .InFetchInRd(mmu_ifetch_rd),
     .FetchInInFlush(mmu_ifetch_flush),
     .InFetchInInvalidate(mmu_ifetch_invalidate),
-    .InFetchInPC(mmu_ifetch_pc),
+    .InFetchInPc(mmu_ifetch_pc),
     .InFetchInPriv(fetch_in_priv),
     .InFetchOutAccept(mem_i_accept),
     .InFetchOutValid(mem_i_valid),
@@ -429,7 +429,7 @@ u_mul
     .clk(clk),
     .rst(rst),
     
-    .Valid(mul_opcode_valid),
+    .valid(mul_opcode_valid),
     .opcode(mul_opcode_opcode),
     .pc(mul_opcode_pc),
     .invalid(mul_opcode_invalid),
@@ -603,3 +603,5 @@ fetch
 );
 
 endmodule
+
+
