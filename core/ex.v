@@ -132,12 +132,12 @@ exmux6(
 );
 
 /* Do ALU Control Unit, use as signal to ALU */
+/* Checks the opcode and uses it to create the appropriate ALU control signal */
 ex_alu_cntrl
 exalucontrol(
-    //  .clk(clk)
-    // ,.rst(rst),
-     .alu_op(ex_i_ex) // TODO: comes from ex_i_ex, not sure which bit
-    ,.instr_segment(ex_i_instr_s1)
+     .clk(clk)
+    ,.rst(rst)
+    ,.alu_op(ex_i_instr)
     ,.alu_control(ea_aluc)
 );
 
