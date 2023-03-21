@@ -45,6 +45,12 @@ module ex(
     ,input [4:0]  ex_i_instr_s2 // instruction [19-15]
     ,input [4:0]  ex_i_instr_s3 // instruction [24-20]
     ,input [4:0]  ex_i_instr_s4 // instruction [11-7]
+    
+    // values to send to EX/MEM Latch
+    ,output [1:0] ex_o_wb
+    ,output [4:0] ex_o_mem
+    ,output [31:0] ex_o_alu_result
+    
 );
 
 /* "em1_{x}": Values to carry forward to EX/MEM latch */
@@ -141,6 +147,7 @@ exalucontrol(
     ,.alu_control(ea_aluc)
 );
 
+/* Run the ALU */
 alu 
 exalu(
      .alu_i_op(ea_aluc)
