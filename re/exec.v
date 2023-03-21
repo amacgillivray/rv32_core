@@ -277,13 +277,13 @@ begin
 end
 
 wire [31:0]  AluPW;
-RiscvAlu
+alu
 UAlu
 (
-    .alu_op_i(AluFuncR),
-    .alu_a_i(AluInputAR),
-    .alu_b_i(AluInputBR),
-    .alu_p_o(AluPW)
+    .alu_i_op(AluFuncR),
+    .alu_i_a(AluInputAR),
+    .alu_i_b(AluInputBR),
+    .alu_o(AluPW)
 );
 
 //Flop Output
